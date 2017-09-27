@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AutenticacaoService } from './login/autenticacao/autenticacao.service';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,17 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app';
+  mostrarMenu: boolean = false;
+
+  constructor(private autenticacaoService: AutenticacaoService) {
+
+  }
+
+  ngOnInit() {
+    this.autenticacaoService.mostarMenuEmitter.subscribe(
+      mostrar => this.mostrarMenu = mostrar
+    );
+    
+  }
+
 }
