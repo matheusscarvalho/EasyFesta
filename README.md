@@ -27,6 +27,7 @@
 - Agenda: ...4200/agenda/visualizar
 - Listar Anúncio: ...4200/anuncio/listar
 - Cadastrar Anúncio: ...4200/anuncio/cadastrar
+- Cadastrar Anúncio: ...4200/login
 
 # Sugestão de cursos e guias
 - Angular 2: https://loiane.training/course/angular-2/
