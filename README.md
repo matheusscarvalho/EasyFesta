@@ -16,11 +16,12 @@
 - Instalar os plugins para trabalhar com Angular 2 e HTML.
 
 # Executar o Back-end
+- Abrir o terminal de comandos.
 - Dentro do diretório 'easy-festa-app' executar o comando 'npm install'.
-- Deve ser iniciado antes do front-end.
 - Dentro do diretório 'server' no projeto executar o comando 'node app.js'.
 
 # Executar o Front-end
+- Abrir outro terminal de comandos.
 - Dentro de um diretório repositório executar o comando 'ng server' ou 'npm start'.
 
 # Rotas do Front-end já implemantadas
