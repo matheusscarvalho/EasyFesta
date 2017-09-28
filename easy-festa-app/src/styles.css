@@ -1,3 +1,53 @@
 .bold {
     font-weight: bold;
 }
+
+.painel {
+    border: solid;
+    border-width: 1px;
+    border-radius: 4px;
+    padding: 10px;
+    border-color: lightblue;
+}
+
+.margin-top-10 {
+    margin-top: 10px;
+}
+
+.yellow {
+    color: yellow;
+}
+
+.font-size-20 {
+    font-size: 20px;
+}
+
+.font-align-center {
+    text-align: center;
+}
+
+.page-tittle {
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#c5deea+0,8abbd7+31,066dab+100;Web+2.0+Blue+3D+%231 */
+    background: rgb(197, 222, 234);
+    /* Old browsers */
+    background: -moz-linear-gradient(top, rgba(197, 222, 234, 1) 0%, rgba(138, 187, 215, 1) 31%, rgba(6, 109, 171, 1) 100%);
+    /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, rgba(197, 222, 234, 1) 0%, rgba(138, 187, 215, 1) 31%, rgba(6, 109, 171, 1) 100%);
+    /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, rgba(197, 222, 234, 1) 0%, rgba(138, 187, 215, 1) 31%, rgba(6, 109, 171, 1) 100%);
+    /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#c5deea', endColorstr='#066dab', GradientType=0);
+    /* IE6-9 */
+    border-width: 0px;
+    color: white;
+    border-radius: 4px;
+    padding: 10px;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.page-footer {
+    background: lightblue;
+    border-radius: 4px;
+    padding: 10px;
+}

@@ -1,57 +1,51 @@
+<div class="page-tittle">
+    <div class="row">
+        <div class="col-md-2">
+            <fa name="drivers-license-o"></fa> Anúncios
+        </div>
+        <div class="input-group col-md-8">
+            <input type="text" class="form-control" placeholder="Pesquise aqui">
+            <span class="input-group-btn">
+              <button class="btn btn-secondary" type="button">
+                <fa name="search"></fa>
+              </button>
+            </span>
+        </div>
+
+        <div class="col-md-2">
+
+            <button class="btn btn-warning" type="button" routerLink="/anuncio/cadastrar">
+                <fa name="plus-circle"></fa> Cadastrar
+            </button>
+        </div>
+    </div>
+</div>
+
 <div class="painel margin-top-10">
-    <legend>Anúncios</legend>
-    <hr>
     <div class="row">
         <div class="col-md-12">
-            <!--nav class="navbar navbar-light bg-primary"-->
             <div class="row">
-                <div class="input-group col-md-10">
-                    <input type="text" class="form-control" placeholder="Pesquise aqui">
-                    <span class="input-group-btn">
-                      <button class="btn btn-secondary" type="button">
-                        <fa name="search"></fa>
-                      </button>
-                    </span>
-                </div>
 
-                <div class="col-md-2">
-
-                    <button class="btn btn-warning" type="button" routerLink="/anuncio/cadastrar">
-                        <fa name="plus-circle"></fa> Cadastrar
-                    </button>
-                </div>
             </div>
             <!--/nav-->
         </div>
     </div>
 
-    <div class="row margin-top-10" *ngFor="let anuncio of anuncios; let i = index">
-        <div class="col-md-4">
-            <div class="card">
-                <img class="card-img-top" src="https://i.pinimg.com/originals/31/07/b7/3107b78b433249ad48637dd6865b79d7.jpg" alt="Card image cap">
+    <div class="row margin-top-10">
+        <div class="col-md-4" *ngFor="let anuncio of anuncios; let i = index">
+            <div class="card bg-light">
+                <div class="card-header font-align-center">
+                    <rating class="margintop-10 font-size-20" [(ngModel)]="rate" [max]="max" stateOn="fa fa-star" stateOff="fa fa-star-o"></rating>
+                </div>
                 <div class="card-body">
 
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">
-                            <h4 class="card-title">{{anuncio.titulo}}</h4>
-                        </li>
-                        <li class="list-group-item yellow">
-                            <fa name="star"></fa>
-                            <fa name="star"></fa>
-                            <fa name="star"></fa>
-                            <fa name="star"></fa>
-                            <fa name="star-half-full"></fa>
-                        </li>
-                    </ul>
-                    <p class="card-text">{{anuncio.descricao}} {{i}}</p>
-                    <div class="row">
-                        <!-- Button (Double) -->
-                        <div class="form-group col-md-12">
-                            <button id="salvar" name="salvar" class="btn btn-primary">Salvar</button>
-                            <button id="canelar" name="canelar" class="btn btn-danger" (click)="removerAnuncio(anuncio._id, i)">Remover</button>
-                        </div>
-                    </div>
+                    <p class="card-title">{{anuncio.titulo}}</p>
+                    <p class="card-text">{{anuncio.descricao}}</p>
 
+                </div>
+                <div class="card-footer">
+                    <button id="salvar" name="salvar" class="btn btn-block btn-primary">Salvar</button>
+                    <button id="canelar" name="canelar" class="btn btn-block btn-danger" (click)="removerAnuncio(anuncio._id, i)">Remover</button>
                 </div>
             </div>
         </div>
