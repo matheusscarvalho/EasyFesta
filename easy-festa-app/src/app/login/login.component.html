@@ -1,0 +1,51 @@
+<div class="container">
+
+    <div class="row main">
+        <div class="col-sm-6 left-side">
+            <h1>Hello<br>World.</h1>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tristique justo eget nibh convallis pharetra.</p>
+            <br>
+            <p>Login with social media</p>
+            <a class="fb" href="http://deepak646.blogspot.in/" target="_blank">Login With Facebook</a>
+            <a class="tw" href="http://deepak646.blogspot.in/" target="_blank">Login With Twitter</a>
+
+        </div>
+        <!--col-sm-6-->
+
+        <div class="col-sm-6 right-side">
+            <h1>Login</h1>
+            <p>Don't have an account? Create your account, it takes less than a minute</p>
+
+            <!--Form with header-->
+            <div class="form">
+
+
+                <div class="form-group">
+                    <label for="form2">Your email</label>
+                    <input [(ngModel)]="usuario.nome" type="text" id="form2" class="form-control">
+
+                </div>
+
+                <div class="form-group">
+                    <label for="form4">Your password</label>
+                    <input [(ngModel)]="usuario.senha" type="password" id="form4" class="form-control">
+
+                </div>
+
+                <div class="text-xs-center">
+                    <a (click)="fazerLogin()" target="_blank" class="btn btn-deep-purple">Login</a>
+                </div>
+
+
+            </div>
+            <!--/Form with header-->
+
+        </div>
+        <!--col-sm-6-->
+
+
+    </div>
+    <!--col-sm-8-->
+
+</div>
+<!--container-->
