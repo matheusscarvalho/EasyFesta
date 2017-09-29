@@ -21,7 +21,7 @@ import { AnuncioService } from './anuncio.service';
     CommonModule,
     AngularFontAwesomeModule,
     AnuncioRoutingModule,
-    RouterModule,    
+    RouterModule,
     FormsModule,
     HttpModule,
     ModalModule.forRoot(),

@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { SharedModule } from './shared/shared.module';
 import { CalendarioComponent } from './agenda/calendario/calendario.component';
 import { AnuncioModule } from './anuncio/anuncio.module';
+import { EventoModule } from './evento/evento.module';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { AppComponent } from './app.component';
 import { AgendaModule } from './agenda/agenda.module';
@@ -27,6 +28,7 @@ import { AutenticacaoService } from './login/autenticacao/autenticacao.service';
     SharedModule,
     FormsModule,
     AnuncioModule,
+    EventoModule,
     AgendaModule,
     CarouselModule.forRoot(),
     ChartsModule,

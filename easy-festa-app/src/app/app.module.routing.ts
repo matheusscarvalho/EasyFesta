@@ -9,6 +9,7 @@ const APP_ROUTES:  Routes = [
     { path: 'home', component: HomeComponent},
     { path: 'login', component: LoginComponent},
     { path: 'anuncio', redirectTo: 'anuncio/listar' },
+    { path: 'evento', redirectTo: 'evento/listar' },
     { path: 'agenda', redirectTo: 'agenda/visualizar' }
 ];
 
