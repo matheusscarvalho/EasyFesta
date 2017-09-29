@@ -7,10 +7,8 @@
         <div class="input-group col-md-10">
           <input type="text" class="form-control" placeholder="Pesquise aqui">
           <span class="input-group-btn">
-                      <button class="btn btn-secondary" type="button">
-                        <fa name="search"></fa>
-                      </button>
-                    </span>
+            <button class="btn btn-secondary" type="button"> <fa name="search"></fa> </button>
+          </span>
         </div>
 
         <div class="col-md-2">
@@ -20,33 +18,24 @@
           </button>
         </div>
       </div>
-      <!--/nav-->
     </div>
   </div>
 
-  <div class="anuncios-container margin-top-12">
+  <div class="row eventos-container margin-top-12">
     <div class="col-md-4" *ngFor="let evento of eventos; let i = index">
       <div class="card">
-        <img class="card-img-top" src="https://i.pinimg.com/originals/31/07/b7/3107b78b433249ad48637dd6865b79d7.jpg" alt="Card image cap">
         <div class="card-body">
 
           <ul class="list-group list-group-flush">
             <li class="list-group-item">
-              <h4 class="card-title">{{evento.title}}</h4>
-            </li>
-            <li class="list-group-item yellow">
-              <fa name="star"></fa>
-              <fa name="star"></fa>
-              <fa name="star"></fa>
-              <fa name="star"></fa>
-              <fa name="star-half-full"></fa>
+              <h4 class="card-title">{{evento.title}} <small>{{ evento.nome }}</small></h4>
             </li>
           </ul>
-          <p class="card-text">{{evento.desc}} {{i}}</p>
+
+          <p class="card-text">{{evento.desc}}</p>
           <div class="row">
             <!-- Button (Double) -->
             <div class="form-group col-md-12">
-              <button id="salvar" name="salvar" class="btn btn-primary">Salvar</button>
               <button id="canelar" name="canelar" class="btn btn-danger" (click)="removerEvento(evento._id, i)">Remover</button>
             </div>
           </div>

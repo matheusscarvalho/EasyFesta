@@ -12,6 +12,7 @@ import { CadastrarEventosComponent } from './cadastrar-eventos/cadastrar-eventos
 import { EventoComponent } from './evento.component';
 
 import { EventoRoutingModule } from './evento.module.routing';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 import { EventoService } from './evento.service';
 
@@ -23,6 +24,7 @@ import { EventoService } from './evento.service';
     FormsModule,
     RouterModule,
     HttpModule,
+    ModalModule.forRoot(),
     ButtonsModule.forRoot()
   ],
   providers: [EventoService],

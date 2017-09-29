@@ -1,0 +1,7 @@
+.eventos-container {
+  padding: 20px 0 20px 0;
+}
+
+.eventos-container .col-md-4 {
+  display: inline-block;
+}

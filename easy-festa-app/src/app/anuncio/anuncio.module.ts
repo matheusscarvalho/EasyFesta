@@ -28,7 +28,7 @@ import { AnuncioService } from './anuncio.service';
     ButtonsModule.forRoot(),
   ],
   providers: [AnuncioService],
-  exports:[ListarAnunciosComponent, CadastrarAnunciosComponent, AnuncioComponent],
+  exports: [ListarAnunciosComponent, CadastrarAnunciosComponent, AnuncioComponent],
   declarations: [ListarAnunciosComponent, CadastrarAnunciosComponent, AnuncioComponent]
 })
 export class AnuncioModule { }

@@ -12,6 +12,7 @@ export class CadastrarEventosComponent implements OnInit {
   novoEvento: Evento;
   constructor(private evtService: EventoService) {
     this.novoEvento = new Evento();
+    this.novoEvento.tipo = "Evt";
   }
 
   ngOnInit() {}
