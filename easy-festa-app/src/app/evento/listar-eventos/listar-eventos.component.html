@@ -1,0 +1,48 @@
+<div class="painel margin-top-10">
+  <legend> Meus eventos </legend>
+  <hr>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="row">
+        <div class="input-group col-md-10">
+          <input type="text" class="form-control" placeholder="Pesquise aqui">
+          <span class="input-group-btn">
+            <button class="btn btn-secondary" type="button"> <fa name="search"></fa> </button>
+          </span>
+        </div>
+
+        <div class="col-md-2">
+
+          <button class="btn btn-warning" type="button" routerLink="/evento/cadastrar">
+            <fa name="plus-circle"></fa> Cadastrar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row eventos-container margin-top-12">
+    <div class="col-md-4" *ngFor="let evento of eventos; let i = index">
+      <div class="card">
+        <div class="card-body">
+
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <h4 class="card-title">{{evento.title}} <small>{{ evento.nome }}</small></h4>
+            </li>
+          </ul>
+
+          <p class="card-text">{{evento.desc}}</p>
+          <div class="row">
+            <!-- Button (Double) -->
+            <div class="form-group col-md-12">
+              <button id="canelar" name="canelar" class="btn btn-danger" (click)="removerEvento(evento._id, i)">Remover</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

@@ -22,7 +22,7 @@ import { AnuncioService } from './anuncio.service';
     CommonModule,
     AngularFontAwesomeModule,
     AnuncioRoutingModule,
-    RouterModule,    
+    RouterModule,
     FormsModule,
     HttpModule,
     ModalModule.forRoot(),
@@ -30,7 +30,7 @@ import { AnuncioService } from './anuncio.service';
     RatingModule.forRoot()
   ],
   providers: [AnuncioService],
-  exports:[ListarAnunciosComponent, CadastrarAnunciosComponent, AnuncioComponent],
+  exports: [ListarAnunciosComponent, CadastrarAnunciosComponent, AnuncioComponent],
   declarations: [ListarAnunciosComponent, CadastrarAnunciosComponent, AnuncioComponent]
 })
 export class AnuncioModule { }

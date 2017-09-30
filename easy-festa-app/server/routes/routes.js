@@ -2,7 +2,8 @@
 const express = require('express');
 const router = express.Router();
 
-const Anuncio = require('../models/anuncio')
+const Anuncio = require('../models/anuncio');
+const Evento = require('../models/evento');
 
 // Add headers
 router.use(function (req, res, next) {
@@ -43,7 +44,7 @@ router.post('/anuncio', (req, res, next) => {
         if (err) {
             res.json({ msg: 'Falha ao adicionar o anuncio.' })
         } else {
-            res.json({ msg: 'Contato adicionado com sucesso' });
+            res.json({ msg: 'Anúncio adicionado com sucesso' });
         }
     });
 })
@@ -59,6 +60,25 @@ router.delete('/anuncio/:id', (req, res, next) => {
     })
 })
 
+/*
+  Eventos
+ */
+router.get('/eventos', (req, res) => {
+  Evento.find( (err, eventos) => {
+    res.json(eventos);
+  })
+});
+
+router.post('/evento', (req, res) => {
+  let novoEvento = new Evento({title: req.body.title, desc: req.body.desc });
+  novoEvento.save( (e,evento) => {
+    if(e) {
+      res.json({msg: 'Falha ao adicionar evento!'});
+    } else {
+      res.json({msg: 'Evento adicionado com sucesso!'});
+    }
+  });
+});
 
 
 module.exports = router;

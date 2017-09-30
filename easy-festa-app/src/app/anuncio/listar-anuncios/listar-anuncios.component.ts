@@ -23,13 +23,13 @@ export class ListarAnunciosComponent implements OnInit {
   }
 
   removerAnuncio(id, index) {
-    
+
     this.anuncioService.removeAnuncio(id).subscribe(
       data => {
         this.anuncios.splice(index, 1);
       },
       error => {
-        console.error("Error saving food!");
+        console.error('Error saving ad!');
       }
     );
   }

@@ -25,7 +25,7 @@ app.use('/api', route);
 
 //Testing
 app.get('/', (req, res) => {
-    res.send('certo');
+    res.send('Easy Festa\'s running!');
 })
 
 

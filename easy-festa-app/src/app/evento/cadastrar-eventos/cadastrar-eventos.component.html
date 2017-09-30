@@ -1,0 +1,67 @@
+<fieldset>
+
+  <!-- Form Name -->
+  Cadastrar Evento
+  <hr>
+
+  <!-- Text input-->
+  <div class="row">
+    <div class="form-group col-md-4">
+      <label class="control-label bold" for="title">Título</label>
+      <div>
+        <input id="title" [(ngModel)]="novoEvento.title" name="title" type="text" placeholder="Ex.: Evento da Empresa" class="form-control input-md" required="">
+      </div>
+    </div>
+
+    <div class="form-group col-md-4">
+      <label class="control-label bold" for="nome">Nome</label>
+      <div>
+        <input id="nome" [(ngModel)]="novoEvento.nome" name="nome" type="text" placeholder="Confraternização " class="form-control input-md" required="">
+      </div>
+    </div>
+
+    <!-- Textarea -->
+    <div class="form-group col-md-12">
+      <label class="control-label bold" for="descricao">Descrição</label>
+      <div>
+        <textarea [(ngModel)]="novoEvento.desc" class="form-control" rows="5" id="descricao" name="descricao"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- Button (Double) -->
+    <div class="form-group col-md-12">
+      <div class="pull-right">
+        <button id="salvar" name="salvar" class="btn btn-primary" (click)="adicionarEvento();staticModal.show()">Salvar</button>
+        <button id="canelar" name="canelar" class="btn btn-danger" routerLink="/evento/listar">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" bsModal #staticModal="bs-modal" [config]="{backdrop: 'static'}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title pull-left">
+            <fa name="floppy-o"></fa> Add Evento
+          </h5>
+          <button type="button" class="close pull-right" aria-label="Close" (click)="staticModal.hide()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="alert alert-success" role="alert">
+            Evento salvo com sucesso!
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" routerLink="/evento/listar">
+            Ok
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</fieldset>

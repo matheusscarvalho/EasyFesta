@@ -6,7 +6,7 @@ import { ListarAnunciosComponent } from './listar-anuncios/listar-anuncios.compo
 import { AnuncioComponent } from './anuncio.component';
 
 const AnuncioRoutes = [
-    {path: 'anuncio', 
+    {path: 'anuncio',
         children: [
             {path: 'cadastrar', component: CadastrarAnunciosComponent},
             {path: 'listar', component: ListarAnunciosComponent},
