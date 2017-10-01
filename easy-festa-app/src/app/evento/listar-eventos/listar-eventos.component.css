@@ -5,3 +5,16 @@
 .eventos-container .col-md-4 {
   display: inline-block;
 }
+
+.eventos-container .countEvt {
+  margin-top: 20px;
+}
+
+.painel .evt-title {
+  padding: 0;
+  margin-bottom: .5rem;
+  font-size: 1.5rem;
+  line-height: inherit;
+  color: inherit;
+  white-space: normal;
+}

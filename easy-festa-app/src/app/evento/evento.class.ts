@@ -16,8 +16,10 @@ RINF4 Cadastral {
 
  */
 export class Evento {
-  title: String;
-  desc: String;
-  tipo: String;
+  dataevento: Date;
+  hora: String;
   nome: String;
+  tipo: String;
+  desc: String;
+  convidados: number;
 }

@@ -70,14 +70,39 @@ router.get('/eventos', (req, res) => {
 });
 
 router.post('/evento', (req, res) => {
-  let novoEvento = new Evento({title: req.body.title, desc: req.body.desc });
+  let new_evt = {
+    convidados: req.body.convidados,
+    desc: req.body.desc,
+    nome: req.body.nome,
+    tipo: "EVENTO",
+    dataevento: req.body.dataevento,
+    hora: req.body.hora
+  };
+
+  console.log(req.body);
+
+  let novoEvento = new Evento(new_evt);
+
   novoEvento.save( (e,evento) => {
     if(e) {
       res.json({msg: 'Falha ao adicionar evento!'});
     } else {
+
       res.json({msg: 'Evento adicionado com sucesso!'});
+
+      console.log(evento);
     }
   });
+});
+
+router.delete('/evento/:id', (req,res) => {
+  Evento.remove({ _id: req.params.id }, (e,result) => {
+    if(e) {
+      res.json(e);
+    } else {
+      res.json(result);
+    }
+  })
 });
 
 

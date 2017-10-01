@@ -9,7 +9,6 @@ import { Evento } from './../evento.class';
   styleUrls: ['./listar-eventos.component.css']
 })
 export class ListarEventosComponent implements OnInit {
-
   eventos: Evento[] = [];
   constructor(private eventoService: EventoService) { }
 

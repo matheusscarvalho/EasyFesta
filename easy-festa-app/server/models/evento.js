@@ -12,19 +12,12 @@ Requisitos que deve atender
 const mongoose = require('mongoose');
 
 const EventoSchema = mongoose.Schema({
-  title: {
-    type: String,
-    required: true
-  },
-  desc: {
-    type: String
-  },
-  nome: {
-    type: String
-  },
-  tipo: {
-    type: String
-  }
+  dataevento: { type: Date, default: Date.now },
+  hora:  { type: String },
+  nome:  { type: String },
+  tipo:  { type: String },
+  desc:  { type: String },
+  convidados:  { type: Number },
 });
 
 
