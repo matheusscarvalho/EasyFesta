@@ -6,6 +6,7 @@ import { HttpModule } from '@angular/http';
 
 import { AngularFontAwesomeModule } from 'angular-font-awesome/angular-font-awesome';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
+import { RatingModule } from 'ngx-bootstrap/rating';
 
 import { ListarAnunciosComponent } from './listar-anuncios/listar-anuncios.component';
 import { CadastrarAnunciosComponent } from './cadastrar-anuncios/cadastrar-anuncios.component';
@@ -26,6 +27,7 @@ import { AnuncioService } from './anuncio.service';
     HttpModule,
     ModalModule.forRoot(),
     ButtonsModule.forRoot(),
+    RatingModule.forRoot()
   ],
   providers: [AnuncioService],
   exports: [ListarAnunciosComponent, CadastrarAnunciosComponent, AnuncioComponent],

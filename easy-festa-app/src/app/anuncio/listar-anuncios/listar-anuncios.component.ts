@@ -9,6 +9,9 @@ import { Anuncio } from './../anuncio.class';
   styleUrls: ['./listar-anuncios.component.css']
 })
 export class ListarAnunciosComponent implements OnInit {
+  public max: number = 5;
+  public rate: number = 1;
+  public isReadonly: boolean = true;
 
   anuncios: Anuncio[] = [];
   constructor(private anuncioService: AnuncioService) { }

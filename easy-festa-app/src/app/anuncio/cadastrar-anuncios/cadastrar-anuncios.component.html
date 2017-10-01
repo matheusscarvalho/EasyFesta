@@ -1,10 +1,9 @@
-<fieldset>
-
-    <!-- Form Name -->
+<div class="page-tittle">
+    <fa name="plus-circle"></fa>
     Cadastrar Anúncio
-    <hr>
+</div>
 
-    <!-- Text input-->
+<fieldset class="painel margin-top-10">
     <div class="row">
         <div class="form-group col-md-4">
             <label class="control-label bold" for="Título">Título</label>
@@ -39,39 +38,39 @@
         </div>
     </div>
 
-    <div class="row">
-        <!-- Button (Double) -->
-        <div class="form-group col-md-12">
-            <div class="pull-right">
-                <button id="salvar" name="salvar" class="btn btn-primary" (click)="adicionarAnuncio();staticModal.show()">Salvar</button>
-                <button id="canelar" name="canelar" class="btn btn-danger" routerLink="/anuncio/listar">Cancelar</button>
-            </div>
+</fieldset>
+
+<div class="row margin-top-10">
+    <!-- Button (Double) -->
+    <div class="form-group col-md-12">
+        <div class="painel">
+            <button id="salvar" name="salvar" class="btn btn-primary" (click)="adicionarAnuncio();staticModal.show()">Salvar</button>
+            <button id="canelar" name="canelar" class="btn btn-danger" routerLink="/anuncio/listar">Cancelar</button>
         </div>
     </div>
+</div>
 
-    <div class="modal fade" bsModal #staticModal="bs-modal" [config]="{backdrop: 'static'}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-sm">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title pull-left">
-                        <fa name="floppy-o"></fa> Cadastro
-                    </h5>
-                    <button type="button" class="close pull-right" aria-label="Close" (click)="staticModal.hide()">
+<div class="modal fade" bsModal #staticModal="bs-modal" [config]="{backdrop: 'static'}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title pull-left">
+                    <fa name="floppy-o"></fa> Cadastro
+                </h5>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="staticModal.hide()">
                       <span aria-hidden="true">&times;</span>
                     </button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-success" role="alert">
+                    Anúncio salvo com sucesso!
                 </div>
-                <div class="modal-body">
-                    <div class="alert alert-success" role="alert">
-                        Anúncio salvo com sucesso!
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" routerLink="/anuncio/listar">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" routerLink="/anuncio/listar">
                         Ok
                     </button>
-                </div>
             </div>
         </div>
     </div>
-
-</fieldset>
+</div>
