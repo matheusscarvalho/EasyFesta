@@ -28,12 +28,29 @@ export class AnuncioService {
       return this.http.post(`http://localhost:3000/api/anuncio`, body, options).map((res: Response) => res.json());
   }
 
-  removeAnuncio(id: Number) {
-    let body = id.toString();
+  updateAnuncio(anuncio: Anuncio) {
+    let body = JSON.stringify(anuncio);
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.post(`http://localhost:3000/api/anuncio/editar`, body, options).map((res: Response) => res.json());
+}
+
+  removeAnuncio(id: String) {
+    let body = id;
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
 
     return this.http.delete(`http://localhost:3000/api/anuncio/`+body, options).map((res: Response) => res.json());
+    
+  }
+
+  getAnuncio(id: Number) {
+    let body = id.toString();
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.get(`http://localhost:3000/api/anuncio/`+body, options).map((res: Response) => res.json());
     
   }
 

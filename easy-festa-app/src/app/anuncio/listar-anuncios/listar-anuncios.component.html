@@ -30,8 +30,19 @@
             <!--/nav-->
         </div>
     </div>
+    <div *ngIf="mostrarIconeCarregando" class="alert alert-info text-center">
+        <h1>
+            <fa name="spinner" animation="spin"></fa> Carregando
+        </h1>
+    </div>
+    <div *ngIf="anuncios.length == 0 && !mostrarIconeCarregando" class="alert alert-info text-center">
+        <h2>Nenhum anúncio cadastrado.</h2><br>
+        <button class="btn btn-lg btn-warning" type="button" routerLink="/anuncio/cadastrar">
+            <fa name="plus-circle"></fa> Clique Aqui Para Cadastrar
+        </button>
+    </div>
 
-    <div class="row margin-top-10">
+    <div *ngIf="!mostrarIconeCarregando" class="row margin-top-10">
         <div class="col-md-4" *ngFor="let anuncio of anuncios; let i = index">
             <div class="card bg-light">
                 <div class="card-header font-align-center">
@@ -44,11 +55,45 @@
 
                 </div>
                 <div class="card-footer">
-                    <button id="salvar" name="salvar" class="btn btn-block btn-primary">Salvar</button>
-                    <button id="canelar" name="canelar" class="btn btn-block btn-danger" (click)="removerAnuncio(anuncio._id, i)">Remover</button>
+                    <button id="editar" name="editar" class="btn btn-block btn-info" routerLink="/anuncio/{{anuncio._id}}/editar">Editar</button>
+                    <button id="canelar" name="canelar" class="btn btn-block btn-danger" (click)="removerModal.show();confirmarRemocao(anuncio, i)">Remover</button>
                 </div>
             </div>
         </div>
     </div>
 
+</div>
+<!--Modal de confirmação de remoção -->
+<div class="modal fade" bsModal #removerModal="bs-modal" [config]="{backdrop: 'static'}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title pull-left">
+                    <fa name="trash-o"></fa> Remover
+                </h5>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="removerModal.hide()">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+            </div>
+            <div class="modal-body">
+                <div *ngIf="remocaoConfirmada" [ngClass]="{'alert': true, 'alert-success': !mensagem.erro, 'alert-danger': mensagem.erro}" role="alert">
+                    <span>{{mensagem.texto}}</span>
+                </div>
+                <div *ngIf="!remocaoConfirmada" class="alert alert-warning" role="alert">
+                    <span>Tem certeza que deseja remover o anuncio {{tituloAnuncioRemover}}?</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button *ngIf="!remocaoConfirmada" type="button" class="btn btn-info" (click)="removerModal.hide();limparVariaveisRemocao()">
+                    Não
+                </button>
+                <button *ngIf="!remocaoConfirmada" type="button" class="btn btn-danger" (click)="removerAnuncio();">
+                    Sim
+                </button>
+                <button *ngIf="remocaoConfirmada" type="button" class="btn btn-secondary" (click)="removerModal.hide();limparVariaveisRemocao();">
+                    Voltar
+                </button>
+            </div>
+        </div>
+    </div>
 </div>

@@ -6,7 +6,7 @@ const Anuncio = require('../models/anuncio');
 const Evento = require('../models/evento');
 
 // Add headers
-router.use(function (req, res, next) {
+router.use(function(req, res, next) {
 
     // Website you wish to allow to connect
     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
@@ -37,7 +37,9 @@ router.get('/anuncios', (req, res, next) => {
 router.post('/anuncio', (req, res, next) => {
     let NewAnuncio = new Anuncio({
         titulo: req.body.titulo,
-        descricao: req.body.descricao
+        descricao: req.body.descricao,
+        publicado: req.body.publicado,
+        tipo: req.body.tipo
     })
 
     NewAnuncio.save((err, anuncio) => {
@@ -47,7 +49,7 @@ router.post('/anuncio', (req, res, next) => {
             res.json({ msg: 'Anúncio adicionado com sucesso' });
         }
     });
-})
+});
 
 //Delete Anuncio
 router.delete('/anuncio/:id', (req, res, next) => {
@@ -57,52 +59,84 @@ router.delete('/anuncio/:id', (req, res, next) => {
         } else {
             res.json(result);
         }
-    })
-})
+    });
+});
+
+//Buscar Anuncio
+router.get('/anuncio/:id', (req, res, next) => {
+    let id = req.params.id;
+    Anuncio.findById(id, function(err, anuncio) {
+        if (err) {
+            res.json(err)
+        } else {
+            res.json(anuncio);
+        }
+    });
+});
+
+//Update Anuncio
+router.post('/anuncio/editar', (req, res, next) => {
+    let id = req.body._id;
+
+    Anuncio.findById(id, function(err, anuncio) {
+        if (err) {
+            res.json(err);
+
+
+        } else {
+            anuncio.titulo = req.body.titulo;
+            anuncio.descricao = req.body.descricao;
+            anuncio.publicado = req.body.publicado;
+            anuncio.tipo = req.body.tipo;
+            anuncio.save();
+            res.sendStatus(200);
+        }
+    });
+});
 
 /*
   Eventos
  */
 router.get('/eventos', (req, res) => {
-  Evento.find( (err, eventos) => {
-    res.json(eventos);
-  })
+    Evento.find((err, eventos) => {
+        res.json(eventos);
+    })
 });
 
 router.post('/evento', (req, res) => {
-  let new_evt = {
-    convidados: req.body.convidados,
-    desc: req.body.desc,
-    nome: req.body.nome,
-    tipo: "EVENTO",
-    dataevento: req.body.dataevento,
-    hora: req.body.hora
-  };
+    let new_evt = {
+        convidados: req.body.convidados,
+        desc: req.body.desc,
+        nome: req.body.nome,
+        tipo: "EVENTO",
+        dataevento: req.body.dataevento,
+        hora: req.body.hora
+    };
 
-  console.log(req.body);
+    console.log(req.body);
 
-  let novoEvento = new Evento(new_evt);
+    let novoEvento = new Evento(new_evt);
 
-  novoEvento.save( (e,evento) => {
-    if(e) {
-      res.json({msg: 'Falha ao adicionar evento!'});
-    } else {
+    novoEvento.save((e, evento) => {
+        if (e) {
+            res.json({ msg: 'Falha ao adicionar evento!' });
+        } else {
 
-      res.json({msg: 'Evento adicionado com sucesso!'});
+            res.json({ msg: 'Evento adicionado com sucesso!' });
 
-      console.log(evento);
-    }
-  });
+            console.log(evento);
+        }
+    });
 });
 
-router.delete('/evento/:id', (req,res) => {
-  Evento.remove({ _id: req.params.id }, (e,result) => {
-    if(e) {
-      res.json(e);
-    } else {
-      res.json(result);
-    }
-  })
+router.delete('/evento/:id', (req, res) => {
+    Evento.remove({ _id: req.params.id }, (e, result) => {
+        if (e) {
+            res.json(e);
+        } else {
+            res.json(result);
+        }
+    })
 });
 
 

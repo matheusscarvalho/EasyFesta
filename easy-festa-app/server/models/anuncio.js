@@ -9,6 +9,16 @@ const AnuncioSchema = mongoose.Schema({
     descricao: {
         type: String,
         required: true
+    },
+
+    publicado: {
+        type: Boolean,
+        required: true
+    },
+
+    tipo: {
+        type: Number,
+        required: true
     }
 
 });
