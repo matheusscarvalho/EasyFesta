@@ -1,20 +1,20 @@
 .eventos-container {
-  padding: 20px 0 20px 0;
+    padding: 20px 0 20px 0;
 }
 
 .eventos-container .col-md-4 {
-  display: inline-block;
+    display: inline-block;
 }
 
 .eventos-container .countEvt {
-  margin-top: 20px;
+    margin-top: 20px;
 }
 
 .painel .evt-title {
-  padding: 0;
-  margin-bottom: .5rem;
-  font-size: 1.5rem;
-  line-height: inherit;
-  color: inherit;
-  white-space: normal;
+    padding: 0;
+    margin-bottom: .5rem;
+    font-size: 1.5rem;
+    line-height: inherit;
+    color: inherit;
+    white-space: normal;
 }
