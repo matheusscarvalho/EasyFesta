@@ -4,6 +4,7 @@ const router = express.Router();
 
 const Anuncio = require('../models/anuncio');
 const Evento = require('../models/evento');
+const Agendamento = require('../models/agendamento');
 
 // Add headers
 router.use(function(req, res, next) {
@@ -90,6 +91,30 @@ router.post('/anuncio/editar', (req, res, next) => {
             anuncio.tipo = req.body.tipo;
             anuncio.save();
             res.sendStatus(200);
+        }
+    });
+});
+
+//Get Agendamentos
+router.get('/agendamentos', (req, res, next) => {
+
+    Agendamento.find(function(err, agendamentos) {
+        res.json(agendamentos);
+    })
+})
+
+//Add Agendamento
+router.post('/agendamento', (req, res, next) => {
+    let novoAgendamento = new Agendamento({
+        title: req.body.title,
+        date: req.body.date
+    })
+
+    novoAgendamento.save((err, agendamento) => {
+        if (err) {
+            res.json({ msg: 'Falha ao adicionar o agendamento.' })
+        } else {
+            res.json({ msg: 'Agendamento adicionado com sucesso' });
         }
     });
 });

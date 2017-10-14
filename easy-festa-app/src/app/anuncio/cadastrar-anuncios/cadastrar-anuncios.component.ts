@@ -1,9 +1,9 @@
-import { Observable } from 'rxjs/Observable';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { AnuncioService } from './../anuncio.service';
 import { Anuncio } from './../anuncio.class';
+import { Observable } from 'rxjs/Observable';
 
 
 @Component({
@@ -23,7 +23,7 @@ export class CadastrarAnunciosComponent implements OnInit {
    }
 
   ngOnInit() {
-    this.mensagem = {"texto": "", erro: false};
+    this.mensagem = {texto: "", erro: false};
 
     //Verifica se a rota atual é a de cadastro
     this.eRotaCadastro = this.route.snapshot.url[0].toString() == this.rotaDeCadastro;
