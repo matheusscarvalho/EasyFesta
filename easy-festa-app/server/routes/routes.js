@@ -3,6 +3,8 @@ const express = require('express');
 const router = express.Router();
 
 const Anuncio = require('../models/anuncio');
+const Consumidor = require('../models/consumidor');
+const Fornecedor = require('../models/fornecedor');
 const Evento = require('../models/evento');
 const Agendamento = require('../models/agendamento');
 
@@ -115,6 +117,40 @@ router.post('/agendamento', (req, res, next) => {
             res.json({ msg: 'Falha ao adicionar o agendamento.' })
         } else {
             res.json({ msg: 'Agendamento adicionado com sucesso' });
+        }
+    });
+});
+
+//Add Consumidor
+router.post('/consumidor', (req, res, next) => {
+    let novoConsumidor = new Consumidor({
+        nome: req.body.nome,
+        email: req.body.email,
+        senha: req.body.senha
+    })
+
+    novoConsumidor.save((err, consumidor) => {
+        if (err) {
+            res.json({ msg: 'Falha ao adicionar o consumidor.' })
+        } else {
+            res.json({ msg: 'Consumidor adicionado com sucesso' });
+        }
+    });
+});
+
+//Add Fornecedor
+router.post('/fornecedor', (req, res, next) => {
+    let novoFornecedor = new Fornecedor({
+        nome: req.body.nome,
+        email: req.body.email,
+        senha: req.body.senha
+    })
+
+    novoFornecedor.save((err, fornecedor) => {
+        if (err) {
+            res.json({ msg: 'Falha ao adicionar o fornecedor.' })
+        } else {
+            res.json({ msg: 'Fornecedor adicionado com sucesso' });
         }
     });
 });
