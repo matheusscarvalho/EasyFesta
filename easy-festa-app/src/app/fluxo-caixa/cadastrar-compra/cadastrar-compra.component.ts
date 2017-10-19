@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { EventoService } from './../conta.service';
-import { Evento } from './../conta.class';
-
+// import { EventoService } from './../conta.service';
+// import { Evento } from './../conta.class';
+/*
 @Component({
   selector: 'cadastrar-compra',
   templateUrl: './cadastrar-compra.component.html',
   styleUrls: ['./cadastrar-compra.component.css']
 })
+
 export class CadastrarEventosComponent implements OnInit {
 
   novoEvento: Cadastro;
@@ -31,3 +32,4 @@ export class CadastrarEventosComponent implements OnInit {
   }
 
 }
+*/
