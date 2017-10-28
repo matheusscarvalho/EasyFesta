@@ -200,5 +200,4 @@ router.delete('/evento/:id', (req, res) => {
     })
 });
 
-
 module.exports = router;

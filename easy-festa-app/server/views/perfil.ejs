@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title> Perfil Usuário :: EasyFesta </title>
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+</head>
+<body>
+<div class="container">
+
+  <div class="page-header text-left">
+    <h2>EasyFesta <small> // <i> Perfil do usuário</i> </small></h2>
+    <a href="/logout" class="btn btn-default btn-sm" style="float: right; margin-top: -35px;">Logout</a>
+  </div>
+
+  <div class="row">
+
+    <div class="col-sm-12">
+      <div class="well">
+        <h3><span class="fa fa-lock"></span> Dados de Login </h3>
+
+        <p>
+          <strong>Nome:</strong> <%= user.local.nome %><br>
+          <strong>E-mail:</strong> <%= user.local.email %><br>
+          <strong>Hash:</strong> <%= user.local.password %>
+        </p>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+</body>
+</html>

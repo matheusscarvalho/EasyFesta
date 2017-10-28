@@ -1,6 +1,7 @@
 //Módulos do Angular
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 //Demais módulos
 import { TabsModule } from 'ngx-bootstrap/tabs';
@@ -12,9 +13,8 @@ import { FluxoCaixaComponent } from './fluxo-caixa.component';
   declarations: [ FluxoCaixaComponent ],
   imports: [
     CommonModule,
-    TabsModule.forRoot()   
+    TabsModule.forRoot()
   ],
-  exports: [ FluxoCaixaComponent ]
-  
+  exports: [ FluxoCaixaComponent ],
 })
 export class FluxoCaixaModule { }
