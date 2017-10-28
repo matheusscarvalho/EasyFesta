@@ -2,6 +2,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 //Módulos da aplicação
 import { AgendaModule } from './agenda/agenda.module';
@@ -23,6 +24,7 @@ import { LoginComponent } from './login/login.component';
 
 //Serviços da aplicação
 import { AutenticacaoService } from './login/autenticacao/autenticacao.service';
+import { RotaAtualService } from './app.service';
 
 //Rotas
 import { routing } from './app.module.routing';
@@ -38,6 +40,7 @@ import { routing } from './app.module.routing';
     SharedModule,
     FormsModule,
     AnuncioModule,
+    RouterModule,
     EventoModule,
     AgendaModule,
     CarouselModule.forRoot(),
@@ -46,7 +49,7 @@ import { routing } from './app.module.routing';
     FluxoCaixaModule,
     routing
   ],
-  providers: [AutenticacaoService],
+  providers: [RotaAtualService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
