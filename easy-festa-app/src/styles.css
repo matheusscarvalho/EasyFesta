@@ -22,6 +22,10 @@
     font-size: 20px;
 }
 
+.font-size-14 {
+    font-size: 14px;
+}
+
 .font-align-center {
     text-align: center;
 }
@@ -50,4 +54,20 @@
     background: lightblue;
     border-radius: 4px;
     padding: 10px;
+}
+
+.ng-valid[required],
+.ng-valid.required {
+    border-left: 5px solid #42A948;
+    /* green */
+}
+
+.ng-invalid:not(form) {
+    border-left: 5px solid #a94442;
+    /* red */
+}
+
+input:disabled,
+button:disabled {
+    cursor: not-allowed;
 }

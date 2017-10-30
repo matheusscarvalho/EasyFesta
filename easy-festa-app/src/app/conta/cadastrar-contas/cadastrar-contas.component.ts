@@ -22,6 +22,10 @@ export class CadastrarContasComponent implements OnInit {
   cepInvalidoConsumidor: Boolean = false;
   cepInvalidoFornecedor: Boolean = false;
 
+  public cpfMask = [/[1-9]/, /[1-9]/, /[1-9]/, '.', /[1-9]/, /[1-9]/, /[1-9]/, '.', /[1-9]/, /[1-9]/, /[1-9]/, '-', /[1-9]/, /[1-9]/];
+  public cepMask = [/[1-9]/, /[1-9]/, /[1-9]/, /[1-9]/, /[1-9]/, '-', /[1-9]/, /[1-9]/,  /[1-9]/];
+  public cnpjMask = [/[1-9]/, /[1-9]/, '.', /[1-9]/, /[1-9]/, /[1-9]/, '.', /[1-9]/, '/', /[1-9]/, /[1-9]/, /[1-9]/, /[1-9]/, '-', /[1-9]/, /[1-9]/];
+  public telefoneMask = ["(",/[1-9]/, /[1-9]/,")"," ", /[1-9]/, " ", /[1-9]/, /[1-9]/, /[1-9]/, /[1-9]/, '-', /[1-9]/, /[1-9]/,  /[1-9]/,  /[1-9]/];
   constructor(private contaService: ContaService) { 
     this.consumidor = new Consumidor();
     this.fornecedor = new Fornecedor();

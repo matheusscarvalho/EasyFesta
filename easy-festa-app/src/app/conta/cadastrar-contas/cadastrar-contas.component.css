@@ -8,12 +8,13 @@
     border: 2px solid purple;
     webkit-transition: all 400ms cubic-bezier(.4, 0, .2, 1);
     transition: all 400ms cubic-bezier(.4, 0, .2, 1);
+    border-radius: 3px;
 }
 
 .btn-success:hover,
 .btn-success:focus {
     background: rgba(26, 161, 157, 0);
-    border: 2px solid #1aa19d;
+    border: 2px solid purple;
     webkit-transition: all 400ms cubic-bezier(.4, 0, .2, 1);
     transition: all 400ms cubic-bezier(.4, 0, .2, 1);
     color: purple;
@@ -164,18 +165,21 @@ article[role="manufacturer"] ul li i {
     }
 }
 
-.ng-valid[required],
-.ng-valid.required {
-    border-left: 5px solid #42A948;
-    /* green */
+.sublinhado-roxo {
+    background: purple;
+    color: #FFF;
+    font-size: 16px;
+    padding-left: 10px;
+    font-weight: 600;
+    margin-top: 10px;
+    border: 2px solid white;
+    -webkit-box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.24);
+    -moz-box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.24);
+    box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.24);
 }
 
-.ng-invalid:not(form) {
-    border-left: 5px solid #a94442;
-    /* red */
-}
-
-input:disabled,
-button:disabled {
-    cursor: not-allowed;
+.tab-title {
+    background: purple;
+    font-size: 20px;
+    color: white;
 }

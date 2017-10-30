@@ -9,6 +9,7 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { AngularFontAwesomeModule } from 'angular-font-awesome/angular-font-awesome';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { TextMaskModule } from 'angular2-text-mask';
 
 //Componentes da aplicação
 import { ContaComponent } from './conta.component';
@@ -21,6 +22,7 @@ import { ContaService } from './conta.service';
     CommonModule,
     FormsModule,
     RouterModule,
+    TextMaskModule,
     AngularFontAwesomeModule,
     ModalModule.forRoot(),
     CarouselModule.forRoot(),

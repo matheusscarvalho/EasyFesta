@@ -2,11 +2,11 @@
 
     <div class="row main">
         <div class="col-sm-6 text-center left-side">
-            <img width="100px" height="100px" src="http://1.bp.blogspot.com/-eVU-VSMWhBA/Tjfyfhe4nAI/AAAAAAAApG4/81mKez5klzU/s1600/copos+e+ta%25C3%25A7as9.gif">
+            <img width="80px" height="80px" src="http://1.bp.blogspot.com/-eVU-VSMWhBA/Tjfyfhe4nAI/AAAAAAAApG4/81mKez5klzU/s1600/copos+e+ta%25C3%25A7as9.gif">
             <h1>Easy<br>Festa</h1>
             <p>Nunca foi tão fácil e rápido organizar seu evento.</p>
             <br>
-            <a routerLink="/conta/cadastrar" class="btn btn-lg btn-warning">Cadastre-se já</a>
+            <button routerLink="/conta/cadastrar" class="btn btn-lg btn-deep-purple">Cadastre-se já</button>
             <!--p>Login com redes sociais</p>
             <a class="fb" href="http://deepak646.blogspot.in/" target="_blank">Login com Facebook</a>
             <a class="tw" href="http://deepak646.blogspot.in/" target="_blank">Login com Twitter</a-->
@@ -14,29 +14,48 @@
         </div>
 
         <div class="col-sm-6 right-side">
-            <h1>
-                <fa name="lock"></fa> Login</h1>
-            <p>Não tem uma conta? <a routerLink="/conta/cadastrar">Crie uma em menos de um minuto!</a></p>
+            <div class="text-center btn-deep-purple title-login">
+
+                <fa name="sign-in"></fa> Login
+
+            </div>
+
             <!--Form with header-->
-            <div class="form">
+            <form #loginForm="ngForm" class="form">
 
                 <div class="form-group">
-                    <label for="form2">E-mail</label>
-                    <input [(ngModel)]="usuario.nome" type="text" id="form2" class="form-control">
+                    <input [(ngModel)]="usuario.nome" type="text" name="email" class="form-control" placeholder="E-mail" required>
 
                 </div>
+                <br>
 
                 <div class="form-group">
-                    <label for="form4">Senha</label>
-                    <input [(ngModel)]="usuario.senha" type="password" id="form4" class="form-control">
+                    <input [(ngModel)]="usuario.senha" type="password" name="senha" class="form-control" placeholder="Senha" required>
 
+                </div>
+                <br>
+
+                <div class="form-group">
+                    <select class="form-control" name="perfil" required>
+                        <option value="" selected="selected">Perfil</option>
+                        <option value="1">Consumidor</option>
+                        <option value="2">Fornecedor</option>
+                    </select>
                 </div>
 
                 <div class="text-xs-center">
-                    <a (click)="fazerLogin()" class="btn btn-deep-purple">Login</a>
+                    <button routerLink="/conta/cadastrar" (click)="fazerLogin()" class="btn btn-block btn-deep-purple" [disabled]="!loginForm.form.valid">
+                        <fa name="send"></fa>
+                        Entrar
+                    </button>
+                </div>
+                <br>
+
+                <div class="font-14 text-center">Não tem uma conta? <br>
+                    <a routerLink="/conta/cadastrar">Crie uma em menos de um minuto!</a>
                 </div>
 
-            </div>
+            </form>
             <!--/Form with header-->
 
         </div>

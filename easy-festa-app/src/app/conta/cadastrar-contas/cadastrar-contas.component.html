@@ -4,14 +4,14 @@
         <div class="row">
             <div class="col-sm-12 nav-tab-holder">
                 <tabset [justified]="true">
-                    <tab heading="Consumidor">
+                    <tab heading="Consumidor" customClass="tab-title">
                         <article role="login">
                             <form #consumidorForm="ngForm">
                                 <div class="row">
                                     <div class="col-md-9">
                                         <div class="row">
-                                            <legend>
-                                                <h5>Dados Pessoais</h5>
+                                            <legend class="bold sublinhado-roxo">
+                                                Identificação
                                             </legend>
 
                                             <div class="form-group col-md-12">
@@ -24,11 +24,11 @@
                                             </div>
 
                                             <div class="form-group col-md-4">
-                                                <input [(ngModel)]="consumidor.cpf" name="cpf" type="text" class="form-control" required placeholder="CPF">
+                                                <input [(ngModel)]="consumidor.cpf" name="cpf" [textMask]="{mask:cpfMask}" type="text" class="form-control" required placeholder="CPF">
                                             </div>
 
                                             <div class="form-group col-md-4">
-                                                <input [(ngModel)]="consumidor.telefone" name="telefone" type="text" class="form-control" required placeholder="Telefone">
+                                                <input [(ngModel)]="consumidor.telefone" name="telefone" [textMask]="{mask:telefoneMask}" type="text" class="form-control" required placeholder="Telefone">
                                             </div>
 
                                             <div class="form-group col-md-4">
@@ -65,12 +65,12 @@
                                         </article>
                                     </div>
 
-                                    <legend>
-                                        <h5>Endereço</h5>
+                                    <legend class="bold sublinhado-roxo">
+                                        Endereço
                                     </legend>
 
                                     <div class="form-group col-md-3">
-                                        <input [(ngModel)]="consumidor.endereco.cep" name="cep" type="text" class="form-control" (change)="completarEndereco(1)" required placeholder="CEP">
+                                        <input [(ngModel)]="consumidor.endereco.cep" [textMask]="{mask:cepMask}" name="cep" type="text" class="form-control" (change)="completarEndereco(1)" required placeholder="CEP">
                                         <span *ngIf="cepInvalidoConsumidor" class="text text-danger">*Digite um CEP válido.</span>
                                     </div>
 
@@ -108,8 +108,8 @@
                                     </div>
 
 
-                                    <legend>
-                                        <h5>Segurança</h5>
+                                    <legend class="bold sublinhado-roxo">
+                                        Segurança
                                     </legend>
 
                                     <div class="form-group col-md-6">
@@ -120,8 +120,14 @@
                                         <input [(ngModel)]="consumidorConfirmacaoSenha" name="confirmacaoSenha" type="password" class="form-control" required placeholder="Confirmação da Senha" #consumidorSenhaConfirmacao="ngModel">
                                     </div>
 
+                                    <div class="form-group col-md-6">
+                                        <button class="btn btn-warning btn-block" routerLink="/login">
+                                                    <fa name="reply"></fa>
+                                                    Voltar
+                                                </button>
+                                    </div>
 
-                                    <div class="form-group col-md-12">
+                                    <div class="form-group col-md-6 padding-top-10">
                                         <button class="btn btn-success btn-block" (click)="cadastrarConsumidor(); confirmacaoModal.show();" [disabled]="!consumidorForm.form.valid || !(consumidor.senha==consumidorConfirmacaoSenha)">
                                             <fa name="send"></fa>
                                             Enviar
@@ -141,8 +147,8 @@
                                 <div class="row">
                                     <div class="col-md-9">
                                         <div class="row">
-                                            <legend>
-                                                <h5>Identificação</h5>
+                                            <legend class="bold sublinhado-roxo">
+                                                Identificação
                                             </legend>
                                             <div class="form-group col-md-3">
                                                 <select class="form-control" required [(ngModel)]="fornecedor.tipoPessoa" name="genero">
@@ -157,7 +163,7 @@
                                             </div>
 
                                             <div class="form-group col-md-3" *ngIf="fornecedor.tipoPessoa == 'F'">
-                                                <input [(ngModel)]="fornecedor.cpf" type="text" name="nome" class="form-control" placeholder="CPF" required>
+                                                <input [(ngModel)]="fornecedor.cpf" type="text" [textMask]="{mask:cpfMask}" name="nome" class="form-control" placeholder="CPF" required>
 
                                             </div>
 
@@ -166,7 +172,7 @@
                                             </div>
 
                                             <div class="form-group col-md-3" *ngIf="fornecedor.tipoPessoa == 'J'">
-                                                <input [(ngModel)]="fornecedor.cnpj" name="cnpj" type="text" class="form-control" required placeholder="CNPJ">
+                                                <input [(ngModel)]="fornecedor.cnpj" name="cnpj" type="text" [textMask]="{mask:cnpjMask}" class="form-control" required placeholder="CNPJ">
                                             </div>
 
                                             <div class="form-group col-md-3" *ngIf="fornecedor.tipoPessoa == 'J'">
@@ -209,15 +215,15 @@
                                         <textarea rows="3" [(ngModel)]="fornecedor.servicosProdutos" class="form-control" name="servicosProdutos" placeholder="Produtos e serviços ofertados" required></textarea>
                                     </div>
 
-                                    <legend>
-                                        <h5>Responsável</h5>
+                                    <legend class="bold sublinhado-roxo">
+                                        Responsável
                                     </legend>
 
                                     <div class="form-group col-md-7">
                                         <input [(ngModel)]="fornecedor.responsavel" name="responsavel" type="text" class="form-control" placeholder="Nome" required>
                                     </div>
                                     <div class="form-group col-md-3">
-                                        <input [(ngModel)]="fornecedor.telefone" name="telefone" type="text" class="form-control" placeholder="Telefone" required>
+                                        <input [(ngModel)]="fornecedor.telefone" name="telefone" [textMask]="{mask:telefoneMask}" type="text" class="form-control" placeholder="Telefone" required>
                                     </div>
 
                                     <div class="form-group col-md-2">
@@ -229,12 +235,12 @@
                                     </div>
 
 
-                                    <legend>
-                                        <h5>Endereço</h5>
+                                    <legend class="bold sublinhado-roxo">
+                                        Endereço
                                     </legend>
 
                                     <div class="form-group col-md-3">
-                                        <input [(ngModel)]="fornecedor.endereco.cep" name="cep" type="text" class="form-control" (change)="completarEndereco(2)" required placeholder="CEP">
+                                        <input [(ngModel)]="fornecedor.endereco.cep" name="cep" type="text" [textMask]="{mask:cepMask}" class="form-control" (change)="completarEndereco(2)" required placeholder="CEP">
                                         <span *ngIf="cepInvalidoFornecedor" class="text text-danger">*Digite um CEP válido.</span>
                                     </div>
 
@@ -272,8 +278,8 @@
                                     </div>
 
 
-                                    <legend>
-                                        <h5>Segurança</h5>
+                                    <legend class="bold sublinhado-roxo">
+                                        Segurança
                                     </legend>
 
                                     <div class="form-group col-md-6">
@@ -284,8 +290,15 @@
                                         <input [(ngModel)]="fornecedorConfirmacaoSenha" name="confirmacaoSenha" type="password" class="form-control" required placeholder="Confirmação da Senha" #fornecedorSenhaConfirmacao="ngModel">
                                     </div>
 
+                                    <div class="form-group col-md-6">
+                                        <button class="btn btn-warning btn-block" routerLink="/login">
+                                                <fa name="reply"></fa>
+                                                Voltar
+                                            </button>
+                                    </div>
 
-                                    <div class="form-group col-md-12">
+
+                                    <div class="form-group col-md-6">
                                         <button class="btn btn-success btn-block" (click)="cadastrarFornecedor(); confirmacaoModal.show();" [disabled]="!fornecedorForm.form.valid || !(consumidor.senha==consumidorConfirmacaoSenha)">
                                                     <fa name="send"></fa>
                                                     Enviar

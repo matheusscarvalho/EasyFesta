@@ -5,7 +5,6 @@
 }
 
 .main {
-    margin-top: 30px;
     -webkit-box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.24);
     -moz-box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.24);
     box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.24);
@@ -18,7 +17,7 @@
 }
 
 .left-side {
-    padding: 0px 0px 100px;
+    padding: 20px 0px 100px;
     background: #9100ff;
     background-size: cover;
     background-image: url('https://68.media.tumblr.com/0015c635d20f2db0c537e495d54e6b8f/tumblr_o1ornnU8zx1tgxbfbo1_500.gif');
@@ -65,7 +64,7 @@
 }
 
 .right-side {
-    padding: 20px 0px 100px;
+    padding: 0px 0px 100px;
     background: #FFF;
     background-size: cover;
     min-height: 514px;
@@ -101,7 +100,24 @@
     background: purple;
     color: #FFF;
     font-weight: 600;
+    border: 2px solid white;
     -webkit-box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.24);
     -moz-box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.24);
     box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.24);
+}
+
+button.btn-deep-purple:hover {
+    background: white;
+    color: purple;
+    border: 2px solid purple;
+}
+
+.font-14 {
+    font-size: 14px;
+}
+
+.title-login {
+    font-size: 30px;
+    padding: 10px;
+    margin-bottom: 40px;
 }
