@@ -4,10 +4,7 @@
         <div class="col-md-2" *ngIf="mostrarMenu">
             <menu-vertical></menu-vertical>
         </div>
-        <div class="col-md-10" *ngIf="mostrarMenu==true">
-            <router-outlet></router-outlet>
-        </div>
-        <div class="col-md-12" *ngIf="mostrarMenu==false">
+        <div [ngClass]="{'col-md-10': mostrarMenu==true, 'col-md-12': mostrarMenu==false}">
             <router-outlet></router-outlet>
         </div>
     </div>

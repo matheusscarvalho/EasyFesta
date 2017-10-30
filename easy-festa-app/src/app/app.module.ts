@@ -15,6 +15,7 @@ import { FluxoCaixaModule } from './fluxo-caixa/fluxo-caixa.module';
 // Demais módulos
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { ChartsModule } from 'ng2-charts';
+import { AngularFontAwesomeModule } from 'angular-font-awesome/angular-font-awesome';
 
 // Componentes da aplicação
 import { CalendarioComponent } from './agenda/calendario/calendario.component';
@@ -40,6 +41,7 @@ import { routing } from './app.module.routing';
     SharedModule,
     FormsModule,
     AnuncioModule,
+    AngularFontAwesomeModule,
     RouterModule,
     EventoModule,
     AgendaModule,

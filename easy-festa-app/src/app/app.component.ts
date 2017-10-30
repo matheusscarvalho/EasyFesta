@@ -12,17 +12,19 @@ import { Observable } from 'rxjs/Observable';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  mostrarMenu: boolean = false;
+  mostrarMenu: boolean = localStorage.getItem('logado') == "sim";
 
   constructor(private rotaAtualService: RotaAtualService, private autenticacaoService: AutenticacaoService) {
-    console.log(this.rotaAtualService.getRotaAtual())
+    
   }
 
   ngOnInit() {
+
     this.autenticacaoService.mostarMenuEmitter.subscribe(
-      mostrar=> this.mostrarMenu = mostrar
-    )
-    
+      mostrar=> {
+        this.mostrarMenu = mostrar;
+      }
+    )    
     
   }
 

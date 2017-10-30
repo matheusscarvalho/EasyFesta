@@ -1,3 +1,4 @@
+import { AutenticacaoService } from './../../login/autenticacao/autenticacao.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -6,10 +7,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./menu-horizontal.component.css']
 })
 export class MenuHorizontalComponent implements OnInit {
-
-  constructor() { }
+  usuario = localStorage.getItem('usuario');
+  constructor(private autenticacaoService: AutenticacaoService) { }
 
   ngOnInit() {
+  }
+
+  fazerLogout() {
+    this.autenticacaoService.fazerLogout();
   }
 
 }

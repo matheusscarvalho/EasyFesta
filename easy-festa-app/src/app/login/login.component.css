@@ -5,7 +5,7 @@
 }
 
 .main {
-    margin-top: 50px;
+    margin-top: 30px;
     -webkit-box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.24);
     -moz-box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.24);
     box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.24);
@@ -65,7 +65,7 @@
 }
 
 .right-side {
-    padding: 30px 0px 100px;
+    padding: 20px 0px 100px;
     background: #FFF;
     background-size: cover;
     min-height: 514px;
@@ -98,12 +98,9 @@
 }
 
 .btn-deep-purple {
-    background: #84d14e;
-    border-radius: 18px;
-    padding: 5px 19px;
+    background: purple;
     color: #FFF;
     font-weight: 600;
-    float: right;
     -webkit-box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.24);
     -moz-box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.24);
     box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.24);

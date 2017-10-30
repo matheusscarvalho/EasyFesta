@@ -7,7 +7,7 @@ import { Usuario } from './../usuario.class';
 @Injectable()
 export class AutenticacaoService {
   
-  private autenticado: boolean = false;
+  autenticado: String = localStorage.getItem('logado');
   mostarMenuEmitter = new EventEmitter<boolean>();
 
   constructor(private router: Router) { }
@@ -15,15 +15,22 @@ export class AutenticacaoService {
   fazerLogin(usuario: Usuario) {
 
     if (usuario) {
-        this.autenticado = true;
+        this.autenticado = 'true';
         this.mostarMenuEmitter.emit(true);
-        this.router.navigate(['/home']);        
+        this.router.navigate(['/home']);  
+        localStorage.setItem("logado", "sim");      
 
     } else {
-      this.autenticado = false;
+      this.autenticado = 'false';
       this.mostarMenuEmitter.emit(false);
+      localStorage.setItem("logado", "nao");
     }
     
+  }
+
+  fazerLogout() {
+    localStorage.setItem("logado", "nao");
+    this.mostarMenuEmitter.emit(false);
   }
 
 }

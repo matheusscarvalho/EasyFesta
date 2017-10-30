@@ -1,24 +1,24 @@
 <div class="container">
 
     <div class="row main">
-        <div class="col-sm-6 left-side">
+        <div class="col-sm-6 text-center left-side">
+            <img width="100px" height="100px" src="http://1.bp.blogspot.com/-eVU-VSMWhBA/Tjfyfhe4nAI/AAAAAAAApG4/81mKez5klzU/s1600/copos+e+ta%25C3%25A7as9.gif">
             <h1>Easy<br>Festa</h1>
-            <p>Nunca foi tão fácil e rápido organizar seu evento</p>
+            <p>Nunca foi tão fácil e rápido organizar seu evento.</p>
             <br>
-            <p>Login com redes sociais</p>
+            <a routerLink="/conta/cadastrar" class="btn btn-lg btn-warning">Cadastre-se já</a>
+            <!--p>Login com redes sociais</p>
             <a class="fb" href="http://deepak646.blogspot.in/" target="_blank">Login com Facebook</a>
-            <a class="tw" href="http://deepak646.blogspot.in/" target="_blank">Login com Twitter</a>
+            <a class="tw" href="http://deepak646.blogspot.in/" target="_blank">Login com Twitter</a-->
 
         </div>
-        <!--col-sm-6-->
 
         <div class="col-sm-6 right-side">
-            <h1>Login</h1>
-            <p>Não tem uma conta? Crie uma em menos de um minuto!</p>
-
+            <h1>
+                <fa name="lock"></fa> Login</h1>
+            <p>Não tem uma conta? <a routerLink="/conta/cadastrar">Crie uma em menos de um minuto!</a></p>
             <!--Form with header-->
             <div class="form">
-
 
                 <div class="form-group">
                     <label for="form2">E-mail</label>
@@ -33,10 +33,8 @@
                 </div>
 
                 <div class="text-xs-center">
-                    <a routerLink="/conta/cadastrar" class="btn btn-deep-purple">Cadastrar</a>
-                    <a (click)="fazerLogin()" target="_blank" class="btn btn-deep-purple">Login</a>
+                    <a (click)="fazerLogin()" class="btn btn-deep-purple">Login</a>
                 </div>
-
 
             </div>
             <!--/Form with header-->
