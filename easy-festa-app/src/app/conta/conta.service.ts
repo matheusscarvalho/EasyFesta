@@ -56,6 +56,10 @@ export class ContaService {
     
   }*/
 
+  getEndereco(cep) {
+    return this.http.get(`http://viacep.com.br/ws/`+cep+`/json/`).map((res: Response) => res.json());
+  }
+
   private getHeaders() {
     // I included these headers because otherwise FireFox
     // will request text/html

@@ -19,6 +19,8 @@ export class CadastrarContasComponent implements OnInit {
   fornecedorConfirmacaoSenha: String;
   mensagem: String;
   erro: Boolean;
+  cepInvalidoConsumidor: Boolean = false;
+  cepInvalidoFornecedor: Boolean = false;
 
   constructor(private contaService: ContaService) { 
     this.consumidor = new Consumidor();
@@ -54,6 +56,68 @@ export class CadastrarContasComponent implements OnInit {
        
       }
    );
+  }
+
+  completarEndereco(tipoConta) {
+
+    //Entra se estiver completando perfil de consumidor
+    if (tipoConta == 1) {
+
+      this.contaService.getEndereco(this.consumidor.endereco.cep).subscribe(
+        end=> {
+  
+            this.cepInvalidoConsumidor = false;
+            this.consumidor.endereco.logradouro = end.logradouro;
+            this.consumidor.endereco.bairro = end.bairro;
+            this.consumidor.endereco.cidade = end.localidade;
+            this.consumidor.endereco.uf = end.uf;  
+         
+        },
+        err=> {
+  
+            this.cepInvalidoConsumidor = true;
+            this.consumidor.endereco.logradouro = "";
+            this.consumidor.endereco.bairro = "";
+            this.consumidor.endereco.cidade = "";
+            this.consumidor.endereco.uf = "";        
+          
+        }           
+  
+      ); 
+      
+
+    }
+
+    //Entra se estiver completando perfil de fornecedor
+    else if (tipoConta == 2) {
+
+      this.contaService.getEndereco(this.fornecedor.endereco.cep).subscribe(
+        end=> { 
+          
+            this.cepInvalidoFornecedor = false;
+            this.fornecedor.endereco.logradouro = end.logradouro;
+            this.fornecedor.endereco.bairro = end.bairro;
+            this.fornecedor.endereco.cidade = end.localidade;
+            this.fornecedor.endereco.uf = end.uf;        
+          
+        },
+        err=> {
+  
+            this.cepInvalidoConsumidor = true;
+            this.fornecedor.endereco.logradouro = "";
+            this.fornecedor.endereco.bairro = "";
+            this.fornecedor.endereco.cidade = "";
+            this.fornecedor.endereco.uf = "";
+                     
+        }   
+        
+  
+      );
+  
+      
+    }
+
+
   }
 
 }

@@ -6,49 +6,130 @@
                 <tabset [justified]="true">
                     <tab heading="Consumidor">
                         <article role="login">
+                            <form #consumidorForm="ngForm">
+                                <div class="row">
+                                    <div class="col-md-9">
+                                        <div class="row">
+                                            <legend>
+                                                <h5>Dados Pessoais</h5>
+                                            </legend>
 
-                            <div class="row">
-                                <div class="signup col-md-8">
-                                    <div class="form-group">
-                                        <input [(ngModel)]="consumidor.nome" type="text" class="form-control" placeholder="Nome">
-                                    </div>
-                                    <div class="form-group">
-                                        <input [(ngModel)]="consumidor.email" type="email" class="form-control" placeholder="Email">
-                                    </div>
-                                    <div class="form-group">
-                                        <input [(ngModel)]="consumidor.senha" type="password" class="form-control" placeholder="Senha">
-                                    </div>
-                                    <div class="form-group">
-                                        <input [(ngModel)]="consumidorConfirmacaoSenha" type="password" class="form-control" placeholder="Confirmação da Senha">
+                                            <div class="form-group col-md-12">
+                                                <input [(ngModel)]="consumidor.nome" type="text" name="nome" class="form-control" placeholder="Nome" required>
+
+                                            </div>
+
+                                            <div class="form-group col-md-8">
+                                                <input [(ngModel)]="consumidor.email" name="email" type="email" class="form-control" required placeholder="Email">
+                                            </div>
+
+                                            <div class="form-group col-md-4">
+                                                <input [(ngModel)]="consumidor.cpf" name="cpf" type="text" class="form-control" required placeholder="CPF">
+                                            </div>
+
+                                            <div class="form-group col-md-4">
+                                                <input [(ngModel)]="consumidor.telefone" name="telefone" type="text" class="form-control" required placeholder="Telefone">
+                                            </div>
+
+                                            <div class="form-group col-md-4">
+                                                <input [(ngModel)]="consumidor.nascimento" name="nascimento" type="date" class="form-control" placeholder="Nascimento">
+                                            </div>
+
+                                            <div class="form-group col-md-4">
+                                                <select class="form-control" required [(ngModel)]="consumidor.genero" name="genero">
+                                                <option value="">Gênero</option>
+                                                <option value="F">Feminino</option>
+                                                <option value="M">Masculino</option>
+                                            </select>
+                                            </div>
+
+                                        </div>
                                     </div>
 
-                                    <div class="form-group">
-                                        <button class="btn btn-success btn-block" (click)="cadastrarConsumidor(); confirmacaoModal.show();">
+                                    <div class="col-md-3">
+                                        <article role="manufacturer" class="text-center">
+                                            <carousel>
+                                                <slide>
+                                                    <img width="100%" height="200px" src="https://d1ydp7gtfj5fb9.cloudfront.net/static/landingpages/images/views/agenda/schedule-mobile.png" alt="First slide">
+                                                    <div class="carousel-caption"></div>
+                                                </slide>
+                                                <slide>
+                                                    <img width="100%" height="200px" src="http://revistacidadeararaquara.com.br/arquivos/noticias/organizar.jpg" alt="First slide">
+                                                    <div class="carousel-caption"></div>
+                                                </slide>
+                                                <slide>
+                                                    <img width="100%" height="200px" src="http://contaembanco.com.br/wp-content/uploads/2016/01/compra-online.jpg" alt="First slide">
+                                                    <div class="carousel-caption"></div>
+                                                </slide>
+                                            </carousel>
+                                        </article>
+                                    </div>
+
+                                    <legend>
+                                        <h5>Endereço</h5>
+                                    </legend>
+
+                                    <div class="form-group col-md-3">
+                                        <input [(ngModel)]="consumidor.endereco.cep" name="cep" type="text" class="form-control" (change)="completarEndereco(1)" required placeholder="CEP">
+                                        <span *ngIf="cepInvalidoConsumidor" class="text text-danger">*Digite um CEP válido.</span>
+                                    </div>
+
+                                    <div class="form-group col-md-3">
+                                        <input [(ngModel)]="consumidor.endereco.complemento" name="complemento" type="text" class="form-control" placeholder="Complemento">
+                                    </div>
+
+                                    <div class="form-group col-md-2">
+                                        <input [(ngModel)]="consumidor.endereco.numero" name="numero" type="number" class="form-control" placeholder="Número">
+                                    </div>
+
+                                    <div class="form-group col-md-2">
+                                        <input [(ngModel)]="consumidor.endereco.quadra" name="quadra" type="number" class="form-control" placeholder="Quadra" required>
+                                    </div>
+
+                                    <div class="form-group col-md-2">
+                                        <input [(ngModel)]="consumidor.endereco.lote" name="lote" type="number" class="form-control" placeholder="Lote" required>
+                                    </div>
+
+
+                                    <div class="form-group col-md-3">
+                                        <input [(ngModel)]="consumidor.endereco.logradouro" name="logradouro" type="text" class="form-control" placeholder="Logradouro" [disabled]="true" required>
+                                    </div>
+
+                                    <div class="form-group col-md-3">
+                                        <input [(ngModel)]="consumidor.endereco.bairro" name="bairro" type="text" class="form-control" placeholder="Bairro" [disabled]="true" required>
+                                    </div>
+
+                                    <div class="form-group col-md-4">
+                                        <input [(ngModel)]="consumidor.endereco.cidade" name="cidade" type="text" class="form-control" placeholder="Cidade" [disabled]="true" required>
+                                    </div>
+
+                                    <div class="form-group col-md-2">
+                                        <input [(ngModel)]="consumidor.endereco.uf" name="uf" type="text" class="form-control" placeholder="UF" [disabled]="true" required>
+                                    </div>
+
+
+                                    <legend>
+                                        <h5>Segurança</h5>
+                                    </legend>
+
+                                    <div class="form-group col-md-6">
+                                        <input [(ngModel)]="consumidor.senha" name="senha" type="password" class="form-control" required placeholder="Senha" #consumidorSenha="ngModel">
+                                        <span *ngIf="(consumidorSenha.touched && consumidorSenhaConfirmacao.touched && !(consumidor.senha==consumidorConfirmacaoSenha))" class="text text-danger">*A senha e sua confirmação não conferem.</span>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <input [(ngModel)]="consumidorConfirmacaoSenha" name="confirmacaoSenha" type="password" class="form-control" required placeholder="Confirmação da Senha" #consumidorSenhaConfirmacao="ngModel">
+                                    </div>
+
+
+                                    <div class="form-group col-md-12">
+                                        <button class="btn btn-success btn-block" (click)="cadastrarConsumidor(); confirmacaoModal.show();" [disabled]="!consumidorForm.form.valid || !(consumidor.senha==consumidorConfirmacaoSenha)">
                                             <fa name="send"></fa>
                                             Enviar
                                         </button>
                                     </div>
-                                </div>
 
-                                <div class="col-md-4">
-                                    <article role="manufacturer" class="text-center">
-                                        <carousel>
-                                            <slide>
-                                                <img width="100%" height="300px" src="https://d1ydp7gtfj5fb9.cloudfront.net/static/landingpages/images/views/agenda/schedule-mobile.png" alt="First slide">
-                                                <div class="carousel-caption"></div>
-                                            </slide>
-                                            <slide>
-                                                <img width="100%" height="300px" src="http://revistacidadeararaquara.com.br/arquivos/noticias/organizar.jpg" alt="First slide">
-                                                <div class="carousel-caption"></div>
-                                            </slide>
-                                            <slide>
-                                                <img width="100%" height="300px" src="http://contaembanco.com.br/wp-content/uploads/2016/01/compra-online.jpg" alt="First slide">
-                                                <div class="carousel-caption"></div>
-                                            </slide>
-                                        </carousel>
-                                    </article>
                                 </div>
-                            </div>
+                            </form>
 
                         </article>
 
@@ -56,49 +137,164 @@
 
                     <tab heading="Fornecedor">
                         <article role="login">
-                            <div class="row">
-                                <div class="signup col-md-8">
-                                    <div class="form-group">
-                                        <input [(ngModel)]="fornecedor.nome" type="text" class="form-control" placeholder="Nome">
-                                    </div>
-                                    <div class="form-group">
-                                        <input [(ngModel)]="fornecedor.email" type="email" class="form-control" placeholder="Email">
-                                    </div>
-                                    <div class="form-group">
-                                        <input [(ngModel)]="fornecedor.senha" type="password" class="form-control" placeholder="Senha">
-                                    </div>
-                                    <div class="form-group">
-                                        <input [(ngModel)]="fornecedorConfirmacaoSenha" type="password" class="form-control" placeholder="Confirmação da Senha">
+                            <form #fornecedorForm="ngForm">
+                                <div class="row">
+                                    <div class="col-md-9">
+                                        <div class="row">
+                                            <legend>
+                                                <h5>Identificação</h5>
+                                            </legend>
+                                            <div class="form-group col-md-3">
+                                                <select class="form-control" required [(ngModel)]="fornecedor.tipoPessoa" name="genero">
+                                                        <option value="">Tipo  de Pessoa</option>
+                                                        <option value="F">Física</option>
+                                                        <option value="J">Jurídica</option>
+                                                    </select>
+                                            </div>
+
+                                            <div class="form-group col-md-9">
+                                                <input [(ngModel)]="fornecedor.nome" type="text" name="nome" class="form-control" placeholder="Nome" required>
+                                            </div>
+
+                                            <div class="form-group col-md-3" *ngIf="fornecedor.tipoPessoa == 'F'">
+                                                <input [(ngModel)]="fornecedor.cpf" type="text" name="nome" class="form-control" placeholder="CPF" required>
+
+                                            </div>
+
+                                            <div class="form-group col-md-9" *ngIf="fornecedor.tipoPessoa == 'F'">
+                                                <input [(ngModel)]="fornecedor.email" name="email" type="email" class="form-control" required placeholder="Email">
+                                            </div>
+
+                                            <div class="form-group col-md-3" *ngIf="fornecedor.tipoPessoa == 'J'">
+                                                <input [(ngModel)]="fornecedor.cnpj" name="cnpj" type="text" class="form-control" required placeholder="CNPJ">
+                                            </div>
+
+                                            <div class="form-group col-md-3" *ngIf="fornecedor.tipoPessoa == 'J'">
+                                                <input [(ngModel)]="fornecedor.razaoSocial" name="razaoSocial" type="email" class="form-control" required placeholder="Razão Social">
+                                            </div>
+
+                                            <div class="form-group col-md-6" *ngIf="fornecedor.tipoPessoa == 'J'">
+                                                <input [(ngModel)]="fornecedor.email" name="email" type="email" class="form-control" required placeholder="Email">
+                                            </div>
+
+                                            <div class="form-group col-md-12">
+                                                <textarea rows="3" [(ngModel)]="fornecedor.descricao" class="form-control" name="descricao" placeholder="Descrição do perfil da empresa." required></textarea>
+                                            </div>
+
+                                        </div>
                                     </div>
 
-                                    <div class="form-group">
-                                        <button class="btn btn-success btn-block" (click)="cadastrarFornecedor(); confirmacaoModal.show();">
-                                                <fa name="send"></fa>
-                                                Enviar
-                                            </button>
+                                    <div class="col-md-3">
+                                        <article role="manufacturer" class="text-center">
+                                            <carousel>
+                                                <slide>
+                                                    <img width="100%" height="200px" src="http://mestredoadwords.com.br/wp-content/uploads/2015/11/publicidade-online.png" alt="First slide">
+                                                    <div class="carousel-caption"></div>
+                                                </slide>
+                                                <slide>
+                                                    <img width="100%" height="200px" src="http://tribofitness.com/wp-content/uploads/2017/07/106216-como-criar-um-fluxo-de-caixa-para-a-empresa-5-melhores-praticas-880x701.jpg" alt="First slide">
+                                                    <div class="carousel-caption"></div>
+                                                </slide>
+                                                <slide>
+                                                    <img width="100%" height="200px" src="http://computerworld.com.br/sites/beta.computerworld.com.br/files/news_articles/acordo_0.jpg" alt="First slide">
+                                                    <div class="carousel-caption"></div>
+                                                </slide>
+                                            </carousel>
+
+                                        </article>
                                     </div>
+
+
+                                    <div class="form-group col-md-12">
+                                        <textarea rows="3" [(ngModel)]="fornecedor.servicosProdutos" class="form-control" name="servicosProdutos" placeholder="Produtos e serviços ofertados" required></textarea>
+                                    </div>
+
+                                    <legend>
+                                        <h5>Responsável</h5>
+                                    </legend>
+
+                                    <div class="form-group col-md-7">
+                                        <input [(ngModel)]="fornecedor.responsavel" name="responsavel" type="text" class="form-control" placeholder="Nome" required>
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <input [(ngModel)]="fornecedor.telefone" name="telefone" type="text" class="form-control" placeholder="Telefone" required>
+                                    </div>
+
+                                    <div class="form-group col-md-2">
+                                        <select class="form-control" required [(ngModel)]="fornecedor.generoResponsavel" name="genero" required>
+                                            <option value="">Gênero</option>
+                                            <option value="F">Feminino</option>
+                                            <option value="M">Masculino</option>
+                                        </select>
+                                    </div>
+
+
+                                    <legend>
+                                        <h5>Endereço</h5>
+                                    </legend>
+
+                                    <div class="form-group col-md-3">
+                                        <input [(ngModel)]="fornecedor.endereco.cep" name="cep" type="text" class="form-control" (change)="completarEndereco(2)" required placeholder="CEP">
+                                        <span *ngIf="cepInvalidoFornecedor" class="text text-danger">*Digite um CEP válido.</span>
+                                    </div>
+
+                                    <div class="form-group col-md-3">
+                                        <input [(ngModel)]="fornecedor.endereco.complemento" name="complemento" type="text" class="form-control" placeholder="Complemento">
+                                    </div>
+
+                                    <div class="form-group col-md-2">
+                                        <input [(ngModel)]="fornecedor.endereco.numero" name="numero" type="number" class="form-control" placeholder="Número">
+                                    </div>
+
+                                    <div class="form-group col-md-2">
+                                        <input [(ngModel)]="fornecedor.endereco.quadra" name="quadra" type="number" class="form-control" placeholder="Quadra" required>
+                                    </div>
+
+                                    <div class="form-group col-md-2">
+                                        <input [(ngModel)]="fornecedor.endereco.lote" name="lote" type="number" class="form-control" placeholder="Lote" required>
+                                    </div>
+
+
+                                    <div class="form-group col-md-3">
+                                        <input [(ngModel)]="fornecedor.endereco.logradouro" name="logradouro" type="text" class="form-control" placeholder="Logradouro" [disabled]="true" required>
+                                    </div>
+
+                                    <div class="form-group col-md-3">
+                                        <input [(ngModel)]="fornecedor.endereco.bairro" name="bairro" type="text" class="form-control" placeholder="Bairro" [disabled]="true" required>
+                                    </div>
+
+                                    <div class="form-group col-md-4">
+                                        <input [(ngModel)]="fornecedor.endereco.cidade" name="cidade" type="text" class="form-control" placeholder="Cidade" [disabled]="true" required>
+                                    </div>
+
+                                    <div class="form-group col-md-2">
+                                        <input [(ngModel)]="fornecedor.endereco.uf" name="uf" type="text" class="form-control" placeholder="UF" [disabled]="true" required>
+                                    </div>
+
+
+                                    <legend>
+                                        <h5>Segurança</h5>
+                                    </legend>
+
+                                    <div class="form-group col-md-6">
+                                        <input [(ngModel)]="fornecedor.senha" name="senha" type="password" class="form-control" required placeholder="Senha" #fornecedorSenha="ngModel">
+                                        <span *ngIf="(fornecedorSenha.touched && fornecedorSenhaConfirmacao.touched && !(fornecedor.senha==fornecedorConfirmacaoSenha))" class="text text-danger">*A senha e sua confirmação não conferem.</span>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <input [(ngModel)]="fornecedorConfirmacaoSenha" name="confirmacaoSenha" type="password" class="form-control" required placeholder="Confirmação da Senha" #fornecedorSenhaConfirmacao="ngModel">
+                                    </div>
+
+
+                                    <div class="form-group col-md-12">
+                                        <button class="btn btn-success btn-block" (click)="cadastrarFornecedor(); confirmacaoModal.show();" [disabled]="!fornecedorForm.form.valid || !(consumidor.senha==consumidorConfirmacaoSenha)">
+                                                    <fa name="send"></fa>
+                                                    Enviar
+                                                </button>
+                                    </div>
+
                                 </div>
+                            </form>
 
-                                <div class="col-md-4">
-                                    <article role="manufacturer" class="text-center">
-                                        <carousel>
-                                            <slide>
-                                                <img width="100%" height="300px" src="http://mestredoadwords.com.br/wp-content/uploads/2015/11/publicidade-online.png" alt="First slide">
-                                                <div class="carousel-caption"></div>
-                                            </slide>
-                                            <slide>
-                                                <img width="100%" height="300px" src="http://tribofitness.com/wp-content/uploads/2017/07/106216-como-criar-um-fluxo-de-caixa-para-a-empresa-5-melhores-praticas-880x701.jpg" alt="First slide">
-                                                <div class="carousel-caption"></div>
-                                            </slide>
-                                            <slide>
-                                                <img width="100%" height="300px" src="http://computerworld.com.br/sites/beta.computerworld.com.br/files/news_articles/acordo_0.jpg" alt="First slide">
-                                                <div class="carousel-caption"></div>
-                                            </slide>
-                                        </carousel>
-
-                                    </article>
-                                </div>
-                            </div>
                         </article>
 
                     </tab>

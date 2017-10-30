@@ -12,18 +12,16 @@ import { Observable } from 'rxjs/Observable';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  /*mostrarMenu: boolean = false;
-  rotaLogin: String = "login";
-  rotaContas: String = "conta";*/
+  mostrarMenu: boolean = false;
 
-  constructor(private rotaAtualService: RotaAtualService) {
+  constructor(private rotaAtualService: RotaAtualService, private autenticacaoService: AutenticacaoService) {
     console.log(this.rotaAtualService.getRotaAtual())
   }
 
   ngOnInit() {
-    //Verifica se a rota atual é a de Login ou Contas
-   // this.mostrarMenu = this.route.snapshot.url[0].toString() == this.rotaLogin;
-    //this.mostrarMenu = this.route.snapshot.url[0].toString() == this.rotaContas;
+    this.autenticacaoService.mostarMenuEmitter.subscribe(
+      mostrar=> this.mostrarMenu = mostrar
+    )
     
     
   }

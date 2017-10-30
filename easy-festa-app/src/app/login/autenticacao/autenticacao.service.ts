@@ -14,10 +14,10 @@ export class AutenticacaoService {
 
   fazerLogin(usuario: Usuario) {
 
-    if (usuario.nome === 'admin' && usuario.senha === '12345') {
+    if (usuario) {
         this.autenticado = true;
-        this.router.navigate(['/']);
         this.mostarMenuEmitter.emit(true);
+        this.router.navigate(['/home']);        
 
     } else {
       this.autenticado = false;

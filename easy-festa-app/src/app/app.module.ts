@@ -49,7 +49,7 @@ import { routing } from './app.module.routing';
     FluxoCaixaModule,
     routing
   ],
-  providers: [RotaAtualService],
+  providers: [RotaAtualService, AutenticacaoService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

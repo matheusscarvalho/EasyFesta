@@ -14,16 +14,15 @@ export class LoginComponent implements OnInit {
 
   private usuario: Usuario;
 
-  constructor(private route: ActivatedRoute) { 
+  constructor(private route: ActivatedRoute, private autenticacaoService: AutenticacaoService) { 
     this.usuario = new Usuario();
   }
 
   ngOnInit() {
-    console.log(this.route.snapshot)
   }
 
   fazerLogin() {
-    //this.autenticacaoService.fazerLogin(this.usuario);
+    this.autenticacaoService.fazerLogin(this.usuario);
   }
 
 

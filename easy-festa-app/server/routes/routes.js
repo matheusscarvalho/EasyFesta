@@ -123,11 +123,19 @@ router.post('/agendamento', (req, res, next) => {
 
 //Add Consumidor
 router.post('/consumidor', (req, res, next) => {
+
     let novoConsumidor = new Consumidor({
         nome: req.body.nome,
         email: req.body.email,
-        senha: req.body.senha
+        senha: req.body.senha,
+        genero: req.body.genero,
+        nascimento: req.body.nascimento,
+        cpf: req.body.cpf,
+        telefone: req.body.telefone,
+        endereco: req.body.endereco
     })
+
+    console.log(novoConsumidor)
 
     novoConsumidor.save((err, consumidor) => {
         if (err) {
@@ -143,7 +151,18 @@ router.post('/fornecedor', (req, res, next) => {
     let novoFornecedor = new Fornecedor({
         nome: req.body.nome,
         email: req.body.email,
-        senha: req.body.senha
+        senha: req.body.senha,
+        telefone: req.body.telefone,
+        cpf: req.body.cpf,
+        cnpj: req.body.cnpj,
+        responsavel: req.body.responsavel,
+        generoResponsavel: req.body.generoResponsavel,
+        descricao: req.body.descricao,
+        servicosProdutos: req.body.servicosProdutos,
+        tipoPessoa: req.body.tipoPessoa,
+        endereco: req.body.endereco
+
+
     })
 
     novoFornecedor.save((err, fornecedor) => {
