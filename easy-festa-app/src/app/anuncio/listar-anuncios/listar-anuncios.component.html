@@ -44,14 +44,31 @@
 
     <div *ngIf="!mostrarIconeCarregando" class="row margin-top-10">
         <div class="col-md-4" *ngFor="let anuncio of anuncios; let i = index">
-            <div class="card bg-light">
+            <div class="card bg-light text-center">
                 <div class="card-header font-align-center">
-                    <rating class="margintop-10 font-size-20" [(ngModel)]="rate" [max]="max" stateOn="fa fa-star" stateOff="fa fa-star-o"></rating>
                 </div>
                 <div class="card-body">
 
-                    <p class="card-title">{{anuncio.titulo}}</p>
+                    <h3 class="card-title">{{anuncio.titulo}}</h3>
+                    <span *ngIf="anuncio.tipo==2">
+                        (<fa name="signing"></fa>)
+                        Serviço
+                    </span>
+                    <span *ngIf="anuncio.tipo==1">
+                        (<fa name="gift"></fa>)
+                        Produto
+                    </span>
+                    <span *ngIf="anuncio.publicado == true">
+                        (<fa name="eye"></fa>)
+                        Publicado
+                    </span>
+                    <span *ngIf="anuncio.publicado == false">
+                        (<fa name="eye-slash"></fa>)
+                        Não publicado
+                    </span>
+
                     <p class="card-text">{{anuncio.descricao}}</p>
+                    <rating class="margintop-10 font-size-20 rate" [(ngModel)]="rate" [max]="max" stateOn="fa fa-star" stateOff="fa fa-star-o"></rating>
 
                 </div>
                 <div class="card-footer">

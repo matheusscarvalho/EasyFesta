@@ -1,18 +1,287 @@
-<div class="card-profile hovercard">
-    <div class="card-background">
-        <img class="card-bkimg" alt="" src="https://st.depositphotos.com/2172801/2491/v/450/depositphotos_24912867-stock-video-futuristic-video-animation-with-stripe.jpg">
-    </div>
-    <div class="useravatar">
-        <img alt="" src="http://lorempixel.com/100/100/people/9/">
+<div class="page-tittle">
+
+    <div class="row">
+        <div class="col-md-10">
+            <fa name="user"></fa>
+            Visualizar Perfil
+        </div>
+
+        <div class="col-md-2">
+
+            <button *ngIf="desabilitado" class="btn btn-block btn-warning" type="button" (click)="desabilitado=!desabilitado">
+                <fa name="edit"></fa> Editar
+            </button>
+
+            <button *ngIf="!desabilitado" class="btn btn-block btn-danger" type="button" (click)="desabilitado=!desabilitado">
+                <fa name="exclamation-circle"></fa> Cancelar
+            </button>
+        </div>
     </div>
 
 </div>
 
-<div class="col-md-12 tarja">
-    <div class="card-info"> <span class="card-title">Nome</span>
-    </div>
-</div>
-
+<!--Formulário de consumidores-->
 <div class="painel-profile">
+    <article>
+        <form #consumidorForm="ngForm">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <legend class="bold sublinhado-roxo">
+                            Identificação
+                        </legend>
 
+                        <div class="form-group col-md-12">
+                            <input [(ngModel)]="consumidor.nome" type="text" name="nome" class="form-control" placeholder="Nome" [disabled]="desabilitado" required> </div>
+
+                        <div class="form-group col-md-8">
+                            <input [(ngModel)]="consumidor.email" name="email" type="email" class="form-control" [disabled]="desabilitado" required placeholder="Email">
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            <input [(ngModel)]="consumidor.cpf" name="cpf" [textMask]="{mask:cpfMask}" type="text" class="form-control" [disabled]="desabilitado" required placeholder="CPF">
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            <input [(ngModel)]="consumidor.telefone" name="telefone" [textMask]="{mask:telefoneMask}" type="text" class="form-control" [disabled]="desabilitado" required placeholder="Telefone">
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            <input [(ngModel)]="consumidor.nascimento" name="nascimento" type="date" class="form-control" [disabled]="desabilitado" placeholder="Nascimento">
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            <select class="form-control" required [(ngModel)]="consumidor.genero" [disabled]="desabilitado" name="genero">
+                                    <option value="">Gênero</option>
+                                    <option value="F">Feminino</option>
+                                    <option value="M">Masculino</option>
+                                </select>
+                        </div>
+
+                    </div>
+                </div>
+
+                <legend class="bold sublinhado-roxo">
+                    Endereço
+                </legend>
+
+                <div class="form-group col-md-3">
+                    <input [(ngModel)]="consumidor.endereco.cep" [textMask]="{mask:cepMask}" name="cep" type="text" class="form-control" [disabled]="desabilitado" (change)="completarEndereco(1)" required placeholder="CEP">
+                    <span *ngIf="cepInvalidoConsumidor" class="text text-danger">*Digite um CEP válido.</span>
+                </div>
+
+                <div class="form-group col-md-3">
+                    <input [(ngModel)]="consumidor.endereco.complemento" [disabled]="desabilitado" name="complemento" type="text" class="form-control" placeholder="Complemento">
+                </div>
+
+                <div class="form-group col-md-2">
+                    <input [(ngModel)]="consumidor.endereco.numero" [disabled]="desabilitado" name="numero" type="number" class="form-control" placeholder="Número">
+                </div>
+
+                <div class="form-group col-md-2">
+                    <input [(ngModel)]="consumidor.endereco.quadra" name="quadra" type="number" class="form-control" placeholder="Quadra" [disabled]="desabilitado" required>
+                </div>
+
+                <div class="form-group col-md-2">
+                    <input [(ngModel)]="consumidor.endereco.lote" name="lote" type="number" class="form-control" placeholder="Lote" [disabled]="desabilitado" required>
+                </div>
+
+
+                <div class="form-group col-md-3">
+                    <input [(ngModel)]="consumidor.endereco.logradouro" name="logradouro" type="text" class="form-control" placeholder="Logradouro" [disabled]="true" required>
+                </div>
+
+                <div class="form-group col-md-3">
+                    <input [(ngModel)]="consumidor.endereco.bairro" name="bairro" type="text" class="form-control" placeholder="Bairro" [disabled]="true" required>
+                </div>
+
+                <div class="form-group col-md-4">
+                    <input [(ngModel)]="consumidor.endereco.cidade" name="cidade" type="text" class="form-control" placeholder="Cidade" [disabled]="true" required>
+                </div>
+
+                <div class="form-group col-md-2">
+                    <input [(ngModel)]="consumidor.endereco.uf" name="uf" type="text" class="form-control" placeholder="UF" [disabled]="true" required>
+                </div>
+
+
+                <legend class="bold sublinhado-roxo">
+                    Segurança
+                </legend>
+
+                <div [ngClass]="{'form-group col-md-12': desabilitado, 'form-group col-md-6': !desabilitado}">
+                    <input [(ngModel)]="consumidor.senha" [disabled]="desabilitado" name="senha" type="password" class="form-control" required placeholder="Senha" #consumidorSenha="ngModel">
+                    <span *ngIf="(consumidorSenha.touched && consumidorSenhaConfirmacao.touched && !(consumidor.senha==consumidorConfirmacaoSenha))" class="text text-danger">*A senha e sua confirmação não conferem.</span>
+                </div>
+                <div class="form-group col-md-6" *ngIf="!desabilitado">
+                    <input [(ngModel)]="consumidorConfirmacaoSenha" name="confirmacaoSenha" type="password" class="form-control" required placeholder="Confirmação da Senha" #consumidorSenhaConfirmacao="ngModel">
+                </div>
+
+                <div class="form-group col-md-6" *ngIf="!desabilitado">
+                    <button class="btn btn-block btn-danger" type="button" (click)="desabilitado=!desabilitado">
+                        <fa name="exclamation-circle"></fa> Cancelar
+                    </button>
+                </div>
+
+                <div class="form-group col-md-6" *ngIf="!desabilitado">
+                    <button class="btn btn-success btn-block" (click)="cadastrarConsumidor(); confirmacaoModal.show();" [disabled]="!consumidorForm.form.valid || !(consumidor.senha==consumidorConfirmacaoSenha)">
+                        <fa name="send"></fa>
+                        Enviar
+                    </button>
+                </div>
+
+
+            </div>
+        </form>
+
+    </article>
+</div>
+
+<!--Formulário de fornecedores-->
+<div class="painel-profile" *ngIf="false">
+    <article>
+        <form #fornecedorForm="ngForm">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <legend class="bold sublinhado-roxo">
+                            Identificação
+                        </legend>
+                        <div class="form-group col-md-3">
+                            <select class="form-control" [disabled]="desabilitado" required [(ngModel)]="fornecedor.tipoPessoa" name="genero">
+                                            <option value="">Tipo  de Pessoa</option>
+                                            <option value="F">Física</option>
+                                            <option value="J">Jurídica</option>
+                                        </select>
+                        </div>
+
+                        <div class="form-group col-md-9">
+                            <input [(ngModel)]="fornecedor.nome" [disabled]="desabilitado" type="text" name="nome" class="form-control" placeholder="Nome" required>
+                        </div>
+
+                        <div class="form-group col-md-3" *ngIf="fornecedor.tipoPessoa == 'F'">
+                            <input [(ngModel)]="fornecedor.cpf" type="text" [textMask]="{mask:cpfMask}" name="nome" class="form-control" placeholder="CPF" [disabled]="desabilitado" required>
+
+                        </div>
+
+                        <div class="form-group col-md-9" *ngIf="fornecedor.tipoPessoa == 'F'">
+                            <input [(ngModel)]="fornecedor.email" [disabled]="desabilitado" name="email" type="email" class="form-control" required placeholder="Email">
+                        </div>
+
+                        <div class="form-group col-md-3" *ngIf="fornecedor.tipoPessoa == 'J'">
+                            <input [(ngModel)]="fornecedor.cnpj" name="cnpj" type="text" [disabled]="desabilitado" [textMask]="{mask:cnpjMask}" class="form-control" required placeholder="CNPJ">
+                        </div>
+
+                        <div class="form-group col-md-3" *ngIf="fornecedor.tipoPessoa == 'J'">
+                            <input [(ngModel)]="fornecedor.razaoSocial" name="razaoSocial" [disabled]="desabilitado" type="email" class="form-control" required placeholder="Razão Social">
+                        </div>
+
+                        <div class="form-group col-md-6" *ngIf="fornecedor.tipoPessoa == 'J'">
+                            <input [(ngModel)]="fornecedor.email" [disabled]="desabilitado" name="email" type="email" class="form-control" required placeholder="Email">
+                        </div>
+
+                        <div class="form-group col-md-12">
+                            <textarea rows="3" [(ngModel)]="fornecedor.descricao" [disabled]="desabilitado" class="form-control" name="descricao" placeholder="Descrição do perfil da empresa." required></textarea>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="form-group col-md-12">
+                    <textarea rows="3" [(ngModel)]="fornecedor.servicosProdutos" [disabled]="desabilitado" class="form-control" name="servicosProdutos" placeholder="Produtos e serviços ofertados" required></textarea>
+                </div>
+
+                <legend class="bold sublinhado-roxo">
+                    Responsável
+                </legend>
+
+                <div class="form-group col-md-7">
+                    <input [(ngModel)]="fornecedor.responsavel" [disabled]="desabilitado" name="responsavel" type="text" class="form-control" placeholder="Nome" required>
+                </div>
+                <div class="form-group col-md-3">
+                    <input [(ngModel)]="fornecedor.telefone" [disabled]="desabilitado" name="telefone" [textMask]="{mask:telefoneMask}" type="text" class="form-control" placeholder="Telefone" required>
+                </div>
+
+                <div class="form-group col-md-2">
+                    <select class="form-control" required [(ngModel)]="fornecedor.generoResponsavel" name="genero" [disabled]="desabilitado">
+                                <option value="">Gênero</option>
+                                <option value="F">Feminino</option>
+                                <option value="M">Masculino</option>
+                            </select>
+                </div>
+
+
+                <legend class="bold sublinhado-roxo">
+                    Endereço
+                </legend>
+
+                <div class="form-group col-md-3">
+                    <input [(ngModel)]="fornecedor.endereco.cep" [disabled]="desabilitado" name="cep" type="text" [textMask]="{mask:cepMask}" class="form-control" (change)="completarEndereco(2)" required placeholder="CEP">
+                    <span *ngIf="cepInvalidoFornecedor" class="text text-danger">*Digite um CEP válido.</span>
+                </div>
+
+                <div class="form-group col-md-3">
+                    <input [(ngModel)]="fornecedor.endereco.complemento" [disabled]="desabilitado" name="complemento" type="text" class="form-control" placeholder="Complemento">
+                </div>
+
+                <div class="form-group col-md-2">
+                    <input [(ngModel)]="fornecedor.endereco.numero" [disabled]="desabilitado" name="numero" type="number" class="form-control" placeholder="Número">
+                </div>
+
+                <div class="form-group col-md-2">
+                    <input [(ngModel)]="fornecedor.endereco.quadra" [disabled]="desabilitado" name="quadra" type="number" class="form-control" placeholder="Quadra" required>
+                </div>
+
+                <div class="form-group col-md-2">
+                    <input [(ngModel)]="fornecedor.endereco.lote" [disabled]="desabilitado" name="lote" type="number" class="form-control" placeholder="Lote" required>
+                </div>
+
+
+                <div class="form-group col-md-3">
+                    <input [(ngModel)]="fornecedor.endereco.logradouro" name="logradouro" type="text" class="form-control" placeholder="Logradouro" [disabled]="true" required>
+                </div>
+
+                <div class="form-group col-md-3">
+                    <input [(ngModel)]="fornecedor.endereco.bairro" name="bairro" type="text" class="form-control" placeholder="Bairro" [disabled]="true" required>
+                </div>
+
+                <div class="form-group col-md-4">
+                    <input [(ngModel)]="fornecedor.endereco.cidade" name="cidade" type="text" class="form-control" placeholder="Cidade" [disabled]="true" required>
+                </div>
+
+                <div class="form-group col-md-2">
+                    <input [(ngModel)]="fornecedor.endereco.uf" name="uf" type="text" class="form-control" placeholder="UF" [disabled]="true" required>
+                </div>
+
+
+                <legend class="bold sublinhado-roxo">
+                    Segurança
+                </legend>
+
+                <div [ngClass]="{'form-group col-md-12': desabilitado, 'form-group col-md-6': !desabilitado}">
+                    <input [(ngModel)]="fornecedor.senha" name="senha" [disabled]="desabilitado" type="password" class="form-control" required placeholder="Senha" #fornecedorSenha="ngModel">
+                    <span *ngIf="(fornecedorSenha.touched && fornecedorSenhaConfirmacao.touched && !(fornecedor.senha==fornecedorConfirmacaoSenha))" class="text text-danger">*A senha e sua confirmação não conferem.</span>
+                </div>
+                <div class="form-group col-md-6" *ngIf="!desabilitado">
+                    <input [(ngModel)]="fornecedorConfirmacaoSenha" name="confirmacaoSenha" type="password" class="form-control" required placeholder="Confirmação da Senha" #fornecedorSenhaConfirmacao="ngModel">
+                </div>
+
+                <div class="form-group col-md-6" *ngIf="!desabilitado">
+                    <button class="btn btn-danger btn-block" (click)="desabilitado=!desabilitado">  
+                                    <fa name="exclamation-circle"></fa>
+                                    Cancelar
+                                </button>
+                </div>
+
+
+                <div class="form-group col-md-6" *ngIf="!desabilitado">
+                    <button class="btn btn-success btn-block" (click)="cadastrarFornecedor(); confirmacaoModal.show();" [disabled]="!fornecedorForm.form.valid || !(consumidor.senha==consumidorConfirmacaoSenha)">
+                                        <fa name="send"></fa>
+                                        Enviar
+                                    </button>
+                </div>
+
+            </div>
+        </form>
+
+    </article>
 </div>

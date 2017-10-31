@@ -36,7 +36,13 @@ export class CadastrarAnunciosComponent implements OnInit {
     //Entra se a rota atual for a de edição
     } else {
       const id = this.route.snapshot.params['id'];
-      this.anuncioService.getAnuncio(id).subscribe(a => this.anuncio = a);
+      this.anuncioService.getAnuncio(id).subscribe(
+        a => {
+          this.anuncio = a;
+          console.log(this.anuncio)
+        } 
+      );
+
     }
     
 

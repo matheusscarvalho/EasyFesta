@@ -4,49 +4,54 @@
 </div>
 
 <fieldset class="painel margin-top-10">
-    <div class="row">
-        <div class="form-group col-md-4">
-            <label class="control-label bold" for="Título">Título</label>
-            <div>
-                <input id="Título" [(ngModel)]="anuncio.titulo" name="Título" type="text" placeholder="Ex.: Filmagem" class="form-control input-md" required="">
+    <form #anuncioForm="ngForm">
+        <div class="row">
+            <div class="form-group col-md-4">
+                <label class="control-label bold" for="Título">Título</label>
+                <div>
+                    <input id="Título" [(ngModel)]="anuncio.titulo" name="Título" type="text" placeholder="Ex.: Filmagem" class="form-control input-md" required="">
 
+                </div>
+            </div>
+
+            <!-- Multiple Radios (inline) -->
+            <div class="form-group col-md-3">
+                <label class="control-label bold" for="categoria">Tipo</label>
+                <br>
+                <input type="radio" name="tipo" [(ngModel)]="anuncio.tipo" btnRadio=1 [checked]="anuncio.tipo == 1">Produto &nbsp;&nbsp;
+                <input type="radio" name="tipo" [(ngModel)]="anuncio.tipo" btnRadio=2 [checked]="anuncio.tipo == 2">Serviço &nbsp;&nbsp;
+            </div>
+
+            <!-- Multiple Radios (inline) -->
+            <div class="form-group col-md-3">
+                <label class="control-label bold" for="publicado">Publicado</label>
+                <br>
+                <input type="radio" name="publicado" [(ngModel)]="anuncio.publicado" btnRadio=true [checked]="anuncio.publicado == true">Sim &nbsp;&nbsp;
+                <input type="radio" name="publicado" [(ngModel)]="anuncio.publicado" btnRadio=false [checked]="anuncio.publicado == false">Não
+            </div>
+
+            <!-- Textarea -->
+            <div class="form-group col-md-12">
+                <label class="control-label bold" for="descricao">Descrição</label>
+                <div>
+                    <textarea [(ngModel)]="anuncio.descricao" class="form-control" rows="5" id="descricao" name="descricao" required></textarea>
+                </div>
             </div>
         </div>
-
-        <!-- Multiple Radios (inline) -->
-        <div class="form-group col-md-3">
-            <label class="control-label bold" for="categoria">Tipo</label>
-            <br>
-            <input type="radio" name="tipo" [(ngModel)]="anuncio.tipo" btnRadio=1 checked>Produto &nbsp;&nbsp;
-            <input type="radio" name="tipo" [(ngModel)]="anuncio.tipo" btnRadio=2>Serviço &nbsp;&nbsp;
-        </div>
-
-        <!-- Multiple Radios (inline) -->
-        <div class="form-group col-md-3">
-            <label class="control-label bold" for="publicado">Publicado</label>
-            <br>
-            <input type="radio" name="publicado" [(ngModel)]="anuncio.publicado" btnRadio=true checked>Sim &nbsp;&nbsp;
-            <input type="radio" name="publicado" [(ngModel)]="anuncio.publicado" btnRadio=false>Não
-        </div>
-
-        <!-- Textarea -->
-        <div class="form-group col-md-12">
-            <label class="control-label bold" for="descricao">Descrição</label>
-            <div>
-                <textarea [(ngModel)]="anuncio.descricao" class="form-control" rows="5" id="descricao" name="descricao"></textarea>
-            </div>
-        </div>
-    </div>
-
+    </form>
 </fieldset>
 
 <div class="row margin-top-10">
     <!-- Button (Double) -->
-    <div class="form-group col-md-12">
-        <div class="painel">
-            <button id="salvar" name="salvar" class="btn btn-primary" (click)="salvarAnuncio();staticModal.show()">Salvar</button>
-            <button id="canelar" name="canelar" class="btn btn-danger" routerLink="/anuncio/listar">Cancelar</button>
-        </div>
+    <div class="form-group col-md-6">
+        <button id="voltar" name="voltar" class="btn btn-block btn-warning" routerLink="/anuncio/listar">
+            <fa name="reply"></fa>Voltar
+        </button>
+    </div>
+    <div class="form-group col-md-6">
+        <button id="salvar" name="salvar" class="btn btn-block btn-primary" (click)="salvarAnuncio();staticModal.show()" [disabled]="!anuncioForm.form.valid">
+            <fa name="floppy-o"></fa>Salvar
+        </button>
     </div>
 </div>
 

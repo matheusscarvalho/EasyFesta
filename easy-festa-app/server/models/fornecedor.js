@@ -51,7 +51,7 @@ const FornecedorSchema = mongoose.Schema({
         required: true
     },
 
-    endereco: [{
+    endereco: {
         cep: {
             type: String,
             required: true
@@ -96,7 +96,7 @@ const FornecedorSchema = mongoose.Schema({
             type: Number,
             required: true
         }
-    }]
+    }
 
 });
 

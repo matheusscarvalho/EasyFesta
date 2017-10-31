@@ -146,6 +146,18 @@ router.post('/consumidor', (req, res, next) => {
     });
 });
 
+//Buscar Consumidor
+router.get('/consumidor/:id', (req, res, next) => {
+    let id = req.params.id;
+    Consumidor.findById(id, function(err, consumidor) {
+        if (err) {
+            res.json(err)
+        } else {
+            res.json(consumidor);
+        }
+    });
+});
+
 //Add Fornecedor
 router.post('/fornecedor', (req, res, next) => {
     let novoFornecedor = new Fornecedor({

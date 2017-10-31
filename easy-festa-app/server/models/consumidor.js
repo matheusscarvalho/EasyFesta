@@ -36,7 +36,7 @@ const ConsumidorSchema = mongoose.Schema({
         required: true
     },
 
-    endereco: [{
+    endereco: {
         cep: {
             type: String,
             required: true
@@ -81,7 +81,7 @@ const ConsumidorSchema = mongoose.Schema({
             type: Number,
             required: true
         }
-    }]
+    }
 
 
 

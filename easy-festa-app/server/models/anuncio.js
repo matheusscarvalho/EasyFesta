@@ -20,6 +20,13 @@ const AnuncioSchema = mongoose.Schema({
         type: Number,
         required: true
     }
+    /*,
+
+        fornecedor: {
+            type: Schema.Types.ObjectId,
+            ref: 'Fornecedores',
+            required: false
+        }*/
 
 });
 

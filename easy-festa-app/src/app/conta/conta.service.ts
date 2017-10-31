@@ -69,4 +69,15 @@ export class ContaService {
     return headers;
   }
 
+  
+  getFornecedor(id) {
+    id = "59f8001f4fa3f02c0cc61b9a";
+    let body = id.toString();
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.get(`http://localhost:3000/api/consumidor/`+body, options).map((res: Response) => res.json());
+    
+  }
+
 }
