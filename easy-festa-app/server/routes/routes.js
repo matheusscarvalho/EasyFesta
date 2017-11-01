@@ -42,7 +42,8 @@ router.post('/anuncio', (req, res, next) => {
         titulo: req.body.titulo,
         descricao: req.body.descricao,
         publicado: req.body.publicado,
-        tipo: req.body.tipo
+        tipo: req.body.tipo,
+        fornecedor: req.body.fornecedor
     })
 
     NewAnuncio.save((err, anuncio) => {
@@ -146,6 +147,7 @@ router.post('/consumidor', (req, res, next) => {
     });
 });
 
+
 //Buscar Consumidor
 router.get('/consumidor/:id', (req, res, next) => {
     let id = req.params.id;
@@ -153,7 +155,32 @@ router.get('/consumidor/:id', (req, res, next) => {
         if (err) {
             res.json(err)
         } else {
-            res.json(consumidor);
+            let informacoesConsumidor;
+            Evento.count({ fornecedor: id }, function(err, qtd) {
+                if (err) {
+                    res.json(err)
+                } else {
+                    informacoesConsumidor = {
+                        "consumidor": consumidor,
+                        "qtdEventos": qtd
+                    };
+
+                    res.json(informacoesConsumidor);
+
+                }
+            });
+
+        }
+    });
+});
+
+//Delete Consumidor
+router.delete('/consumidor/:id', (req, res, next) => {
+    Consumidor.remove({ _id: req.params.id }, function(err, result) {
+        if (err) {
+            res.json(err)
+        } else {
+            res.json(result);
         }
     });
 });
@@ -167,6 +194,7 @@ router.post('/fornecedor', (req, res, next) => {
         telefone: req.body.telefone,
         cpf: req.body.cpf,
         cnpj: req.body.cnpj,
+        razaoSocial: req.body.razaoSocial,
         responsavel: req.body.responsavel,
         generoResponsavel: req.body.generoResponsavel,
         descricao: req.body.descricao,
@@ -185,6 +213,105 @@ router.post('/fornecedor', (req, res, next) => {
         }
     });
 });
+
+//Delete Consumidor
+router.delete('/consumidor/:id', (req, res, next) => {
+    Consumidor.remove({ _id: req.params.id }, function(err, result) {
+        if (err) {
+            res.json(err)
+        } else {
+            res.json(result);
+        }
+    });
+});
+
+//Delete Fornecedor
+router.delete('/fornecedor/:id', (req, res, next) => {
+    Fornecedor.remove({ _id: req.params.id }, function(err, result) {
+        if (err) {
+            res.json(err)
+        } else {
+            res.json(result);
+        }
+    });
+});
+
+//Buscar Fornecedor
+router.get('/fornecedor/:id', (req, res, next) => {
+    let id = req.params.id;
+    Fornecedor.findById(id, function(err, fornecedor) {
+        if (err) {
+            res.json(err)
+        } else {
+            let informacoesFornecedor;
+            Anuncio.count({ fornecedor: id }, function(err, qtd) {
+                if (err) {
+                    res.json(err)
+                } else {
+                    informacoesFornecedor = {
+                        "consumidor": fornecedor,
+                        "qtdAnuncios": qtd
+                    };
+
+                    res.json(informacoesFornecedor);
+
+                }
+            });
+
+        }
+    });
+});
+
+//Update Consumidor
+router.post('/consumidor/editar', (req, res, next) => {
+    let id = req.body._id;
+    Consumidor.findById(id, function(err, consumidor) {
+        if (err) {
+            res.json(err);
+
+        } else {
+            consumidor.nome = req.body.nome;
+            consumidor.email = req.body.email;
+            consumidor.senha = req.body.senha;
+            consumidor.telefone = req.body.telefone;
+            consumidor.cpf = req.body.cpf;
+            consumidor.genero = req.body.genero;
+            consumidor.endereco = req.body.endereco;
+
+            consumidor.save();
+            res.json({ "message": "ok" });
+        }
+    });
+});
+
+//Update Fornecedor
+router.post('/fornecedor/editar', (req, res, next) => {
+    let id = req.body._id;
+    Fornecedor.findById(id, function(err, fornecedor) {
+        if (err) {
+            res.json(err);
+
+        } else {
+            fornecedor.nome = req.body.nome;
+            fornecedor.email = req.body.email;
+            fornecedor.senha = req.body.senha;
+            fornecedor.telefone = req.body.telefone;
+            fornecedor.cpf = req.body.cpf;
+            fornecedor.cnpj = req.body.cnpj;
+            fornecedor.razaoSocial = req.body.razaoSocial;
+            fornecedor.responsavel = req.body.responsavel;
+            fornecedor.generoResponsavel = req.body.generoResponsavel;
+            fornecedor.descricao = req.body.descricao;
+            fornecedor.servicosProdutos = req.body.servicosProdutos;
+            fornecedor.tipoPessoa = req.body.tipoPessoa;
+            fornecedor.endereco = req.body.endereco;
+
+            fornecedor.save();
+            res.json({ "message": "ok" });
+        }
+    });
+});
+
 
 /*
   Eventos

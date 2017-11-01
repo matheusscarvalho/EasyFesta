@@ -1,27 +1,37 @@
 <div class="page-tittle">
 
     <div class="row">
-        <div class="col-md-10">
+        <div class="col-md-8">
             <fa name="user"></fa>
             Visualizar Perfil
         </div>
 
         <div class="col-md-2">
 
-            <button *ngIf="desabilitado" class="btn btn-block btn-warning" type="button" (click)="desabilitado=!desabilitado">
+            <button *ngIf="desabilitado" class="btn btn-block btn-success" type="button" (click)="desabilitado=!desabilitado">
                 <fa name="edit"></fa> Editar
             </button>
 
-            <button *ngIf="!desabilitado" class="btn btn-block btn-danger" type="button" (click)="desabilitado=!desabilitado">
-                <fa name="exclamation-circle"></fa> Cancelar
+        </div>
+
+        <!--div class="col-md-2">
+            <button class="btn btn-block btn-warning" type="button">
+                <fa name="window-close"></fa> Desativar
+            </button>
+        </div-->
+
+        <div class="col-md-2">
+            <button [disabled]="qtdEventos > 0 || qtdAnuncios > 0" class="btn btn-block btn-danger" type="button" (click)="exclusaoModal.show();">
+                <fa name="trash"></fa> Excluir
             </button>
         </div>
+
     </div>
 
 </div>
 
 <!--Formulário de consumidores-->
-<div class="painel-profile">
+<div class="painel-profile" *ngIf="consumidor">
     <article>
         <form #consumidorForm="ngForm">
             <div class="row">
@@ -39,15 +49,16 @@
                         </div>
 
                         <div class="form-group col-md-4">
-                            <input [(ngModel)]="consumidor.cpf" name="cpf" [textMask]="{mask:cpfMask}" type="text" class="form-control" [disabled]="desabilitado" required placeholder="CPF">
+                            <input [(ngModel)]="consumidor.cpf" name="cpf" autocomplete="off" textMask]="{mask:cpfMask}" type="text" class="form-control" [disabled]="desabilitado" required placeholder="CPF">
                         </div>
 
                         <div class="form-group col-md-4">
-                            <input [(ngModel)]="consumidor.telefone" name="telefone" [textMask]="{mask:telefoneMask}" type="text" class="form-control" [disabled]="desabilitado" required placeholder="Telefone">
+                            <input [(ngModel)]="consumidor.telefone" name="telefone" autocomplete="off" [textMask]="{mask:telefoneMask}" type="text" class="form-control" [disabled]="desabilitado" required placeholder="Telefone">
                         </div>
 
                         <div class="form-group col-md-4">
-                            <input [(ngModel)]="consumidor.nascimento" name="nascimento" type="date" class="form-control" [disabled]="desabilitado" placeholder="Nascimento">
+                            <input [(ngModel)]="consumidor.nascimento" name="nascimento" type="text" class="form-control" *ngIf="desabilitado" [disabled]="desabilitado" placeholder="Nascimento" bsDatepicker>
+                            <input [(ngModel)]="consumidor.nascimento" name="nascimento" type="text" class="form-control" *ngIf="!desabilitado" placeholder="Nascimento" bsDatepicker>
                         </div>
 
                         <div class="form-group col-md-4">
@@ -66,7 +77,7 @@
                 </legend>
 
                 <div class="form-group col-md-3">
-                    <input [(ngModel)]="consumidor.endereco.cep" [textMask]="{mask:cepMask}" name="cep" type="text" class="form-control" [disabled]="desabilitado" (change)="completarEndereco(1)" required placeholder="CEP">
+                    <input [(ngModel)]="consumidor.endereco.cep" [textMask]="{mask:cepMask}" autocomplete="off" name="cep" type="text" class="form-control" [disabled]="desabilitado" (change)="completarEndereco(1)" required placeholder="CEP">
                     <span *ngIf="cepInvalidoConsumidor" class="text text-danger">*Digite um CEP válido.</span>
                 </div>
 
@@ -110,23 +121,31 @@
 
                 <div [ngClass]="{'form-group col-md-12': desabilitado, 'form-group col-md-6': !desabilitado}">
                     <input [(ngModel)]="consumidor.senha" [disabled]="desabilitado" name="senha" type="password" class="form-control" required placeholder="Senha" #consumidorSenha="ngModel">
-                    <span *ngIf="(consumidorSenha.touched && consumidorSenhaConfirmacao.touched && !(consumidor.senha==consumidorConfirmacaoSenha))" class="text text-danger">*A senha e sua confirmação não conferem.</span>
-                </div>
-                <div class="form-group col-md-6" *ngIf="!desabilitado">
-                    <input [(ngModel)]="consumidorConfirmacaoSenha" name="confirmacaoSenha" type="password" class="form-control" required placeholder="Confirmação da Senha" #consumidorSenhaConfirmacao="ngModel">
                 </div>
 
                 <div class="form-group col-md-6" *ngIf="!desabilitado">
-                    <button class="btn btn-block btn-danger" type="button" (click)="desabilitado=!desabilitado">
-                        <fa name="exclamation-circle"></fa> Cancelar
-                    </button>
+                    <input [(ngModel)]="consumidorConfirmacaoSenha" name="confirmacaoSenha" type="password" class="form-control" required placeholder="Confirmação da Senha">
+                </div>
+
+                <div class="col-md-12" *ngIf="!desabilitado && consumidor.senha != consumidorConfirmacaoSenha">
+                    <span class="alert alert-warning btn-block">
+                                <fa name="exclamation-circle"></fa>
+                                Confirme a senha corretamente para poder salvar as alterações.
+                            </span>
                 </div>
 
                 <div class="form-group col-md-6" *ngIf="!desabilitado">
-                    <button class="btn btn-success btn-block" (click)="cadastrarConsumidor(); confirmacaoModal.show();" [disabled]="!consumidorForm.form.valid || !(consumidor.senha==consumidorConfirmacaoSenha)">
-                        <fa name="send"></fa>
-                        Enviar
-                    </button>
+                    <button class="btn btn-danger btn-block" (click)="desabilitado=!desabilitado; consumidorConfirmacaoSenha='';">  
+                            <fa name="exclamation-circle"></fa>
+                            Cancelar Edição
+                        </button>
+                </div>
+
+                <div class="form-group col-md-6" *ngIf="!desabilitado">
+                    <button class="btn btn-success btn-block" (click)="editarPerfil();confirmacaoModal.show();resetarStatusAlteracao();" [disabled]="!consumidorForm.form.valid || !(consumidor.senha==consumidorConfirmacaoSenha)">
+                            <fa name="floppy-o"></fa>
+                            Salvar
+                        </button>
                 </div>
 
 
@@ -137,20 +156,31 @@
 </div>
 
 <!--Formulário de fornecedores-->
-<div class="painel-profile" *ngIf="false">
+<div class="painel-profile" *ngIf="fornecedor">
     <article>
+
         <form #fornecedorForm="ngForm">
             <div class="row">
+
                 <div class="col-md-12">
                     <div class="row">
+
                         <legend class="bold sublinhado-roxo">
                             Identificação
                         </legend>
+                        <div class="col-md-12" *ngIf="qtdEventos > 0 || qtdAnuncios > 0">
+                            <span class="alert alert-warning btn-block">
+                                                <fa name="exclamation-circle"></fa>
+                                                Não é possível excluir o perfil, pois há <span *ngIf="consumidor != null">evento(s)</span> <span *ngIf="fornecedor != null">anúncio(s)</span> relacionado(s) a ele.
+                            <a routerLink="/eventos/listar" *ngIf="consumidor != null">Ir aos eventos.</a>
+                            <a routerLink="/anuncio/listar" *ngIf="fornecedor != null">Ir aos anúncios.</a>
+                            </span>
+                        </div>
                         <div class="form-group col-md-3">
                             <select class="form-control" [disabled]="desabilitado" required [(ngModel)]="fornecedor.tipoPessoa" name="genero">
                                             <option value="">Tipo  de Pessoa</option>
-                                            <option value="F">Física</option>
-                                            <option value="J">Jurídica</option>
+                                            <option value="F" [selected]="fornecedor.tipoPessoa == 'F'">Física</option>
+                                            <option value="J" [selected]="fornecedor.tipoPessoa == 'J'">Jurídica</option>
                                         </select>
                         </div>
 
@@ -159,7 +189,7 @@
                         </div>
 
                         <div class="form-group col-md-3" *ngIf="fornecedor.tipoPessoa == 'F'">
-                            <input [(ngModel)]="fornecedor.cpf" type="text" [textMask]="{mask:cpfMask}" name="nome" class="form-control" placeholder="CPF" [disabled]="desabilitado" required>
+                            <input [(ngModel)]="fornecedor.cpf" type="text" autocomplete="off" [textMask]="{mask:cpfMask}" name="cpf" class="form-control" placeholder="CPF" [disabled]="desabilitado" required>
 
                         </div>
 
@@ -168,7 +198,7 @@
                         </div>
 
                         <div class="form-group col-md-3" *ngIf="fornecedor.tipoPessoa == 'J'">
-                            <input [(ngModel)]="fornecedor.cnpj" name="cnpj" type="text" [disabled]="desabilitado" [textMask]="{mask:cnpjMask}" class="form-control" required placeholder="CNPJ">
+                            <input [(ngModel)]="fornecedor.cnpj" name="cnpj" type="text" autocomplete="off" [disabled]="desabilitado" [textMask]="{mask:cnpjMask}" class="form-control" required placeholder="CNPJ">
                         </div>
 
                         <div class="form-group col-md-3" *ngIf="fornecedor.tipoPessoa == 'J'">
@@ -198,11 +228,11 @@
                     <input [(ngModel)]="fornecedor.responsavel" [disabled]="desabilitado" name="responsavel" type="text" class="form-control" placeholder="Nome" required>
                 </div>
                 <div class="form-group col-md-3">
-                    <input [(ngModel)]="fornecedor.telefone" [disabled]="desabilitado" name="telefone" [textMask]="{mask:telefoneMask}" type="text" class="form-control" placeholder="Telefone" required>
+                    <input [(ngModel)]="fornecedor.telefone" [disabled]="desabilitado" name="telefone" autocomplete="off" [textMask]="{mask:telefoneMask}" type="text" class="form-control" placeholder="Telefone" required>
                 </div>
 
                 <div class="form-group col-md-2">
-                    <select class="form-control" required [(ngModel)]="fornecedor.generoResponsavel" name="genero" [disabled]="desabilitado">
+                    <select class="form-control" required [(ngModel)]="fornecedor.generoResponsavel" name="generoResponsavel" [disabled]="desabilitado">
                                 <option value="">Gênero</option>
                                 <option value="F">Feminino</option>
                                 <option value="M">Masculino</option>
@@ -215,7 +245,7 @@
                 </legend>
 
                 <div class="form-group col-md-3">
-                    <input [(ngModel)]="fornecedor.endereco.cep" [disabled]="desabilitado" name="cep" type="text" [textMask]="{mask:cepMask}" class="form-control" (change)="completarEndereco(2)" required placeholder="CEP">
+                    <input [(ngModel)]="fornecedor.endereco.cep" [disabled]="desabilitado" autocomplete="off" name="cep" type="text" [textMask]="{mask:cepMask}" class="form-control" (change)="completarEndereco(2)" required placeholder="CEP">
                     <span *ngIf="cepInvalidoFornecedor" class="text text-danger">*Digite um CEP válido.</span>
                 </div>
 
@@ -259,29 +289,110 @@
 
                 <div [ngClass]="{'form-group col-md-12': desabilitado, 'form-group col-md-6': !desabilitado}">
                     <input [(ngModel)]="fornecedor.senha" name="senha" [disabled]="desabilitado" type="password" class="form-control" required placeholder="Senha" #fornecedorSenha="ngModel">
-                    <span *ngIf="(fornecedorSenha.touched && fornecedorSenhaConfirmacao.touched && !(fornecedor.senha==fornecedorConfirmacaoSenha))" class="text text-danger">*A senha e sua confirmação não conferem.</span>
                 </div>
                 <div class="form-group col-md-6" *ngIf="!desabilitado">
-                    <input [(ngModel)]="fornecedorConfirmacaoSenha" name="confirmacaoSenha" type="password" class="form-control" required placeholder="Confirmação da Senha" #fornecedorSenhaConfirmacao="ngModel">
+                    <input [(ngModel)]="fornecedorConfirmacaoSenha" name="confirmacaoSenha" type="password" class="form-control" required placeholder="Confirmação da Senha">
+                </div>
+
+                <div class="col-md-12" *ngIf="!desabilitado && fornecedor.senha != fornecedorConfirmacaoSenha">
+                    <span class="alert alert-warning btn-block">
+                            <fa name="exclamation-circle"></fa>
+                            Confirme a senha corretamente para poder salvar as alterações.
+                        </span>
                 </div>
 
                 <div class="form-group col-md-6" *ngIf="!desabilitado">
-                    <button class="btn btn-danger btn-block" (click)="desabilitado=!desabilitado">  
-                                    <fa name="exclamation-circle"></fa>
-                                    Cancelar
-                                </button>
+                    <button class="btn btn-danger btn-block" (click)="desabilitado=!desabilitado; fornecedorConfirmacaoSenha='';">  
+                        <fa name="exclamation-circle"></fa>
+                        Cancelar Edição
+                    </button>
                 </div>
 
-
                 <div class="form-group col-md-6" *ngIf="!desabilitado">
-                    <button class="btn btn-success btn-block" (click)="cadastrarFornecedor(); confirmacaoModal.show();" [disabled]="!fornecedorForm.form.valid || !(consumidor.senha==consumidorConfirmacaoSenha)">
-                                        <fa name="send"></fa>
-                                        Enviar
-                                    </button>
+                    <button class="btn btn-success btn-block" (click)="editarPerfil();confirmacaoModal.show();resetarStatusAlteracao();" [disabled]="!fornecedorForm.form.valid || !(fornecedor.senha==fornecedorConfirmacaoSenha)">
+                        <fa name="floppy-o"></fa>
+                        Salvar
+                    </button>
                 </div>
 
             </div>
         </form>
 
     </article>
+</div>
+
+
+<!--modal-->
+<div class="modal fade" bsModal #confirmacaoModal="bs-modal" [config]="{backdrop: 'static'}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title pull-left">
+                    <fa name="edit"></fa> Editar Perfil
+                </h5>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="confirmacaoModal.hide();resetarStatusAlteracao();">
+                              <span aria-hidden="true">&times;</span>
+                    </button>
+            </div>
+            <div class="modal-body">
+                <div *ngIf="statusAlteracao == 1" class="alert alert-info" role="alert">
+                    <fa name="spinner" animation="spin"></fa>
+                    <span>{{mensagem}}</span>
+                </div>
+                <div *ngIf="statusAlteracao == 2" class="alert alert-success" role="alert">
+                    <span>{{mensagem}}</span>
+                </div>
+
+                <div *ngIf="statusAlteracao == 3" class="alert alert-danger" role="alert">
+                    <span>{{mensagem}}</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button *ngIf="statusAlteracao == 3 || statusAlteracao == 2" type="button" class="btn btn-dark" (click)="confirmacaoModal.hide();resetarStatusAlteracao();consumidorConfirmacaoSenha='';fornecedorConfirmacaoSenha=consumidorConfirmacaoSenha;">
+                        Ok
+                    </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--modal-->
+<div class="modal fade" bsModal #exclusaoModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel1" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title pull-left">
+                    <fa name="trash"></fa> Excluir Perfil
+                </h5>
+            </div>
+            <div class="modal-body">
+                <div *ngIf="statusExclusao == 1" class="alert alert-warning" role="alert">
+                    <fa name="exclamation-circle"></fa>
+                    <span>Tem certeza que deseja excluir o perfil?</span>
+                </div>
+                <div *ngIf="statusExclusao == 2" class="alert alert-info" role="alert">
+                    <fa name="spinner" animation="spin"></fa>
+                    <span>Excluindo.</span>
+                </div>
+                <div *ngIf="statusExclusao == 3" class="alert alert-success" role="alert">
+                    <span>Perfil excluído com sucesso.</span>
+                </div>
+
+                <div *ngIf="statusExclusao == 4" class="alert alert-danger" role="alert">
+                    <span>Erro ao excluir perfil.</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button *ngIf="statusExclusao ==  1" type="button" class="btn btn-dark" (click)="exclusaoModal.hide();">
+                        Não
+                    </button>
+                <button *ngIf="statusExclusao == 1" type="button" class="btn btn-danger" (click)="removerPerfil();">
+                        Sim
+                    </button>
+                <button *ngIf="statusExclusao == 3 || statusExclusao == 4" type="button" class="btn btn-dark" (click)="exclusaoModal.hide();fazerLogout();">
+                        Ok
+                    </button>
+            </div>
+        </div>
+    </div>
 </div>

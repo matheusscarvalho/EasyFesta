@@ -22,10 +22,10 @@ export class CadastrarContasComponent implements OnInit {
   cepInvalidoConsumidor: Boolean = false;
   cepInvalidoFornecedor: Boolean = false;
 
-  public cpfMask = [/[1-9]/, /[1-9]/, /[1-9]/, '.', /[1-9]/, /[1-9]/, /[1-9]/, '.', /[1-9]/, /[1-9]/, /[1-9]/, '-', /[1-9]/, /[1-9]/];
-  public cepMask = [/[1-9]/, /[1-9]/, /[1-9]/, /[1-9]/, /[1-9]/, '-', /[1-9]/, /[1-9]/,  /[1-9]/];
-  public cnpjMask = [/[1-9]/, /[1-9]/, '.', /[1-9]/, /[1-9]/, /[1-9]/, '.', /[1-9]/, '/', /[1-9]/, /[1-9]/, /[1-9]/, /[1-9]/, '-', /[1-9]/, /[1-9]/];
-  public telefoneMask = ["(",/[1-9]/, /[1-9]/,")"," ", /[1-9]/, " ", /[1-9]/, /[1-9]/, /[1-9]/, /[1-9]/, '-', /[1-9]/, /[1-9]/,  /[1-9]/,  /[1-9]/];
+  public cpfMask = [/[0-9]/, /[0-9]/, /[0-9]/, '.', /[0-9]/, /[0-9]/, /[0-9]/, '.', /[0-9]/, /[0-9]/, /[0-9]/, '-', /[0-9]/, /[0-9]/];
+  public cepMask = [/[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, '-', /[0-9]/, /[0-9]/,  /[0-9]/];
+  public cnpjMask = [/[0-9]/, /[0-9]/, '.', /[0-9]/, /[0-9]/, /[0-9]/, '.', /[0-9]/, '/', /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, '-', /[0-9]/, /[0-9]/];
+  public telefoneMask = ["(",/[0-9]/, /[0-9]/,")"," ", /[0-9]/, " ", /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, '-', /[0-9]/, /[0-9]/,  /[0-9]/,  /[0-9]/];
   constructor(private contaService: ContaService) { 
     this.consumidor = new Consumidor();
     this.fornecedor = new Fornecedor();
@@ -69,12 +69,23 @@ export class CadastrarContasComponent implements OnInit {
 
       this.contaService.getEndereco(this.consumidor.endereco.cep).subscribe(
         end=> {
-  
-            this.cepInvalidoConsumidor = false;
-            this.consumidor.endereco.logradouro = end.logradouro;
-            this.consumidor.endereco.bairro = end.bairro;
-            this.consumidor.endereco.cidade = end.localidade;
-            this.consumidor.endereco.uf = end.uf;  
+            if (end.erro) {
+              this.cepInvalidoConsumidor = true;
+              this.consumidor.endereco.logradouro = "";
+              this.consumidor.endereco.bairro = "";
+              this.consumidor.endereco.cidade = "";
+              this.consumidor.endereco.uf = "";  
+              this.consumidor.endereco.cep = "";
+
+            }
+
+            else {
+              this.cepInvalidoConsumidor = false;
+              this.consumidor.endereco.logradouro = end.logradouro;
+              this.consumidor.endereco.bairro = end.bairro;
+              this.consumidor.endereco.cidade = end.localidade;
+              this.consumidor.endereco.uf = end.uf;  
+            }
          
         },
         err=> {
@@ -83,7 +94,8 @@ export class CadastrarContasComponent implements OnInit {
             this.consumidor.endereco.logradouro = "";
             this.consumidor.endereco.bairro = "";
             this.consumidor.endereco.cidade = "";
-            this.consumidor.endereco.uf = "";        
+            this.consumidor.endereco.uf = "";  
+            this.consumidor.endereco.cep = "";      
           
         }           
   
@@ -98,12 +110,24 @@ export class CadastrarContasComponent implements OnInit {
       this.contaService.getEndereco(this.fornecedor.endereco.cep).subscribe(
         end=> { 
           
-            this.cepInvalidoFornecedor = false;
-            this.fornecedor.endereco.logradouro = end.logradouro;
-            this.fornecedor.endereco.bairro = end.bairro;
-            this.fornecedor.endereco.cidade = end.localidade;
-            this.fornecedor.endereco.uf = end.uf;        
+            if(end.erro) {
+              
+                this.cepInvalidoConsumidor = true;
+                this.fornecedor.endereco.logradouro = "";
+                this.fornecedor.endereco.bairro = "";
+                this.fornecedor.endereco.cidade = "";
+                this.fornecedor.endereco.uf = "";
+                this.fornecedor.endereco.cep = "";
+
+            }
+            else {
+                this.cepInvalidoFornecedor = false;
+                this.fornecedor.endereco.logradouro = end.logradouro;
+                this.fornecedor.endereco.bairro = end.bairro;
+                this.fornecedor.endereco.cidade = end.localidade;
+                this.fornecedor.endereco.uf = end.uf;        
           
+            }
         },
         err=> {
   
@@ -112,6 +136,7 @@ export class CadastrarContasComponent implements OnInit {
             this.fornecedor.endereco.bairro = "";
             this.fornecedor.endereco.cidade = "";
             this.fornecedor.endereco.uf = "";
+            this.fornecedor.endereco.cep = "";
                      
         }   
         

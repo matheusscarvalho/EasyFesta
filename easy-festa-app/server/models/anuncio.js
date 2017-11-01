@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 
+ObjectId = mongoose.Schema.ObjectId;
+
 const AnuncioSchema = mongoose.Schema({
     titulo: {
         type: String,
@@ -19,14 +21,12 @@ const AnuncioSchema = mongoose.Schema({
     tipo: {
         type: Number,
         required: true
+    },
+    fornecedor: {
+        type: ObjectId,
+        ref: 'Fornecedor',
+        required: true
     }
-    /*,
-
-        fornecedor: {
-            type: Schema.Types.ObjectId,
-            ref: 'Fornecedores',
-            required: false
-        }*/
 
 });
 

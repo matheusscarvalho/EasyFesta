@@ -24,15 +24,15 @@
                                             </div>
 
                                             <div class="form-group col-md-4">
-                                                <input [(ngModel)]="consumidor.cpf" name="cpf" [textMask]="{mask:cpfMask}" type="text" class="form-control" required placeholder="CPF">
+                                                <input [(ngModel)]="consumidor.cpf" name="cpf" autocomplete="off" [textMask]="{mask:cpfMask}" type="text" class="form-control" required placeholder="CPF">
                                             </div>
 
                                             <div class="form-group col-md-4">
-                                                <input [(ngModel)]="consumidor.telefone" name="telefone" [textMask]="{mask:telefoneMask}" type="text" class="form-control" required placeholder="Telefone">
+                                                <input [(ngModel)]="consumidor.telefone" autocomplete="off" name="telefone" [textMask]="{mask:telefoneMask}" type="text" class="form-control" required placeholder="Telefone">
                                             </div>
 
                                             <div class="form-group col-md-4">
-                                                <input [(ngModel)]="consumidor.nascimento" name="nascimento" type="date" class="form-control" placeholder="Nascimento">
+                                                <input [(ngModel)]="consumidor.nascimento" bsDatepicker name="nascimento" type="text" class="form-control" placeholder="Nascimento">
                                             </div>
 
                                             <div class="form-group col-md-4">
@@ -70,8 +70,8 @@
                                     </legend>
 
                                     <div class="form-group col-md-3">
-                                        <input [(ngModel)]="consumidor.endereco.cep" [textMask]="{mask:cepMask}" name="cep" type="text" class="form-control" (change)="completarEndereco(1)" required placeholder="CEP">
-                                        <span *ngIf="cepInvalidoConsumidor" class="text text-danger">*Digite um CEP válido.</span>
+                                        <input [(ngModel)]="consumidor.endereco.cep" autocomplete="off" [textMask]="{mask:cepMask}" name="cep" type="text" class="form-control" (change)="completarEndereco(1)" required placeholder="CEP">
+                                        <small *ngIf="cepInvalidoConsumidor" class="text text-danger">*Digite um CEP válido.</small>
                                     </div>
 
                                     <div class="form-group col-md-3">
@@ -114,10 +114,16 @@
 
                                     <div class="form-group col-md-6">
                                         <input [(ngModel)]="consumidor.senha" name="senha" type="password" class="form-control" required placeholder="Senha" #consumidorSenha="ngModel">
-                                        <span *ngIf="(consumidorSenha.touched && consumidorSenhaConfirmacao.touched && !(consumidor.senha==consumidorConfirmacaoSenha))" class="text text-danger">*A senha e sua confirmação não conferem.</span>
                                     </div>
                                     <div class="form-group col-md-6">
-                                        <input [(ngModel)]="consumidorConfirmacaoSenha" name="confirmacaoSenha" type="password" class="form-control" required placeholder="Confirmação da Senha" #consumidorSenhaConfirmacao="ngModel">
+                                        <input [(ngModel)]="consumidorConfirmacaoSenha" name="confirmacaoSenha" type="password" class="form-control" required placeholder="Confirmação da Senha">
+                                    </div>
+
+                                    <div class="col-md-12" *ngIf="consumidor.senha != consumidorConfirmacaoSenha || consumidor.senha == '' || consumidorConfirmacaoSenha == '' || !consumidor.senha || !consumidorConfirmacaoSenha">
+                                        <span class="alert alert-warning btn-block">
+                                            <fa name="exclamation-circle"></fa>
+                                            Confirme a senha corretamente para poder se cadastrar.
+                                        </span>
                                     </div>
 
                                     <div class="form-group col-md-6">
@@ -128,7 +134,7 @@
                                     </div>
 
                                     <div class="form-group col-md-6 padding-top-10">
-                                        <button class="btn btn-success btn-block" (click)="cadastrarConsumidor(); confirmacaoModal.show();" [disabled]="!consumidorForm.form.valid || !(consumidor.senha==consumidorConfirmacaoSenha)">
+                                        <button class="btn btn-success btn-block" (click)="cadastrarConsumidor(); confirmacaoModal.show();" [disabled]="!consumidorForm.form.valid || consumidor.senha!=consumidorConfirmacaoSenha">
                                             <fa name="send"></fa>
                                             Enviar
                                         </button>
@@ -163,7 +169,7 @@
                                             </div>
 
                                             <div class="form-group col-md-3" *ngIf="fornecedor.tipoPessoa == 'F'">
-                                                <input [(ngModel)]="fornecedor.cpf" type="text" [textMask]="{mask:cpfMask}" name="nome" class="form-control" placeholder="CPF" required>
+                                                <input [(ngModel)]="fornecedor.cpf" type="text" autocomplete="off" [textMask]="{mask:cpfMask}" name="cpf" class="form-control" placeholder="CPF" required>
 
                                             </div>
 
@@ -172,7 +178,7 @@
                                             </div>
 
                                             <div class="form-group col-md-3" *ngIf="fornecedor.tipoPessoa == 'J'">
-                                                <input [(ngModel)]="fornecedor.cnpj" name="cnpj" type="text" [textMask]="{mask:cnpjMask}" class="form-control" required placeholder="CNPJ">
+                                                <input [(ngModel)]="fornecedor.cnpj" name="cnpj" type="text" autocomplete="off" [textMask]="{mask:cnpjMask}" class="form-control" required placeholder="CNPJ">
                                             </div>
 
                                             <div class="form-group col-md-3" *ngIf="fornecedor.tipoPessoa == 'J'">
@@ -223,11 +229,11 @@
                                         <input [(ngModel)]="fornecedor.responsavel" name="responsavel" type="text" class="form-control" placeholder="Nome" required>
                                     </div>
                                     <div class="form-group col-md-3">
-                                        <input [(ngModel)]="fornecedor.telefone" name="telefone" [textMask]="{mask:telefoneMask}" type="text" class="form-control" placeholder="Telefone" required>
+                                        <input [(ngModel)]="fornecedor.telefone" name="telefone" autocomplete="off" [textMask]="{mask:telefoneMask}" type="text" class="form-control" placeholder="Telefone" required>
                                     </div>
 
                                     <div class="form-group col-md-2">
-                                        <select class="form-control" required [(ngModel)]="fornecedor.generoResponsavel" name="genero" required>
+                                        <select class="form-control" required [(ngModel)]="fornecedor.generoResponsavel" name="generoResponsavel" required>
                                             <option value="">Gênero</option>
                                             <option value="F">Feminino</option>
                                             <option value="M">Masculino</option>
@@ -240,8 +246,8 @@
                                     </legend>
 
                                     <div class="form-group col-md-3">
-                                        <input [(ngModel)]="fornecedor.endereco.cep" name="cep" type="text" [textMask]="{mask:cepMask}" class="form-control" (change)="completarEndereco(2)" required placeholder="CEP">
-                                        <span *ngIf="cepInvalidoFornecedor" class="text text-danger">*Digite um CEP válido.</span>
+                                        <input [(ngModel)]="fornecedor.endereco.cep" name="cep" type="text" autocomplete="off" [textMask]="{mask:cepMask}" class="form-control" (change)="completarEndereco(2)" required placeholder="CEP">
+                                        <small *ngIf="cepInvalidoFornecedor" class="text-danger">*Digite um CEP válido.</small>
                                     </div>
 
                                     <div class="form-group col-md-3">
@@ -284,10 +290,17 @@
 
                                     <div class="form-group col-md-6">
                                         <input [(ngModel)]="fornecedor.senha" name="senha" type="password" class="form-control" required placeholder="Senha" #fornecedorSenha="ngModel">
-                                        <span *ngIf="(fornecedorSenha.touched && fornecedorSenhaConfirmacao.touched && !(fornecedor.senha==fornecedorConfirmacaoSenha))" class="text text-danger">*A senha e sua confirmação não conferem.</span>
                                     </div>
+
                                     <div class="form-group col-md-6">
-                                        <input [(ngModel)]="fornecedorConfirmacaoSenha" name="confirmacaoSenha" type="password" class="form-control" required placeholder="Confirmação da Senha" #fornecedorSenhaConfirmacao="ngModel">
+                                        <input [(ngModel)]="fornecedorConfirmacaoSenha" name="confirmacaoSenha" type="password" class="form-control" required>
+                                    </div>
+
+                                    <div class="col-md-12" *ngIf="fornecedor.senha != fornecedorConfirmacaoSenha || fornecedor.senha == '' || fornecedorConfirmacaoSenha == '' || !fornecedor.senha || !fornecedorConfirmacaoSenha">
+                                        <span class="alert alert-warning btn-block">
+                                                <fa name="exclamation-circle"></fa>
+                                                Confirme a senha corretamente para poder se cadastrar.
+                                            </span>
                                     </div>
 
                                     <div class="form-group col-md-6">
@@ -299,10 +312,10 @@
 
 
                                     <div class="form-group col-md-6">
-                                        <button class="btn btn-success btn-block" (click)="cadastrarFornecedor(); confirmacaoModal.show();" [disabled]="!fornecedorForm.form.valid || !(consumidor.senha==consumidorConfirmacaoSenha)">
-                                                    <fa name="send"></fa>
-                                                    Enviar
-                                                </button>
+                                        <button class="btn btn-success btn-block" (click)="cadastrarFornecedor(); confirmacaoModal.show();" [disabled]="!fornecedorForm.form.valid || fornecedor.senha!=fornecedorConfirmacaoSenha">
+                                            <fa name="send"></fa>
+                                            Enviar
+                                        </button>
                                     </div>
 
                                 </div>

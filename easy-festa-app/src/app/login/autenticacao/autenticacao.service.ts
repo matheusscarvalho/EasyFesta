@@ -31,6 +31,7 @@ export class AutenticacaoService {
   fazerLogout() {
     localStorage.setItem("logado", "nao");
     this.mostarMenuEmitter.emit(false);
+    this.router.navigate(['/login']); 
   }
 
 }

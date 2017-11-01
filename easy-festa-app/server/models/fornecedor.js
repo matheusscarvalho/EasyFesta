@@ -51,6 +51,11 @@ const FornecedorSchema = mongoose.Schema({
         required: true
     },
 
+    razaoSocial: {
+        type: String,
+        required: false
+    },
+
     endereco: {
         cep: {
             type: String,

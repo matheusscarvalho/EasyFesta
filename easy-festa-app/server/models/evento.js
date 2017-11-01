@@ -7,17 +7,23 @@ Requisitos que deve atender
 * */
 
 /*
-* RINF11 - Mostrar a quantidade de eventos realizados e a realizar no mês corrente.
-* */
+ * RINF11 - Mostrar a quantidade de eventos realizados e a realizar no mês corrente.
+ * */
 const mongoose = require('mongoose');
+ObjectId = mongoose.Schema.ObjectId;
 
 const EventoSchema = mongoose.Schema({
-  dataevento: { type: Date, default: Date.now },
-  hora:  { type: String },
-  nome:  { type: String },
-  tipo:  { type: String },
-  desc:  { type: String },
-  convidados:  { type: Number },
+    dataevento: { type: Date, default: Date.now },
+    hora: { type: String },
+    nome: { type: String },
+    tipo: { type: String },
+    desc: { type: String },
+    consumidor: {
+        type: ObjectId,
+        ref: "Consumidor",
+        required: true
+    },
+    convidados: { type: Number },
 });
 
 

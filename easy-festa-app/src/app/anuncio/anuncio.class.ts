@@ -1,6 +1,6 @@
 export class Anuncio {
     _id: String;
-    idFornecedor: String;
+    fornecedor: String;
     titulo: String;
     descricao: String;
     publicado: boolean;

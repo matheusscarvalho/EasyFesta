@@ -30,32 +30,6 @@ export class ContaService {
     return this.http.post(`http://localhost:3000/api/fornecedor`, body, options).map((res: Response) => res.json());
 }
 
-  /* updateAnuncio(anuncio: Anuncio) {
-    let body = JSON.stringify(anuncio);
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers });
-
-    return this.http.post(`http://localhost:3000/api/anuncio/editar`, body, options).map((res: Response) => res.json());
-}
-
-  removeAnuncio(id: String) {
-    let body = id;
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers });
-
-    return this.http.delete(`http://localhost:3000/api/anuncio/`+body, options).map((res: Response) => res.json());
-    
-  }
-
-  getAnuncio(id: Number) {
-    let body = id.toString();
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers });
-
-    return this.http.get(`http://localhost:3000/api/anuncio/`+body, options).map((res: Response) => res.json());
-    
-  }*/
-
   getEndereco(cep) {
     return this.http.get(`http://viacep.com.br/ws/`+cep+`/json/`).map((res: Response) => res.json());
   }
@@ -70,8 +44,8 @@ export class ContaService {
   }
 
   
-  getFornecedor(id) {
-    id = "59f8001f4fa3f02c0cc61b9a";
+  getConsumidor(id) {
+    
     let body = id.toString();
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
@@ -80,4 +54,46 @@ export class ContaService {
     
   }
 
+  getFornecedor(id) {
+    let body = id.toString();
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.get(`http://localhost:3000/api/fornecedor/`+body, options).map((res: Response) => res.json());
+    
+  }
+
+  updateFornecedor(fornecedor: Fornecedor) {
+    let body = JSON.stringify(fornecedor);
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.post(`http://localhost:3000/api/fornecedor/editar`, body, options).map((res: Response) => res.json());
+  }
+
+  updateConsumidor(consumidor: Consumidor) {
+    let body = JSON.stringify(consumidor);
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.post(`http://localhost:3000/api/consumidor/editar`, body, options).map((res: Response) => res.json());
+  }
+
+  removerConsumidor(id) {
+    let body = id.toString();
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.delete(`http://localhost:3000/api/consumidor/`+body, options).map((res: Response) => res.json());
+        
+  }
+
+  removerFornecedor(id) {
+    let body = id.toString();
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.delete(`http://localhost:3000/api/fornecedor/`+body, options).map((res: Response) => res.json());
+        
+  }
 }

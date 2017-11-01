@@ -10,11 +10,13 @@ import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { AngularFontAwesomeModule } from 'angular-font-awesome/angular-font-awesome';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { TextMaskModule } from 'angular2-text-mask';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 //Componentes da aplicação
 import { ContaComponent } from './conta.component';
 import { CadastrarContasComponent } from './cadastrar-contas/cadastrar-contas.component';
 import { ContaService } from './conta.service';
+import { routing } from './../app.module.routing';
 
 @NgModule({
   declarations: [ ContaComponent, CadastrarContasComponent ],
@@ -23,7 +25,9 @@ import { ContaService } from './conta.service';
     FormsModule,
     RouterModule,
     TextMaskModule,
+    routing,
     AngularFontAwesomeModule,
+    BsDatepickerModule.forRoot(),
     ModalModule.forRoot(),
     CarouselModule.forRoot(),
     TabsModule.forRoot()  

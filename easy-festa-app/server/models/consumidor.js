@@ -84,7 +84,6 @@ const ConsumidorSchema = mongoose.Schema({
     }
 
 
-
 });
 
 const Consumidor = module.exports = mongoose.model('Consumidores', ConsumidorSchema);

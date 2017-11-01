@@ -6,6 +6,7 @@ import { TabsetComponent } from 'ngx-bootstrap';
 import { ContaService } from './conta.service';
 import { Fornecedor } from './fornecedor.class';
 import { Consumidor } from './consumidor.class';
+import { AutenticacaoService } from './../login/autenticacao/autenticacao.service';
 
 @Component({
   selector: 'app-conta',
@@ -14,23 +15,203 @@ import { Consumidor } from './consumidor.class';
 })
 export class ContaComponent implements OnInit {
   consumidor: Consumidor;
+  qtdEventos: Number = 0;
   fornecedor: Fornecedor;
+  qtdAnuncios: Number = 0;
   desabilitado: Boolean = true;
-  public cpfMask = [/[1-9]/, /[1-9]/, /[1-9]/, '.', /[1-9]/, /[1-9]/, /[1-9]/, '.', /[1-9]/, /[1-9]/, /[1-9]/, '-', /[1-9]/, /[1-9]/];
-  public cepMask = [/[1-9]/, /[1-9]/, /[1-9]/, /[1-9]/, /[1-9]/, '-', /[1-9]/, /[1-9]/,  /[1-9]/];
-  public cnpjMask = [/[1-9]/, /[1-9]/, '.', /[1-9]/, /[1-9]/, /[1-9]/, '.', /[1-9]/, '/', /[1-9]/, /[1-9]/, /[1-9]/, /[1-9]/, '-', /[1-9]/, /[1-9]/];
-  public telefoneMask = ["(",/[1-9]/, /[1-9]/,")"," ", /[1-9]/, " ", /[1-9]/, /[1-9]/, /[1-9]/, /[1-9]/, '-', /[1-9]/, /[1-9]/,  /[1-9]/,  /[1-9]/];
-  constructor(private contaService: ContaService) {
-    this.consumidor = new Consumidor();
-    this.fornecedor = new Fornecedor();
-   }
+  cepInvalidoConsumidor: Boolean = false;
+  cepInvalidoFornecedor: Boolean = false;
+  fornecedorConfirmacaoSenha: String;
+  consumidorConfirmacaoSenha: String;
+  mensagem: String = "Salvando.";
+  /*
+    1- Salvando
+    2- Salvo com sucesso
+    3- Erro ao salvar
+  */
+  statusAlteracao: Number = 1;
 
+  /*
+    1- Obtendo confirmação
+    2- Exluindo
+    3- Ecluído com sucesso 
+    3- Erro ao excluit
+  */
+  statusExclusao: Number = 1;
+
+  public cpfMask = [/[0-9]/, /[0-9]/, /[0-9]/, '.', /[0-9]/, /[0-9]/, /[0-9]/, '.', /[0-9]/, /[0-9]/, /[0-9]/, '-', /[0-9]/, /[0-9]/];
+  public cepMask = [/[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, '-', /[0-9]/, /[0-9]/,  /[0-9]/];
+  public cnpjMask = [/[0-9]/, /[0-9]/, '.', /[0-9]/, /[0-9]/, /[0-9]/, '.', /[0-9]/, '/', /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, '-', /[0-9]/, /[0-9]/];
+  public telefoneMask = ["(",/[0-9]/, /[0-9]/,")"," ", /[0-9]/, " ", /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, '-', /[0-9]/, /[0-9]/,  /[0-9]/,  /[0-9]/];
+  constructor(private contaService: ContaService, private autenticacaoService: AutenticacaoService) {
+  }
+    
   ngOnInit() {
-    this.contaService.getFornecedor(1).subscribe(
-      consumidor =>{
-      this.consumidor = consumidor;
-      }
-    );
+
+    if (0) {
+      
+      this.consumidor = new Consumidor();
+      this.consumidor._id = "59f8a88b68d67a33ac3335d9";
+      this.fornecedor = null;
+      this.contaService.getConsumidor(this.consumidor._id).subscribe(
+        
+        informacoesConsumidor =>{
+          this.consumidor = informacoesConsumidor.consumidor;
+          this.qtdEventos = informacoesConsumidor.qtdEventos;
+        }
+      );
+    }
+
+    else if (1) {
+      
+      this.fornecedor = new Fornecedor();
+      this.fornecedor._id = "59f8a88b68d67a33ac3335d9";
+      this.consumidor = null;
+      this.contaService.getFornecedor(this.fornecedor._id).subscribe(
+        informacoesFornecedor =>{
+          this.fornecedor = informacoesFornecedor.consumidor;
+          this.qtdAnuncios = informacoesFornecedor.qtdAnuncios;
+        }
+      );
+    }
   }
 
+  editarPerfil() {
+    this.desabilitado = true;
+
+    if (this.consumidor) {
+      this.contaService.updateConsumidor(this.consumidor).subscribe(
+        
+        data => {
+          console.log(data);
+          this.mensagem = "Perfil salvo com sucesso";
+          this.statusAlteracao = 2;
+        },
+        err => {
+          console.error(err);
+          this.mensagem = "Erro ao salvar perfil.";
+          this.statusAlteracao = 3;
+        }
+      );
+    }
+
+    else if (this.fornecedor) {
+      
+      this.contaService.updateFornecedor(this.fornecedor).subscribe(
+        
+        data =>{
+          console.log(data);
+          this.mensagem = "Perfil salvo com sucesso";
+          this.statusAlteracao = 2;
+        },
+        err => {
+          console.error(err);
+          this.mensagem = "Erro ao salvar perfil.";
+          this.statusAlteracao = 3;
+        }
+      );
+    }
+    
+  }
+
+  resetarStatusAlteracao() {
+    this.mensagem = "Salvando";
+    this.statusAlteracao = 1;
+  }
+
+  completarEndereco(tipoConta) {
+    
+        //Entra se estiver completando perfil de consumidor
+        if (this.consumidor) {
+    
+          this.contaService.getEndereco(this.consumidor.endereco.cep).subscribe(
+            end=> {
+      
+                this.cepInvalidoConsumidor = false;
+                this.consumidor.endereco.logradouro = end.logradouro;
+                this.consumidor.endereco.bairro = end.bairro;
+                this.consumidor.endereco.cidade = end.localidade;
+                this.consumidor.endereco.uf = end.uf;  
+             
+            },
+            err=> {
+      
+                this.cepInvalidoConsumidor = true;
+                this.consumidor.endereco.logradouro = "";
+                this.consumidor.endereco.bairro = "";
+                this.consumidor.endereco.cidade = "";
+                this.consumidor.endereco.uf = "";        
+              
+            }           
+      
+          ); 
+          
+    
+        }
+    
+        //Entra se estiver completando perfil de fornecedor
+        else if (this.fornecedor) {
+    
+          this.contaService.getEndereco(this.fornecedor.endereco.cep).subscribe(
+            end=> { 
+              
+                this.cepInvalidoFornecedor = false;
+                this.fornecedor.endereco.logradouro = end.logradouro;
+                this.fornecedor.endereco.bairro = end.bairro;
+                this.fornecedor.endereco.cidade = end.localidade;
+                this.fornecedor.endereco.uf = end.uf;        
+              
+            },
+            err=> {
+      
+                this.cepInvalidoConsumidor = true;
+                this.fornecedor.endereco.logradouro = "";
+                this.fornecedor.endereco.bairro = "";
+                this.fornecedor.endereco.cidade = "";
+                this.fornecedor.endereco.uf = "";
+                         
+            }   
+            
+      
+          );
+      
+          
+        }
+    
+    
+      }
+
+      fazerLogout() {
+        this.autenticacaoService.fazerLogout();
+      }
+
+      removerPerfil() {
+        this.statusExclusao = 2;
+
+        if(this.consumidor) {
+          this.contaService.removerConsumidor(this.consumidor._id).subscribe(
+            data=> {
+              console.log(data);
+              this.statusExclusao = 3;
+            },
+            err=> {
+              console.log(err);
+              this.statusExclusao = 4;
+            }
+          )
+        }
+
+        else if(this.fornecedor) {
+          this.contaService.removerFornecedor(this.fornecedor._id).subscribe(
+            data=> {
+              console.log(data);
+              this.statusExclusao = 3;
+            },
+            err=> {
+              console.log(err);
+              this.statusExclusao = 4;
+            }
+          )
+        }
+      }
 }

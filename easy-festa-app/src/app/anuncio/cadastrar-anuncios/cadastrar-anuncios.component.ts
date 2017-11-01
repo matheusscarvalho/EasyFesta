@@ -32,6 +32,7 @@ export class CadastrarAnunciosComponent implements OnInit {
     if(this.eRotaCadastro) {      
       this.anuncio.tipo = 1;
       this.anuncio.publicado = true;
+      this.anuncio.fornecedor = "59f8a88b68d67a33ac3335d9";
 
     //Entra se a rota atual for a de edição
     } else {
