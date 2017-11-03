@@ -1,20 +1,8 @@
-ul.topnav {
+ul.top-nav {
     list-style-type: none;
-    margin-bottom: 10;
     padding: 0;
     width: 100%;
     overflow: hidden;
-    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#fcfff4+0,dfe5d7+40,b3bead+100;Wax+3D+%233 */
-    /*background: rgb(252, 255, 244);*/
-    /* Old browsers */
-    /*background: -moz-linear-gradient(top, rgba(252, 255, 244, 1) 0%, rgba(223, 229, 215, 1) 40%, rgba(179, 190, 173, 1) 100%);*/
-    /* FF3.6-15 */
-    /*background: -webkit-linear-gradient(top, rgba(252, 255, 244, 1) 0%, rgba(223, 229, 215, 1) 40%, rgba(179, 190, 173, 1) 100%);*/
-    /* Chrome10-25,Safari5.1-6 */
-    /*background: linear-gradient(to bottom, rgba(252, 255, 244, 1) 0%, rgba(223, 229, 215, 1) 40%, rgba(179, 190, 173, 1) 100%);*/
-    /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    /*filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#fcfff4', endColorstr='#b3bead', GradientType=0);*/
-    /* IE6-9 */
     background: -moz-linear-gradient(272deg, #800080 0%, #000000 100%);
     /* ff3.6+ */
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #800080), color-stop(100%, #000000));
@@ -31,11 +19,11 @@ ul.topnav {
     /* ie6-9 */
 }
 
-ul.topnav li {
+ul.top-nav li {
     float: left;
 }
 
-ul.topnav li a {
+ul.top-nav li a {
     display: block;
     color: white;
     text-align: center;
@@ -43,45 +31,23 @@ ul.topnav li a {
     text-decoration: none;
 }
 
-ul.topnav li a:hover:not(.active) {
-    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#c5deea+0,8abbd7+31,066dab+100;Web+2.0+Blue+3D+%231 */
-    background: rgb(197, 222, 234);
-    /* Old browsers */
-    background: -moz-linear-gradient(top, rgba(197, 222, 234, 1) 0%, rgba(138, 187, 215, 1) 31%, rgba(6, 109, 171, 1) 100%);
-    /* FF3.6-15 */
-    background: -webkit-linear-gradient(top, rgba(197, 222, 234, 1) 0%, rgba(138, 187, 215, 1) 31%, rgba(6, 109, 171, 1) 100%);
-    /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to bottom, rgba(197, 222, 234, 1) 0%, rgba(138, 187, 215, 1) 31%, rgba(6, 109, 171, 1) 100%);
-    /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#c5deea', endColorstr='#066dab', GradientType=0);
-    /* IE6-9 */
-    color: white;
-    font-weight: bold;
+ul.top-nav li a:hover:not(.active) {
+    background: white;
+    color: purple;
 }
 
-ul.topnav li a.active {
-    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#c5deea+0,8abbd7+31,066dab+100;Web+2.0+Blue+3D+%231 */
-    background: rgb(197, 222, 234);
-    /* Old browsers */
-    background: -moz-linear-gradient(top, rgba(197, 222, 234, 1) 0%, rgba(138, 187, 215, 1) 31%, rgba(6, 109, 171, 1) 100%);
-    /* FF3.6-15 */
-    background: -webkit-linear-gradient(top, rgba(197, 222, 234, 1) 0%, rgba(138, 187, 215, 1) 31%, rgba(6, 109, 171, 1) 100%);
-    /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to bottom, rgba(197, 222, 234, 1) 0%, rgba(138, 187, 215, 1) 31%, rgba(6, 109, 171, 1) 100%);
-    /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#c5deea', endColorstr='#066dab', GradientType=0);
-    /* IE6-9 */
-    color: white;
-    font-weight: bold;
+ul.top-nav li a.active {
+    background: white;
+    color: purple;
 }
 
-ul.topnav li.right {
+ul.top-nav li.right {
     float: right;
 }
 
 @media screen and (max-width: 600px) {
-    ul.topnav li.right,
-    ul.topnav li {
+    ul.top-nav li.right,
+    ul.top-nav li {
         float: none;
     }
 }
