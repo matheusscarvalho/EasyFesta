@@ -1,4 +1,10 @@
+//Módulos do Angular
 import { Component, OnInit } from '@angular/core';
+
+//Módulos da aplicação
+import { AnuncioService } from './../anuncio/anuncio.service';
+import { Anuncio } from './../anuncio/anuncio.class';
+
 
 @Component({
   selector: 'app-home',
@@ -7,6 +13,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
+  anuncios: Anuncio[] = [];
   public barChartOptions: any = {
     scaleShowVerticalLines: false,
     responsive: true
@@ -21,9 +28,24 @@ export class HomeComponent implements OnInit {
     {data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B'}
   ];
 
-  constructor() { }
+  constructor(private anuncioService:AnuncioService) { }
 
   ngOnInit() {
+    this.anuncioService
+    .getAnuncios()
+    .subscribe(
+      a => {
+      this.anuncios = this.embaralhar(a);
+    });
   }
+
+embaralhar(vetor) {
+    for (let i = vetor.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [vetor[i], vetor[j]] = [vetor[j], vetor[i]];
+    }
+
+    return vetor;
+}
 
 }
