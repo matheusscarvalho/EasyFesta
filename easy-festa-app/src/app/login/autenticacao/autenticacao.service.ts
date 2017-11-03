@@ -1,8 +1,10 @@
+//Módulos do Angular
 import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { EventEmitter } from '@angular/core';
 
-import { Usuario } from './../usuario.class';
+//Módulos da Aplicação
+import { Usuario } from './../../conta/usuario.class';
 
 @Injectable()
 export class AutenticacaoService {
@@ -18,7 +20,8 @@ export class AutenticacaoService {
         this.autenticado = 'true';
         this.mostarMenuEmitter.emit(true);
         this.router.navigate(['/home']);  
-        localStorage.setItem("logado", "sim");      
+        localStorage.setItem("logado", "sim");     
+        localStorage.setItem("perfil", usuario.constructor.name);  
 
     } else {
       this.autenticado = 'false';
@@ -30,6 +33,7 @@ export class AutenticacaoService {
 
   fazerLogout() {
     localStorage.setItem("logado", "nao");
+    localStorage.setItem("perfil", ""); 
     this.mostarMenuEmitter.emit(false);
     this.router.navigate(['/login']); 
   }

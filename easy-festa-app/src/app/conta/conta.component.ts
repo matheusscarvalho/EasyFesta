@@ -39,6 +39,12 @@ export class ContaComponent implements OnInit {
   */
   statusExclusao: Number = 1;
 
+  /*
+    1- Consumidor
+    2- Fornecedor
+  */
+  tipoPerfil: Number = localStorage.getItem("perfil") == "Consumidor" ? 1: 2;
+
   public cpfMask = [/[0-9]/, /[0-9]/, /[0-9]/, '.', /[0-9]/, /[0-9]/, /[0-9]/, '.', /[0-9]/, /[0-9]/, /[0-9]/, '-', /[0-9]/, /[0-9]/];
   public cepMask = [/[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, '-', /[0-9]/, /[0-9]/,  /[0-9]/];
   public cnpjMask = [/[0-9]/, /[0-9]/, '.', /[0-9]/, /[0-9]/, /[0-9]/, '.', /[0-9]/, '/', /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, '-', /[0-9]/, /[0-9]/];
@@ -48,10 +54,10 @@ export class ContaComponent implements OnInit {
     
   ngOnInit() {
 
-    if (0) {
+    if (this.tipoPerfil == 1) {
       
       this.consumidor = new Consumidor();
-      this.consumidor._id = "59f8a88b68d67a33ac3335d9";
+      this.consumidor._id = "59fb67c45810f518707a019f";
       this.fornecedor = null;
       this.contaService.getConsumidor(this.consumidor._id).subscribe(
         
@@ -62,7 +68,7 @@ export class ContaComponent implements OnInit {
       );
     }
 
-    else if (1) {
+    else if (this.tipoPerfil == 2) {
       
       this.fornecedor = new Fornecedor();
       this.fornecedor._id = "59f8a88b68d67a33ac3335d9";

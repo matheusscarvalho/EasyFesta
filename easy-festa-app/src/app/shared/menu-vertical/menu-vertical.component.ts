@@ -7,6 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MenuVerticalComponent implements OnInit {
 
+  /*
+    1- Consumidor
+    2- Fornecedor
+  */
+  tipoPerfil: Number = localStorage.getItem("perfil") == "Consumidor" ? 1: 2;
+  
   constructor() { }
 
   ngOnInit() {

@@ -11,6 +11,7 @@ import { EventoModule } from './evento/evento.module';
 import { SharedModule } from './shared/shared.module';
 import { ContaModule } from './conta/conta.module';
 import { FluxoCaixaModule } from './fluxo-caixa/fluxo-caixa.module';
+import { ContratoModule } from './contrato/contrato.module';
 
 // Demais módulos
 import { CarouselModule } from 'ngx-bootstrap/carousel';
@@ -43,6 +44,7 @@ import { routing } from './app.module.routing';
     AnuncioModule,
     AngularFontAwesomeModule,
     RouterModule,
+    ContratoModule,
     EventoModule,
     AgendaModule,
     CarouselModule.forRoot(),

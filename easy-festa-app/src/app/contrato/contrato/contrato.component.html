@@ -1,3 +1,207 @@
-<p>
-  contrato works!
-</p>
+<div class="page-tittle">
+
+    <div class="col-md-2">
+        <fa name="handshake-o"></fa> Contrato
+    </div>
+</div>
+
+<div class="row margin-top-10" *ngIf="statuGravacao != 1 && statuExclusao != 2">
+    {{contrato.status}}
+
+    <!-- Mesnagens para status de contrato igaul a 1 (contrato gerado ou alterado) -->
+    <div class="col-md-12" *ngIf="contrato.status == 1 && tipoPerfil == 2">
+        <span class="alert alert-warning btn-block">
+                <fa name="clock-o"></fa>
+                Aguarde a aceitação do contrato.
+        </span>
+    </div>
+
+    <div class="col-md-12" *ngIf="contrato.status == 1 && tipoPerfil == 1">
+        <span class="alert alert-info btn-block">
+            <fa name="exclamation-circle"></fa>
+            O contrato da compra foi gerado, leia-o atentamente antes de  aceitar.
+        </span>
+    </div>
+
+    <!-- Mesnagens para status de contrato igaul a 2 (contrato aceito) -->
+    <div class="col-md-12" *ngIf="contrato.status == 2 && tipoPerfil == 2">
+        <span class="alert alert-success btn-block">
+                    <fa name="thumbs-o-up"></fa>
+                    Contrato aceito.
+            </span>
+    </div>
+
+    <!-- Mesnagens para status de contrato igaul a 3 (contrato não aceito) -->
+    <div class="col-md-12" *ngIf="contrato.status == 3 && tipoPerfil == 2">
+        <span class="alert alert-danger btn-block">
+                    <fa name="thumbs-o-down"></fa>
+                    Contrato não aceito.
+            </span>
+    </div>
+
+    <div class="col-md-12" *ngIf="contrato.status == 3 && tipoPerfil == 1">
+        <span class="alert alert-info btn-block">
+                <fa name="exclamation-circle"></fa>
+                Aguarde a posição do fornecedor referente a não aceitação do contrato.
+        </span>
+    </div>
+
+    <!-- Mesnagens para status de contrato igaul a 4 (fornecedor solicitou exclusão do contrato) -->
+    <div class="col-md-12" *ngIf="contrato.status == 4 && tipoPerfil == 1">
+        <span class="alert alert-danger btn-block">
+            <fa name="trash"></fa>
+            O fornecedor solicitou a exclusão do contrato.
+        </span>
+    </div>
+
+    <div class="col-md-12" *ngIf="contrato.status == 4 && tipoPerfil == 2">
+        <span class="alert alert-info btn-block">
+            <fa name="clock-o"></fa>
+            Aguarde a aceitação de exclusão de contrato pelo consumidor.
+        </span>
+    </div>
+    <!-- Mesnagens para status de contrato igaul a 5 (consumidor solicitou exclusão do contrato) -->
+    <div class="col-md-12" *ngIf="contrato.status == 5 && tipoPerfil == 2">
+        <span class="alert alert-danger btn-block">
+                <fa name="trash"></fa>
+            O Consumidor solicitou a exclusão do contrato.
+        </span>
+    </div>
+
+    <div class="col-md-12" *ngIf="contrato.status == 5 && tipoPerfil == 1">
+        <span class="alert alert-info btn-block">
+            <fa name="clock-o"></fa>
+            Aguarde a aceitação de exclusão de contrato pelo fornecedor.
+        </span>
+    </div>
+
+</div>
+
+<div class="painel">
+    <!-- Editor -->
+    <quill-editor [disabled]="true" [(ngModel)]="contrato.texto" [options]="editorOptions"></quill-editor>
+</div>
+
+<div class="row margin-top-10">
+
+    <div class="col-md-6">
+        <button id="excluir" name="excluir" class="btn btn-block btn-danger" (click)="rejeitarContrato();confirmacaoModal.show()" *ngIf="tipoPerfil == 1 && contrato.status == 1">
+            <fa name="thumbs-o-down"></fa>Não Aceitar
+        </button>
+
+        <button id="excluir" name="excluir" class="btn btn-block btn-danger" (click)="resetarStatusExclusao();exclusaoModal.show()" *ngIf="contrato.status == 2">
+            <fa name="trash"></fa>Excluir
+        </button>
+
+        <button id="excluir" name="excluir" class="btn btn-block btn-danger" (click)="resetarStatusExclusao();exclusaoModal.show()" *ngIf="(contrato.status == 4 && tipoPerfil == 1) || (contrato.status == 5 && tipoPerfil == 2)">
+                <fa name="thumbs-o-up"></fa> Aceitar Exclusão
+            </button>
+    </div>
+
+    <div class="col-md-6 ">
+        <button id="salvar" name="salvar" class="btn btn-block btn-primary" (click)="salvarContrato();confirmacaoModal.show()" *ngIf="(tipoPerfil == 2 && contrato.status == 2) || (tipoPerfil == 2 && contrato.status == 3) || !idRota" [disabled]="!contrato.texto">
+            <fa name="floppy-o"></fa>Salvar
+        </button>
+
+        <button id="salvar" name="salvar" class="btn btn-block btn-success" (click)="aceitarContrato();confirmacaoModal.show()" *ngIf="tipoPerfil == 1 && contrato.status == 1">
+            <fa name="thumbs-o-up"></fa>Aceitar
+        </button>
+
+        <button id="salvar" name="salvar" class="btn btn-block btn-primary" (click)="rejeitarExclusao();" *ngIf="(contrato.status == 4 && tipoPerfil == 1) || (contrato.status == 5 && tipoPerfil == 2)">
+            <fa name="thumbs-o-down"></fa>Não Aceitar Exclusão
+        </button>
+    </div>
+</div>
+
+<!--modal-->
+<div class="modal fade" bsModal #confirmacaoModal="bs-modal" [config]="{backdrop: 'static'}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title pull-left">
+                    <fa name="floppy-o"></fa> Salvar Contrato
+                </h5>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="confirmacaoModal.hide();resetarStatusGravacao();">
+                                  <span aria-hidden="true">&times;</span>
+                        </button>
+            </div>
+            <div class="modal-body">
+                <div *ngIf="statusGravacao == 1" class="alert alert-info" role="alert">
+                    <fa name="spinner" animation="spin"></fa>
+                    <span>Salvando...</span>
+                </div>
+                <div *ngIf="statusGravacao == 2" class="alert alert-success" role="alert">
+                    <span>Contrato salvo com sucesso.</span>
+                </div>
+
+                <div *ngIf="statusGravacao == 3" class="alert alert-danger" role="alert">
+                    <span>Erro ao salvar contrato.</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button *ngIf="statusGravacao == 3 || statusGravacao == 2" type="button" class="btn btn-dark" (click)="confirmacaoModal.hide();resetarStatusGravacao();">
+                            Ok
+                        </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--modal-->
+<div class="modal fade" bsModal #exclusaoModal="bs-modal" [config]="{backdrop: 'static'}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title pull-left">
+                    <fa name="trash"></fa> Excluir Contrato
+                </h5>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="exclusaoModal.hide();resetarStatusExclusao();">
+                            <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div *ngIf="statusExclusao == 1" class="alert alert-info" role="alert">
+                    <fa name="exclamation-circle"></fa>
+                    <span>Tem certeza que deseja excluir contrato?</span>
+                </div>
+
+                <div *ngIf="statusExclusao == 2" class="alert alert-info" role="alert">
+                    <fa name="spinner" animation="spin"></fa>
+                    <span>Excluindo...</span>
+                </div>
+
+                <div *ngIf="statusExclusao == 3" class="alert alert-success" role="alert">
+                    <span>Contrato excluído com sucesso.</span>
+                </div>
+
+                <div *ngIf="statusExclusao == 4" class="alert alert-danger" role="alert">
+                    <span>Erro ao excluir contrato.</span>
+                </div>
+
+                <div *ngIf="statusExclusao == 5" class="alert alert-success" role="alert">
+                    <fa name="trash"></fa>
+                    <span>Solicitação de exclusão enviada com sucesso.</span>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button *ngIf="statusExclusao == 1" type="button" class="btn btn-dark" (click)="exclusaoModal.hide();">
+                    Não
+                </button>
+
+                <button *ngIf="statusExclusao == 1" type="button" class="btn btn-danger" (click)="removerContrato();">
+                    Sim
+                </button>
+
+                <button routerLink="/home" *ngIf="statusExclusao == 3" type="button" class="btn btn-dark" (click)="exclusaoModal.hide();">
+                    Ok
+                </button>
+
+                <button *ngIf="statusExclusao > 3" type="button" class="btn btn-dark" (click)="exclusaoModal.hide();">
+                    Ok
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

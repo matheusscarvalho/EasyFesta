@@ -7,6 +7,7 @@ const Consumidor = require('../models/consumidor');
 const Fornecedor = require('../models/fornecedor');
 const Evento = require('../models/evento');
 const Agendamento = require('../models/agendamento');
+const Contrato = require('../models/contrato');
 
 // Add headers
 router.use(function(req, res, next) {
@@ -93,7 +94,7 @@ router.post('/anuncio/editar', (req, res, next) => {
             anuncio.publicado = req.body.publicado;
             anuncio.tipo = req.body.tipo;
             anuncio.save();
-            res.sendStatus(200);
+            res.json({ menssage: "ok" });
         }
     });
 });
@@ -135,8 +136,6 @@ router.post('/consumidor', (req, res, next) => {
         telefone: req.body.telefone,
         endereco: req.body.endereco
     })
-
-    console.log(novoConsumidor)
 
     novoConsumidor.save((err, consumidor) => {
         if (err) {
@@ -311,6 +310,71 @@ router.post('/fornecedor/editar', (req, res, next) => {
         }
     });
 });
+
+/*
+
+Início contrato
+
+*/
+router.post('/contrato', (req, res, next) => {
+    let contrato = new Contrato({
+        texto: req.body.texto,
+        status: req.body.status
+    })
+
+    contrato.save((err, novoContrato) => {
+        if (err) {
+            res.json({ msg: 'Falha ao adicionar o contrato.' })
+        } else {
+            res.json({ id: novoContrato._id });
+        }
+    });
+});
+
+//Delete
+router.delete('/contrato/:id', (req, res, next) => {
+    Contrato.remove({ _id: req.params.id }, function(err, result) {
+        if (err) {
+            res.json(err)
+        } else {
+            res.json(result);
+        }
+    });
+});
+
+//Buscar
+router.get('/contrato/:id', (req, res, next) => {
+    let id = req.params.id;
+    Contrato.findById(id, function(err, contrato) {
+        if (err) {
+            res.json(err)
+        } else {
+            res.json(contrato);
+        }
+    });
+});
+
+//Update
+router.post('/contrato/editar', (req, res, next) => {
+    let id = req.body._id;
+
+    Contrato.findById(id, function(err, contrato) {
+        if (err) {
+            res.json(err);
+
+        } else {
+            contrato.texto = req.body.texto;
+            contrato.status = req.body.status;
+            contrato.save();
+            res.json({ menssage: "ok" });
+        }
+    });
+});
+/*
+
+Fim contrato
+
+*/
 
 
 /*

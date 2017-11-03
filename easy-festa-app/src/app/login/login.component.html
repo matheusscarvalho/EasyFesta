@@ -20,30 +20,45 @@
 
             </div>
 
+
             <!--Form with header-->
             <form #loginForm="ngForm" class="form">
+                <div class="text-xs-center" *ngIf="!usuario">
+                    <button class="btn btn-lg btn-block btn-deep-purple-inverse" (click)="instanciarConsumidor()">
+                        <fa name="shopping-bag"></fa>
+                        Consumidor
+                    </button>
+                </div>
 
-                <div class="form-group">
+                <div class="text-xs-center" *ngIf="!usuario">
+                    <button class="btn btn-lg margin-top-10 btn-block btn-deep-purple-inverse" (click)="instanciarFornecedor()">
+                            <fa name="truck"></fa>
+                            Fornecedor
+                        </button>
+                </div>
+
+                <div *ngIf="usuario" class="alert alert-info btn-block">
+                    <fa name="truck" *ngIf="usuario.constructor.name == 'Fornecedor'"></fa>
+                    <fa name="shopping-bag" *ngIf="usuario.constructor.name == 'Consumidor'"></fa>
+                    {{usuario.constructor.name}}
+                    <fa name="window-close" class="pull-right text-danger" (click)="resetarPerfil();"></fa>
+
+                </div>
+
+
+                <div class="form-group" *ngIf="usuario">
                     <input [(ngModel)]="usuario.nome" type="text" name="email" class="form-control" placeholder="E-mail" required>
 
                 </div>
-                <br>
+                <br *ngIf="usuario">
 
-                <div class="form-group">
+                <div class="form-group" *ngIf="usuario">
                     <input [(ngModel)]="usuario.senha" type="password" name="senha" class="form-control" placeholder="Senha" required>
 
                 </div>
-                <br>
+                <br *ngIf="usuario">
 
-                <div class="form-group">
-                    <select class="form-control" name="perfil" required>
-                        <option value="" selected="selected">Perfil</option>
-                        <option value="1">Consumidor</option>
-                        <option value="2">Fornecedor</option>
-                    </select>
-                </div>
-
-                <div class="text-xs-center">
+                <div class="text-xs-center" *ngIf="usuario">
                     <button routerLink="/conta/cadastrar" (click)="fazerLogin()" class="btn btn-block btn-deep-purple" [disabled]="!loginForm.form.valid">
                         <fa name="send"></fa>
                         Entrar

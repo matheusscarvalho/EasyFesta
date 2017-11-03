@@ -106,10 +106,26 @@
     box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.24);
 }
 
+.btn-deep-purple-inverse {
+    background: white;
+    color: purple;
+    border: 2px solid purple;
+    font-weight: 600;
+    -webkit-box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.24);
+    -moz-box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.24);
+    box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.24);
+}
+
 button.btn-deep-purple:hover {
     background: white;
     color: purple;
     border: 2px solid purple;
+}
+
+button.btn-deep-purple-inverse:hover {
+    background: purple;
+    color: white;
+    border: 2px solid white;
 }
 
 .font-14 {

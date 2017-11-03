@@ -3,11 +3,11 @@
         <fa name="calendar"></fa>
         Agenda
     </a>
-    <a class="list-group-item list-group-item-action" routerLink="/evento/listar" routerLinkActive="active">
+    <a *ngIf="tipoPerfil == 1" class="list-group-item list-group-item-action" routerLink="/evento/listar" routerLinkActive="active">
         <fa name="glass"></fa>
         Eventos
     </a>
-    <a class="list-group-item list-group-item-action" routerLink="/anuncio/listar" routerLinkActive="active">
+    <a *ngIf="tipoPerfil == 2" class="list-group-item list-group-item-action" routerLink="/anuncio/listar" routerLinkActive="active">
         <fa name="drivers-license-o"></fa>
         Anúncios
     </a>
@@ -15,11 +15,11 @@
         <fa name="shopping-cart"></fa>
         Compras
     </a>
-    <a class="list-group-item list-group-item-action" routerLink="">
+    <a class="list-group-item list-group-item-action" routerLink="/contrato/cadastrar">
         <fa name="handshake-o"></fa>
         Contratos
     </a>
-    <a class="list-group-item list-group-item-action" routerLink="/fluxo-caixa">
+    <a *ngIf="tipoPerfil == 2" class="list-group-item list-group-item-action" routerLink="/fluxo-caixa">
         <fa name="money"></fa>
         Fluxo de Caixa
     </a>

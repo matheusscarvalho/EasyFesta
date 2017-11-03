@@ -1,11 +1,29 @@
+//Componentes do Angular
+import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+
+//Componentes da Aplicação
+import { routing } from './../app.module.routing';
 import { ContratoComponent } from './contrato/contrato.component';
+import { ContratoService } from './contrato.service';
+
+//Demais módulos
+import { QuillEditorModule } from 'ngx-quill-editor';
+import { AngularFontAwesomeModule } from 'angular-font-awesome/angular-font-awesome';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
+    FormsModule,
+    QuillEditorModule,
+    AngularFontAwesomeModule,
+    ModalModule,
+    routing
   ],
+  exports: [ContratoComponent],
+  providers: [ContratoService],
   declarations: [ContratoComponent]
 })
 export class ContratoModule { }

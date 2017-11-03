@@ -1,45 +1,52 @@
 <div class="row">
     <div class="col-md-7">
-        <div class="card">
-            <div class="card-block padding-10">
-                <calendario></calendario>
-            </div>
+        <div class="page-tittle-small">
+            <fa name="calendar"></fa> Agenda
+        </div>
+        <div class="painel margin-top-10">
+            <calendario></calendario>
         </div>
 
     </div>
 
     <div class="col-md-5">
-
-        <carousel>
-            <slide>
-                <img class="img-slide" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQMVQjYzDn_fzKbE_IjQSG4B6iirPJ0YU1gwIcS7NE74q0m4FT0A" alt="First slide">
-                <div class="carousel-caption">
-                    <h3>Anúncio 1</h3>
-                    <p>Descrição anúncio 1</p>
-                </div>
-            </slide>
-            <slide>
-                <img class="img-slide" src="http://megafilmeshd50.top/wp-content/uploads/2017/09/bd.jpg" alt="Second slide">
-                <div class="carousel-caption">
-                    <h3>Anúncio 2</h3>
-                    <p>Descrição anúncio 2</p>
-                </div>
-            </slide>
-            <slide>
-                <img class="img-slide" src="http://uploads.metropoles.com/wp-content/uploads/2016/08/15083620/130816-FM-Festa-Paradiso-089-840x560.jpg" alt="Third slide">
-                <div class="carousel-caption">
-                    <h3>Anúncio 3</h3>
-                    <p>Descrição anúncio 3</p>
-                </div>
-            </slide>
-        </carousel>
-
-        <div class="card margin-top-10">
-            <div class="card-header">Fluxo de Caixa</div>
-            <div class="card-block padding-10">
-                <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas>
-            </div>
+        <div class="page-tittle-small">
+            <fa name="drivers-license-o"></fa> Anúncios
         </div>
+        <div class="painel margin-top-10">
+
+            <carousel>
+                <slide>
+                    <img class="img-slide" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQMVQjYzDn_fzKbE_IjQSG4B6iirPJ0YU1gwIcS7NE74q0m4FT0A" alt="First slide">
+                    <div class="carousel-caption">
+                        <h3>Anúncio 1</h3>
+                        <p>Descrição anúncio 1</p>
+                    </div>
+                </slide>
+                <slide>
+                    <img class="img-slide" src="http://megafilmeshd50.top/wp-content/uploads/2017/09/bd.jpg" alt="Second slide">
+                    <div class="carousel-caption">
+                        <h3>Anúncio 2</h3>
+                        <p>Descrição anúncio 2</p>
+                    </div>
+                </slide>
+                <slide>
+                    <img class="img-slide" src="http://uploads.metropoles.com/wp-content/uploads/2016/08/15083620/130816-FM-Festa-Paradiso-089-840x560.jpg" alt="Third slide">
+                    <div class="carousel-caption">
+                        <h3>Anúncio 3</h3>
+                        <p>Descrição anúncio 3</p>
+                    </div>
+                </slide>
+            </carousel>
+        </div>
+
+        <div class="page-tittle-small margin-top-10">
+            <fa name="money"></fa> Fluxo de Caixa
+        </div>
+        <div class="painel margin-top-10">
+            <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas>
+        </div>
+
 
     </div>
 

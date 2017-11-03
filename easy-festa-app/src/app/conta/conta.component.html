@@ -49,7 +49,7 @@
                         </div>
 
                         <div class="form-group col-md-4">
-                            <input [(ngModel)]="consumidor.cpf" name="cpf" autocomplete="off" textMask]="{mask:cpfMask}" type="text" class="form-control" [disabled]="desabilitado" required placeholder="CPF">
+                            <input [(ngModel)]="consumidor.cpf" name="cpf" autocomplete="off" [textMask]="{mask:cpfMask}" type="text" class="form-control" [disabled]="desabilitado" required placeholder="CPF">
                         </div>
 
                         <div class="form-group col-md-4">
@@ -320,7 +320,6 @@
 
     </article>
 </div>
-
 
 <!--modal-->
 <div class="modal fade" bsModal #confirmacaoModal="bs-modal" [config]="{backdrop: 'static'}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
