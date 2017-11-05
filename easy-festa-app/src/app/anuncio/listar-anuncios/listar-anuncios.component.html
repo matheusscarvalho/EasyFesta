@@ -4,13 +4,7 @@
             <fa name="drivers-license-o"></fa> Anúncios
         </div>
         <div class="input-group col-md-8">
-            <input type="text" class="form-control" placeholder="Pesquise aqui">
-            <span class="input-group-btn">
-              <button class="btn btn-secondary" type="button">
-                <fa name="search"></fa>
-              </button>
-            </span>
-        </div>
+            <input type="text" [(ngModel)]="pesquisa" (keyup)="pesquisarAnuncio()" class="form-control" placeholder="Pesquise aqui..."> </div>
 
         <div class="col-md-2">
 
@@ -28,14 +22,14 @@
         </h1>
     </div>
     <div *ngIf="anuncios.length == 0 && !mostrarIconeCarregando" class="alert alert-info text-center">
-        <h2>Nenhum anúncio cadastrado.</h2><br>
+        <h2>Nenhum anúncio encontrado.</h2><br>
         <button class="btn btn-lg btn-warning" type="button" routerLink="/anuncio/cadastrar">
             <fa name="plus-circle"></fa> Clique Aqui Para Cadastrar
         </button>
     </div>
 
-    <div *ngIf="!mostrarIconeCarregando" class="row margin-top-10">
-        <div class="col-md-4" *ngFor="let anuncio of anuncios; let i = index">
+    <div *ngIf="!mostrarIconeCarregando" class="card-columns margin-top-10">
+        <div *ngFor="let anuncio of anuncios; let i = index">
             <div class="card bg-light text-center">
                 <div class="card-header font-align-center">
                 </div>
@@ -58,20 +52,45 @@
                         (<fa name="eye-slash"></fa>)
                         Não publicado
                     </span>
+                    <hr>
+                    <rating *ngIf="anuncio.aprovacao" class="margintop-10 font-size-20 rate" [(ngModel)]="anuncio.avaliacaoFinal" [readonly]="true" [max]="max" stateOn="fa fa-star" stateOff="fa fa-star-o"></rating>
 
+                    <span class="text-danger bold btn-block" *ngIf="anuncio.aprovacao > 0 && anuncio.aprovacao <= 33">                        
+                        <fa name="thumbs-o-down"></fa>                        
+                        <small>{{anuncio.aprovacao}}% dos consumidores comprariam novamente.</small>
+                    </span>
+                    <span class="text-warning bold btn-block" *ngIf="anuncio.aprovacao > 33 && anuncio.aprovacao <= 66">
+                        <small> {{anuncio.aprovacao}}% dos consumidores comprariam novamente.</small>
+                    </span>
+                    <span class="text-success bold btn-block" *ngIf="anuncio.aprovacao > 66">
+                        <fa name="thumbs-o-up"></fa>
+                        <small>{{anuncio.aprovacao}}% dos consumidores comprariam novamente.</small>
+                    </span>
+
+                    <hr *ngIf="anuncio.aprovacao">
                     <p class="card-text">{{anuncio.descricao}}</p>
-                    <rating class="margintop-10 font-size-20 rate" [(ngModel)]="rate" [max]="max" stateOn="fa fa-star" stateOff="fa fa-star-o"></rating>
 
                 </div>
                 <div class="card-footer">
-                    <button id="editar" name="editar" class="btn btn-block btn-info" routerLink="/anuncio/{{anuncio._id}}/editar">Editar</button>
-                    <button id="canelar" name="canelar" class="btn btn-block btn-danger" (click)="removerModal.show();confirmarRemocao(anuncio, i)">Remover</button>
+                    <button id="visualizar" name="visualizar" class="btn btn-block btn-secondary" (click)="visualizarAnuncio(i);visualizarAnuncioModal.show();">
+                        <fa name="eye"></fa>
+                        Visualizar
+                    </button>
+                    <button id="editar" name="editar" class="btn btn-block btn-secondary" routerLink="/anuncio/{{anuncio._id}}/editar">
+                        <fa name="edit"></fa>
+                        Editar
+                    </button>
+                    <button *ngIf="!anuncio.avaliacoes.length" id="remover" name="remover" class="btn btn-block btn-danger" (click)="removerModal.show();confirmarRemocao(anuncio, i)">
+                        <fa name="trash"></fa>
+                        Remover
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 
 </div>
+
 <!--Modal de confirmação de remoção -->
 <div class="modal fade" bsModal #removerModal="bs-modal" [config]="{backdrop: 'static'}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-sm">
@@ -100,6 +119,30 @@
                     Sim
                 </button>
                 <button *ngIf="remocaoConfirmada" type="button" class="btn btn-secondary" (click)="removerModal.hide();limparVariaveisRemocao();">
+                    Voltar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Modal de visualizar anúncio -->
+<div class="modal fade" bsModal #visualizarAnuncioModal="bs-modal" [config]="{backdrop: 'static'}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title pull-left">
+                    <fa name="eye"></fa> Visualizar Anúncio
+                </h5>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="visualizarAnuncioModal.hide()">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+            </div>
+            <div class="modal-body">
+                <visualizar-anuncio [anuncio]="anuncioVisualizado"></visualizar-anuncio>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark" (click)="visualizarAnuncioModal.hide();">
                     Voltar
                 </button>
             </div>

@@ -17,18 +17,35 @@ export class ListarAnunciosComponent implements OnInit {
     texto: "",
     erro: false
   };
+
+  pesquisa: String;
+  anuncioVisualizado: Anuncio = new Anuncio();
   remocaoConfirmada: Boolean = false;
   idAnuncioRemover: String;
   indexAnuncioRemover: Number;
   tituloAnuncioRemover: String;
   mostrarIconeCarregando: Boolean = true;
   anuncios: Anuncio[] = [];
+
+  //Auxilia na pesquisa
+  anunciosAuxPesquisa: Anuncio[] = [];
   constructor(private anuncioService: AnuncioService) { }
 
   ngOnInit() {
     this.anuncioService
     .getAnuncios()
-    .subscribe(a => this.anuncios = a);
+    .subscribe(
+      a => {
+
+        for(let i in a) {
+          a[i].avaliacaoFinal = this.calcularAvaliacaoFinal(a[i]);
+          a[i].aprovacao = this.calcularAprovacao(a[i]);
+        }
+
+        this.anuncios = a;
+        this.anunciosAuxPesquisa = a;
+
+    });
 
     setTimeout(()=>{   
       this.mostrarIconeCarregando = false;
@@ -42,6 +59,8 @@ export class ListarAnunciosComponent implements OnInit {
     this.indexAnuncioRemover = index;
     this.tituloAnuncioRemover = anuncio.titulo;
   }
+
+
 
   removerAnuncio() {
 
@@ -60,6 +79,15 @@ export class ListarAnunciosComponent implements OnInit {
     this.remocaoConfirmada = true;
   }
 
+  pesquisarAnuncio() {
+    this.anuncios = this.anunciosAuxPesquisa.filter(
+      (anuncio) => {
+
+        return anuncio.descricao.toLocaleLowerCase().indexOf(this.pesquisa.valueOf().toLowerCase()) != -1 || anuncio.titulo.toLocaleLowerCase().indexOf(this.pesquisa.valueOf().toLocaleLowerCase()) != -1;
+      }
+    );
+  }
+
   limparVariaveisRemocao() {
 
     setTimeout(()=>{   
@@ -70,6 +98,22 @@ export class ListarAnunciosComponent implements OnInit {
           this.mensagem.texto = null;
     },1000);
     
+  }
+
+  calcularAvaliacaoFinal(anuncio: Anuncio) {
+
+    let avalicaoFinal = this.anuncioService.calcularAvaliacãoFinal(anuncio);
+    return avalicaoFinal;
+  }
+
+  calcularAprovacao(anuncio: Anuncio) {
+    
+    let aprovacao = this.anuncioService.calcularAprovacao(anuncio);
+    return aprovacao;
+  }
+
+  visualizarAnuncio(indice) {
+    this.anuncioVisualizado = this.anuncios[indice];
   }
 
 }

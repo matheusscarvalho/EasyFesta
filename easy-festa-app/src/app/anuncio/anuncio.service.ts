@@ -63,4 +63,37 @@ export class AnuncioService {
     return headers;
   }
 
+  //Retorna nota média das avaliações do anúncio
+  calcularAvaliacãoFinal(anuncio: Anuncio) {
+    let notas = 0;
+    var notaFinal = 0;
+
+    for(let i in anuncio.avaliacoes) {
+      notas += anuncio.avaliacoes[i].nota.valueOf();
+    }
+
+    if(notas) {
+      notaFinal = notas/anuncio.avaliacoes.length;
+      
+    }
+    
+    return Math.trunc(notaFinal);
+  }
+
+  //Retrona a porcentagem de consumidores que comprariam o produto/serviço novamente
+  calcularAprovacao(anuncio: Anuncio) {
+    let qtdCompraria = 0;
+    let porcentagemCompraria = 0;
+    
+    for(let i in anuncio.avaliacoes) {
+      qtdCompraria = anuncio.avaliacoes[i].novaCompra.valueOf() == true ? qtdCompraria + 1 : qtdCompraria;
+    }
+
+    if(qtdCompraria) {
+      porcentagemCompraria = (qtdCompraria*100/anuncio.avaliacoes.length);
+    }
+
+    return Math.trunc(porcentagemCompraria);
+  }
+
 }

@@ -93,6 +93,7 @@ router.post('/anuncio/editar', (req, res, next) => {
             anuncio.descricao = req.body.descricao;
             anuncio.publicado = req.body.publicado;
             anuncio.tipo = req.body.tipo;
+            anuncio.avaliacoes = req.body.avaliacoes;
             anuncio.save();
             res.json({ menssage: "ok" });
         }

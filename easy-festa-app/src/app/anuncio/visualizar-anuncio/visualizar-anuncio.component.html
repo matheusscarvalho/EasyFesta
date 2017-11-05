@@ -1,0 +1,80 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="card text-center">
+            <div class="card-header">
+
+            </div>
+            <div class="card-block">
+                <h4 *ngIf="anuncio">{{anuncio.titulo}}</h4>
+                <span *ngIf="anuncio.tipo==2">
+                    (<fa name="signing"></fa>)
+                    Serviço
+                </span>
+                <span *ngIf="anuncio.tipo==1">
+                    (<fa name="gift"></fa>)
+                    Produto
+                </span>
+                <span *ngIf="anuncio.publicado == true">
+                    (<fa name="eye"></fa>)
+                    Publicado
+                </span>
+                <span *ngIf="anuncio.publicado == false">
+                    (<fa name="eye-slash"></fa>)
+                    Não publicado
+                </span>
+                <hr>
+                <rating *ngIf="anuncio.aprovacao" class="margintop-10 font-size-20 rate" [(ngModel)]="anuncio.avaliacaoFinal" [readonly]="true" [max]="max" stateOn="fa fa-star" stateOff="fa fa-star-o"></rating>
+
+                <span class="text-danger bold btn-block" *ngIf="anuncio.aprovacao > 0 && anuncio.aprovacao <= 33">                        
+                    <fa name="thumbs-o-down"></fa>                        
+                    <small>{{anuncio.aprovacao}}% dos consumidores comprariam novamente.</small>
+                </span>
+                <span class="text-warning bold btn-block" *ngIf="anuncio.aprovacao > 33 && anuncio.aprovacao <= 66">
+                    <small> {{anuncio.aprovacao}}% dos consumidores comprariam novamente.</small>
+                </span>
+                <span class="text-success bold btn-block" *ngIf="anuncio.aprovacao > 66">
+                    <fa name="thumbs-o-up"></fa>
+                    <small>{{anuncio.aprovacao}}% dos consumidores comprariam novamente.</small>
+                </span>
+
+                <hr *ngIf="anuncio.aprovacao">
+                <span *ngIf="anuncio">{{anuncio.descricao}}</span>
+            </div>
+            <div class="card-footer">
+            </div>
+
+        </div>
+    </div>
+
+    <div class="col-md-12 margin-top-10" *ngFor="let avaliacao of anuncio.avaliacoes">
+        <div class="painel text-center">
+            <div class="page-tittle-small btn-block">
+                <span class="pull-left">
+                  <img src="http://pt.seaicons.com/wp-content/uploads/2016/03/comment-edit-icon.png" width="40" height="40">
+                </span>
+                <rating class="margintop-10 font-size-20 rate" name="nota" [(ngModel)]="avaliacao.nota" [max]="max" stateOn="fa fa-star" stateOff="fa fa-star-o" [readonly]="true"></rating>
+
+                <span *ngIf="avaliacao.novaCompra == true" class="bold text-success btn-block">
+                    <small>
+                      <fa name="thumbs-o-up"></fa>
+                      Compraria novamente.
+                    </small>
+                </span>
+
+                <span *ngIf="avaliacao.novaCompra == false" class="bold text-danger btn-block">
+                    <small>
+                      <fa name="thumbs-o-down"></fa>
+                      Não compraria novamente.
+                    </small>
+                </span>
+
+            </div>
+            <br>
+            <span>
+              {{avaliacao.comentario}}
+            </span>
+
+        </div>
+
+    </div>
+</div>

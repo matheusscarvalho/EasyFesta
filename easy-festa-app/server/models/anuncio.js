@@ -26,7 +26,30 @@ const AnuncioSchema = mongoose.Schema({
         type: ObjectId,
         ref: 'Fornecedor',
         required: true
-    }
+    },
+    avaliacoes: [{
+        nota: {
+            type: Number,
+            required: true
+        },
+        comentario: {
+            type: String,
+            required: true
+        },
+        novaCompra: {
+            type: Boolean,
+            required: true
+        },
+        compra: {
+            type: ObjectId,
+            //ref: 'Fornecedor',           
+            required: false
+        },
+        data: {
+            type: Date,
+            default: new Date()
+        },
+    }]
 
 });
 

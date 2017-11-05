@@ -24,22 +24,22 @@
             <form #calssificacaoForm="ngForm">
                 <span class="bold">Numa escala de 0 a 5, qual é o grau de satisfação você possui em relação ao produto e aos serviços prestados?</span>
                 <br>
-                <rating class="margintop-10 font-size-20 rate" name="nota" [(ngModel)]="rate" [max]="max" stateOn="fa fa-star" stateOff="fa fa-star-o"></rating>
+                <rating class="margintop-10 font-size-20 rate" name="nota" [(ngModel)]="avaliacao.nota" [max]="max" stateOn="fa fa-star" stateOff="fa fa-star-o"></rating>
                 <br>
                 <hr>
                 <span class="bold">Você compraria o produto ou contrataria o serviço novamente?</span>
                 <br>
-                <input type="radio" name="novaCompra" btnRadio=true [checked]="true">
+                <input type="radio" [(ngModel)]="avaliacao.novaCompra" name="novaCompra" btnRadio=true [checked]="avaliacao.novaCompra == true">
                 <fa name="thumbs-o-up"></fa>
                 Sim &nbsp;&nbsp;
 
-                <input type="radio" name="novaCompra" btnRadio=false [checked]="false">
+                <input type="radio" [(ngModel)]="avaliacao.novaCompra" name="novaCompra" btnRadio=false [checked]="avaliacao.novaCompra == false">
                 <fa name="thumbs-o-down"></fa>
                 Não
 
                 <hr>
                 <br>
-                <textarea class="form-control" placeholder="Descreva a motivação para a avaliação dada." rows="6" id="comentario" name="comentario" required></textarea>
+                <textarea class="form-control" [(ngModel)]="avaliacao.comentario" placeholder="Descreva a motivação para a avaliação dada." rows="6" id="comentario" name="comentario" required></textarea>
 
             </form>
 
@@ -47,11 +47,49 @@
 
         </div>
         <div class="margin-top-10">
-            <button id="salvar" name="salvar" class="btn btn-block btn-primary" [disabled]="!calssificacaoForm.form.valid">
+            <button id="salvar" name="salvar" (click)="salvarAvaliacao();confirmacaoModal.show();" class="btn btn-block btn-primary" [disabled]="!calssificacaoForm.form.valid">
                 <fa name="floppy-o"></fa>
                 Salvar
             </button>
         </div>
 
+    </div>
+</div>
+
+<!-- Modal de confirmação -->
+<div bsModal #confirmacaoModal="bs-modal" class="modal fade" [config]="{backdrop: 'static'}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <fa name="floppy-o"></fa>
+                <h5 class="modal-title pull-left">Salvar Avaliação</h5>
+                <button routerLink="/home" type="button" class="close pull-right" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <!--Mensagens para ação de salvar-->
+                <div *ngIf="statusGravacao == 1" class="alert alert-info" role="alert">
+                    <fa name="spinner" animation="spin"></fa>
+                    <span>Salvando...</span>
+                </div>
+                <div *ngIf="statusGravacao == 2" class="alert alert-success" role="alert">
+                    <span>Avaliação salva com sucesso.</span>
+
+                </div>
+
+                <div *ngIf="statusGravacao == 3" class="alert alert-danger" role="alert">
+                    <span>Erro ao salvar avaliação.</span>
+
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button routerLink="/home" id="ok" name="ok" class="btn btn-dark" *ngIf="statusGravacao == 2">
+                    Ok
+                </button>
+
+            </div>
+        </div>
     </div>
 </div>

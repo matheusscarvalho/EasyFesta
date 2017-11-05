@@ -22,7 +22,7 @@
             "../node_modules/font-awesome/css/font-awesome.css",
             "../node_modules/fullcalendar/dist/fullcalendar.min.css",
             "../node_modules/primeng/resources/primeng.min.css",
-            "../node_modules/primeng/resources/themes/flick/theme.css",
+            "../node_modules/primeng/resources/themes/omega/theme.css",
             "../node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
             "styles.css"
         ],

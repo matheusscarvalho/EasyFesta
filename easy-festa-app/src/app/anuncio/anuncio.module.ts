@@ -17,6 +17,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 
 import { AnuncioService } from './anuncio.service';
 import { ClassificarAnuncioComponent } from './classificar-anuncio/classificar-anuncio.component';
+import { VisualizarAnuncioComponent } from './visualizar-anuncio/visualizar-anuncio.component';
 
 @NgModule({
   imports: [
@@ -32,6 +33,6 @@ import { ClassificarAnuncioComponent } from './classificar-anuncio/classificar-a
   ],
   providers: [AnuncioService],
   exports: [ListarAnunciosComponent, CadastrarAnunciosComponent, AnuncioComponent, ClassificarAnuncioComponent],
-  declarations: [ListarAnunciosComponent, CadastrarAnunciosComponent, AnuncioComponent, ClassificarAnuncioComponent]
+  declarations: [ListarAnunciosComponent, CadastrarAnunciosComponent, AnuncioComponent, ClassificarAnuncioComponent, VisualizarAnuncioComponent]
 })
 export class AnuncioModule { }

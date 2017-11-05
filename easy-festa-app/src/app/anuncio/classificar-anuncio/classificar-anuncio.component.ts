@@ -5,6 +5,7 @@ import { Component, OnInit } from '@angular/core';
 //Módulos da Aplicação
 import { AnuncioService } from './../anuncio.service';
 import { Anuncio } from './../anuncio.class';
+import { Avaliacao } from './../avaliacao.class';
 
 @Component({
   selector: 'app-classificar-anuncio',
@@ -13,9 +14,16 @@ import { Anuncio } from './../anuncio.class';
 })
 export class ClassificarAnuncioComponent implements OnInit {
   max: number = 5;
-  rate: number = 1;
+  avaliacao: Avaliacao = new Avaliacao();
   anuncioId : String;
   anuncioAvaliado: Anuncio;
+
+  /*
+    1- Salvando.
+    2- Salvo com sucesso.
+    3- Erro ao salvar.
+  */
+  statusGravacao: Number = 1;
 
   constructor(private route: ActivatedRoute, private anuncioService: AnuncioService) { }
 
@@ -34,4 +42,22 @@ export class ClassificarAnuncioComponent implements OnInit {
     
   }
 
+  salvarAvaliacao() {
+    
+    this.anuncioAvaliado.avaliacoes.push(this.avaliacao);
+    this.anuncioService.updateAnuncio(this.anuncioAvaliado).subscribe(
+      //Sucesso ao salvar
+      data=> {
+        this.statusGravacao = 2;
+        console.log(data);
+
+      },
+
+      //Insucesso ao salvar
+      error=> {
+        this.statusGravacao = 2;
+        console.error(error);
+      }
+    )
+  }
 }
