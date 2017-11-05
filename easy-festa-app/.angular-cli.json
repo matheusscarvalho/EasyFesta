@@ -21,15 +21,17 @@
             "../node_modules/bootstrap/dist/css/bootstrap.min.css",
             "../node_modules/font-awesome/css/font-awesome.css",
             "../node_modules/fullcalendar/dist/fullcalendar.min.css",
+            "../node_modules/primeng/resources/primeng.min.css",
+            "../node_modules/primeng/resources/themes/flick/theme.css",
             "../node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
-            "../node_modules/froala-editor/css/froala_editor.pkgd.min.css",
-            "../node_modules/froala-editor/css/froala_style.min.css",
             "styles.css"
         ],
         "scripts": [
             "../node_modules/jquery/dist/jquery.min.js",
+            "../node_modules/moment/min/moment.min.js",
+            "../node_modules/fullcalendar/dist/fullcalendar.min.js",
+            "../node_modules/moment/locale/pt-br.js",
             "../node_modules/fullcalendar/dist/locale/pt-br.js",
-            "../node_modules/froala-editor/js/froala_editor.pkgd.min.js",
             "../node_modules/chart.js/src/chart.js"
         ],
         "environmentSource": "environments/environment.ts",

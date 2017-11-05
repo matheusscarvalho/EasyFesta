@@ -1,11 +1,12 @@
 <!--Botão de cadastro de agendamentos-->
-<button id="botaoAbrirModal" class="btn btn-warning pull-right" (click)="modalNovoAgendamento.show()">
+<button id="cadastrar" class="btn btn-warning pull-right" (click)="modalNovoAgendamento.show()">
     <fa name="calendar-plus-o"></fa>
     Cadastrar
 </button>
 
 <!--Calendário-->
-<angular2-fullcalendar [options]="calendarOptions"></angular2-fullcalendar>
+
+<p-schedule [options]="calendarOptions" locale="pt-br" [events]="agendamentos" (onViewRender)="loadEvents($event)" (onDayClick)="handleDayClick($event)" (onEventClick)="handleEventClick($event)"></p-schedule>
 
 <!--Modal de cadastro de agendamentos-->
 <div class="modal fade" bsModal #modalNovoAgendamento="bs-modal" [config]="{backdrop: 'static'}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
@@ -13,51 +14,123 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title pull-left">
-                    <fa name="{{iconeModal}}"></fa>
-                    {{tituloModal}}
+                    <fa name="calendar"></fa>
+                    Agendamento
                 </h4>
-                <button type="button" class="close pull-right" aria-label="Close" (click)="modalNovoAgendamento.hide()">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="modalNovoAgendamento.hide();resetarAgendamento();resetarStatus();">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <div class="modal-body">
-                <fieldset class="painel">
-
-                    <div class="row">
-                        <div class="form-group col-md-4">
-                            <label class="control-label" for="Título">Título</label>
-                            <input id="Título" name="Título" [(ngModel)]="agendamento.titulo" type="text" placeholder="Ex.: Buscar Álbum" class="form-control input-md" required="yes">
-                        </div>
-
-                        <div class="form-group col-md-4">
-                            <label class="control-label" for="Título">Data</label>
-                            <input id="data" name="data" [(ngModel)]="agendamento.data" type="date" placeholder="dd/mm/aaaa" class="form-control input-md" required="yes">
-                        </div>
-
-                        <div class="form-group col-md-4">
-                            <label class="control-label" for="Título">Horário</label>
-                            <input id="horario" name="horario" type="text" placeholder="00:00" class="form-control input-md" required="yes">
-                        </div>
-
-                        <div class="form-group col-md-12">
-                            <label class="control-label" for="descricao">Descrição</label>
-                            <div>
-                                <textarea class="form-control" rows="5" id="descricao" name="descricao"></textarea>
-                            </div>
-                        </div>
+                <form #agendamentoForm="ngForm">
+                    <!--Mensagens para ação de salvar-->
+                    <div *ngIf="statusGravacao == 1" class="alert alert-info" role="alert">
+                        <fa name="spinner" animation="spin"></fa>
+                        <span>Salvando...</span>
+                    </div>
+                    <div *ngIf="statusGravacao == 2" class="alert alert-success" role="alert">
+                        <span>Agendamento salvo com sucesso.</span>
+                        <fa class="pull-right" name="close" (click)="resetarStatus();"></fa>
                     </div>
 
-                </fieldset>
+                    <div *ngIf="statusGravacao == 3" class="alert alert-danger" role="alert">
+                        <span>Erro ao salvar agendamento.</span>
+                        <fa class="pull-right" name="close" (click)="resetarStatus();"></fa>
+                    </div>
 
+                    <!--Mensagens para ação de excluir-->
+                    <div *ngIf="statusExclusao == 1" class="alert alert-danger" role="alert">
+                        <fa name="spinner" animation="spin"></fa>
+                        <span>Excluindo...</span>
+                    </div>
+                    <div *ngIf="statusExclusao == 2" class="alert alert-success" role="alert">
+                        <span>Agendamento excluído com sucesso.</span>
+                        <fa class="pull-right" name="close" (click)="resetarStatus();"></fa>
+                    </div>
+
+                    <div *ngIf="statusExclusao == 3" class="alert alert-danger" role="alert">
+                        <span>Erro ao excluir agendamento.</span>
+                        <fa class="pull-right" name="close" (click)="resetarStatus();"></fa>
+                    </div>
+
+                    <fieldset class="painel">
+
+                        <div class="row">
+                            <div class="form-group col-md-4">
+                                <label class="control-label" for="titulo">Título</label>
+                                <input id="titulo" name="titulo" [(ngModel)]="agendamento.title" type="text" placeholder="Ex.: Buscar Álbum" class="form-control input-md" required>
+                            </div>
+
+                            <div class="form-group col-md-4">
+                                <label class="control-label" for="data">Data</label>
+                                <input id="data" name="data" bsDatePicker [(ngModel)]="agendamento.start" type="text" placeholder="dd/mm/aaaa" class="form-control input-md" required>
+                            </div>
+
+                            <div class="form-group col-md-4">
+                                <label class="control-label" for="horario">Horário</label>
+                                <input id="horario" name="horario" [textMask]="{mask:horarioMask}" type="text" [(ngModel)]="agendamento.time" placeholder="00:00" class="form-control input-md" required>
+                            </div>
+
+                            <div class="form-group col-md-12">
+                                <label class="control-label" for="descricao">Descrição</label>
+                                <div>
+                                    <textarea class="form-control" [(ngModel)]="agendamento.description" rows="5" id="descricao" name="descricao" required></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                    </fieldset>
+                </form>
             </div>
             <div class="modal-footer">
                 <div class="row">
                     <!-- Button (Double) -->
                     <div class="form-group col-md-12">
-                        <button id="salvar" name="salvar" class="btn btn-primary" (click)="adicionarAgendamento(); modalNovoAgendamento.hide()">Salvar</button>
-                        <button id="canelar" name="canelar" class="btn btn-danger" (click)="modalNovoAgendamento.hide()">Cancelar</button>
+                        <button id="canelar" name="canelar" class="btn btn-warning" (click)="modalNovoAgendamento.hide();resetarAgendamento();resetarStatus();">
+                            <fa name="reply"></fa>
+                            Voltar
+                        </button>
+                        <button id="remover" name="remover" class="btn btn-danger" (click)="modalNovoAgendamento.hide();childModal.show();" *ngIf="agendamento._id" [disabled]="false">
+                            <fa name="trash"></fa>
+                            Remover
+                        </button>
+                        <button id="salvar" name="salvar" class="btn btn-primary" (click)="salvarAgendamento();" [disabled]="!agendamentoForm.form.valid">
+                            <fa name="floppy-o"></fa>
+                            Salvar
+                        </button>
+
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de confirmação de exclusão -->
+<div bsModal #childModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <fa name="trash"></fa>
+                <h5 class="modal-title pull-left">Remover Agendamento</h5>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="childModal.hide();modalNovoAgendamento.show();">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-warning" role="alert">
+                    <span>Tem certeza que deseja excluir o agendamento {{agendamento.title}}?</span>
+
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button id="remover" name="remover" class="btn btn-dark" (click)="childModal.hide();modalNovoAgendamento.show();" *ngIf="agendamento._id" [disabled]="false">
+                    Não
+                </button>
+                <button id="remover" name="remover" class="btn btn-danger" (click)="childModal.hide();modalNovoAgendamento.show();removerAgendamento();" *ngIf="agendamento._id" [disabled]="false">
+                    Sim
+                </button>
             </div>
         </div>
     </div>

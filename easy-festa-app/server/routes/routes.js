@@ -111,14 +111,47 @@ router.get('/agendamentos', (req, res, next) => {
 router.post('/agendamento', (req, res, next) => {
     let novoAgendamento = new Agendamento({
         title: req.body.title,
-        date: req.body.date
+        start: req.body.start,
+        description: req.body.description,
+        time: req.body.time
     })
 
     novoAgendamento.save((err, agendamento) => {
         if (err) {
-            res.json({ msg: 'Falha ao adicionar o agendamento.' })
+
+            res.json(err);
         } else {
             res.json({ msg: 'Agendamento adicionado com sucesso' });
+        }
+    });
+});
+
+//Update Anuncio
+router.post('/agendamento/editar', (req, res, next) => {
+    let id = req.body._id;
+
+    Agendamento.findById(id, function(err, agendamento) {
+        if (err) {
+            res.json(err);
+
+        } else {
+            agendamento.title = req.body.title;
+            agendamento.start = req.body.start;
+            agendamento.time = req.body.time;
+            agendamento.description = req.body.description;
+            agendamento.save();
+            res.json({ menssage: "ok" });
+        }
+    });
+});
+
+//Delete Agendamento
+router.delete('/agendamento/:id', (req, res, next) => {
+    Agendamento.remove({ _id: req.params.id }, function(err, result) {
+        if (err) {
+            res.json(err)
+        } else {
+            res.json(result);
         }
     });
 });
@@ -354,7 +387,7 @@ router.get('/contrato/:id', (req, res, next) => {
     });
 });
 
-//Update
+//Update Contrato
 router.post('/contrato/editar', (req, res, next) => {
     let id = req.body._id;
 

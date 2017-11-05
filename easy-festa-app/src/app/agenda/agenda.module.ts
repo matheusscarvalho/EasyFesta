@@ -7,17 +7,22 @@ import { HttpModule } from '@angular/http';
 import { AngularFontAwesomeModule } from 'angular-font-awesome/angular-font-awesome';
 import { CalendarioComponent } from './calendario/calendario.component';
 import { AgendaComponent } from './agenda.component';
-import { CalendarComponent } from 'ap-angular2-fullcalendar/src/calendar/calendar';
 import { AgendaRoutingModule } from './agenda.module.routing';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { AgendaService } from './agenda.service';
+import { TextMaskModule } from 'angular2-text-mask';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import {ScheduleModule} from 'primeng/primeng';
 
 @NgModule({
   imports: [
     CommonModule,
     AgendaRoutingModule,
     RouterModule,
+    ScheduleModule,
     HttpModule,
+    BsDatepickerModule.forRoot(),
+    TextMaskModule,
     FormsModule,
     AngularFontAwesomeModule,
     ModalModule.forRoot()
@@ -25,6 +30,6 @@ import { AgendaService } from './agenda.service';
   ],
   providers: [AgendaService],
   exports: [CalendarioComponent],
-  declarations: [CalendarComponent, CalendarioComponent, AgendaComponent]
+  declarations: [CalendarioComponent, AgendaComponent]
 })
 export class AgendaModule { }

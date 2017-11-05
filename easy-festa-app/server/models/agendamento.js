@@ -6,8 +6,18 @@ const AgendamentoSchema = mongoose.Schema({
         required: true
     },
 
-    date: {
+    start: {
         type: Date,
+        required: true
+    },
+
+    description: {
+        type: String,
+        required: true
+    },
+
+    time: {
+        type: String,
         required: true
     }
 

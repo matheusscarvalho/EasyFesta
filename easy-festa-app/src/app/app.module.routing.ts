@@ -11,7 +11,7 @@ import { ContratoComponent } from './contrato/contrato/contrato.component';
 import { CadastrarContasComponent } from './conta/cadastrar-contas/cadastrar-contas.component';
 
 const APP_ROUTES:  Routes = [
-    { path: '', component: HomeComponent},
+    { path: '', component: LoginComponent},
     { path: 'home', component: HomeComponent},
     { path: 'login', component: LoginComponent},
     { path: 'conta', component: ContaComponent},
