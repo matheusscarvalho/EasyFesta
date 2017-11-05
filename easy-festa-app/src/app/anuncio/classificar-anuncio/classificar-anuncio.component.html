@@ -1,0 +1,57 @@
+<div class="page-tittle">
+    <fa name="star-half-full"></fa>
+    Avalaiar Anúncio
+</div>
+<div class="row margin-top-10">
+    <div class="col-md-6">
+        <div class="card text-center">
+            <div class="card-header">
+
+            </div>
+            <div class="card-block">
+                <h4 *ngIf="anuncioAvaliado">{{anuncioAvaliado.titulo}}</h4>
+                <hr>
+                <span *ngIf="anuncioAvaliado">{{anuncioAvaliado.descricao}}</span>
+            </div>
+            <div class="card-footer text-muted">
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="painel text-center">
+            <form #calssificacaoForm="ngForm">
+                <span class="bold">Numa escala de 0 a 5, qual é o grau de satisfação você possui em relação ao produto e aos serviços prestados?</span>
+                <br>
+                <rating class="margintop-10 font-size-20 rate" name="nota" [(ngModel)]="rate" [max]="max" stateOn="fa fa-star" stateOff="fa fa-star-o"></rating>
+                <br>
+                <hr>
+                <span class="bold">Você compraria o produto ou contrataria o serviço novamente?</span>
+                <br>
+                <input type="radio" name="novaCompra" btnRadio=true [checked]="true">
+                <fa name="thumbs-o-up"></fa>
+                Sim &nbsp;&nbsp;
+
+                <input type="radio" name="novaCompra" btnRadio=false [checked]="false">
+                <fa name="thumbs-o-down"></fa>
+                Não
+
+                <hr>
+                <br>
+                <textarea class="form-control" placeholder="Descreva a motivação para a avaliação dada." rows="6" id="comentario" name="comentario" required></textarea>
+
+            </form>
+
+
+
+        </div>
+        <div class="margin-top-10">
+            <button id="salvar" name="salvar" class="btn btn-block btn-primary" [disabled]="!calssificacaoForm.form.valid">
+                <fa name="floppy-o"></fa>
+                Salvar
+            </button>
+        </div>
+
+    </div>
+</div>

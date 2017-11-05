@@ -16,6 +16,7 @@ import { AnuncioRoutingModule } from './anuncio.module.routing';
 import { ModalModule } from 'ngx-bootstrap/modal';
 
 import { AnuncioService } from './anuncio.service';
+import { ClassificarAnuncioComponent } from './classificar-anuncio/classificar-anuncio.component';
 
 @NgModule({
   imports: [
@@ -30,7 +31,7 @@ import { AnuncioService } from './anuncio.service';
     RatingModule.forRoot()
   ],
   providers: [AnuncioService],
-  exports: [ListarAnunciosComponent, CadastrarAnunciosComponent, AnuncioComponent],
-  declarations: [ListarAnunciosComponent, CadastrarAnunciosComponent, AnuncioComponent]
+  exports: [ListarAnunciosComponent, CadastrarAnunciosComponent, AnuncioComponent, ClassificarAnuncioComponent],
+  declarations: [ListarAnunciosComponent, CadastrarAnunciosComponent, AnuncioComponent, ClassificarAnuncioComponent]
 })
 export class AnuncioModule { }

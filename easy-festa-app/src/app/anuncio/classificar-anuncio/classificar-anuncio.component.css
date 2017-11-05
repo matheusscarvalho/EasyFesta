@@ -1,0 +1,24 @@
+.margin-top-10 {
+    margin-top: 10px;
+}
+
+.padding-10 {
+    padding: 10px;
+}
+
+.card-header {
+    background-image: url("https://www.casasofia.com.br/cdn/imagens/produtos/original/tecido-decoracao-acores-dohler-22052799d585cb03b93b28e1ff6d4d58.jpg");
+}
+
+.card-footer {
+    background-image: url("https://www.casasofia.com.br/cdn/imagens/produtos/original/tecido-decoracao-acores-dohler-22052799d585cb03b93b28e1ff6d4d58.jpg");
+}
+
+.card-block {
+    min-height: 300px;
+    padding: 10px;
+}
+
+.rate {
+    color: #E3E31C;
+}

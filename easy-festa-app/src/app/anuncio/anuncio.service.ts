@@ -45,7 +45,7 @@ export class AnuncioService {
     
   }
 
-  getAnuncio(id: Number) {
+  getAnuncio(id) {
     let body = id.toString();
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
