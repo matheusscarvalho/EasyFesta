@@ -427,7 +427,8 @@ router.post('/evento', (req, res) => {
         nome: req.body.nome,
         tipo: "EVENTO",
         dataevento: req.body.dataevento,
-        hora: req.body.hora
+        hora: req.body.hora,
+        consumidor: new Consumidor()
     };
 
     console.log(req.body);
@@ -437,13 +438,40 @@ router.post('/evento', (req, res) => {
     novoEvento.save((e, evento) => {
         if (e) {
             res.json({ msg: 'Falha ao adicionar evento!' });
+            console.log(e);
         } else {
-
             res.json({ msg: 'Evento adicionado com sucesso!' });
-
             console.log(evento);
         }
     });
+});
+
+//Buscar
+router.get('/evento/:id', (req, res, next) => {
+  let id = req.params.id;
+  Evento.findById(id, function(err, evento) {
+    if (err) {
+      res.json(err)
+    } else {
+      res.json(evento);
+    }
+  });
+});
+
+router.post('/evento/editar', (req, res, next) => {
+  let id = req.body._id;
+
+  Evento.findById(id, function(err, evento) {
+    if (err) {
+      res.json(err);
+
+    } else {
+      evento.nome = req.body.nome;
+      evento.desc = req.body.desc;
+      evento.save();
+      res.json({ menssage: "ok, evento editado! .. " });
+    }
+  });
 });
 
 router.delete('/evento/:id', (req, res) => {

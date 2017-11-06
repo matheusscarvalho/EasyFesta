@@ -23,7 +23,7 @@ const EventoSchema = mongoose.Schema({
         ref: "Consumidor",
         required: true
     },
-    convidados: { type: Number },
+    convidados: { type: Number }
 });
 
 

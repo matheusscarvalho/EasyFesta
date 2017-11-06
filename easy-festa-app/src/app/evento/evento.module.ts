@@ -9,6 +9,7 @@ import { ButtonsModule } from 'ngx-bootstrap/buttons';
 
 import { ListarEventosComponent } from './listar-eventos/listar-eventos.component';
 import { CadastrarEventosComponent } from './cadastrar-eventos/cadastrar-eventos.component';
+import { EditarEventoComponent } from './editar/editar-evento.component';
 import { EventoComponent } from './evento.component';
 
 import { EventoRoutingModule } from './evento.module.routing';
@@ -28,7 +29,7 @@ import { EventoService } from './evento.service';
     ButtonsModule.forRoot()
   ],
   providers: [EventoService],
-  exports: [ListarEventosComponent, CadastrarEventosComponent, EventoComponent],
-  declarations: [ListarEventosComponent, CadastrarEventosComponent, EventoComponent]
+  exports: [ListarEventosComponent, CadastrarEventosComponent, EditarEventoComponent, EventoComponent],
+  declarations: [ListarEventosComponent, CadastrarEventosComponent, EditarEventoComponent, EventoComponent]
 })
 export class EventoModule { }

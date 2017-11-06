@@ -1,0 +1,82 @@
+<fieldset class="new-evt">
+
+  <!-- Form Name -->
+  <legend> Editar Evento </legend>
+  <hr>
+
+  <!-- Text input-->
+  <div class="row">
+
+    <div class="form-group col-md-3">
+      <label class="control-label bold" for="nome">Nome</label>
+      <div>
+        <input id="nome" [(ngModel)]="evento.nome" name="nome" type="text" placeholder="Festa de 15 anos" class="form-control input-md" required="">
+      </div>
+    </div>
+
+    <div class="form-group col-md-3">
+      <label class="control-label bold" for="dataevento">Data</label>
+      <div flex-gt-xs>
+        <input type="date" [(ngModel)]="evento.dataevento" class="form-control input-group-sm" name="dataevento" id="dataevento" required/>
+      </div>
+    </div>
+
+    <div class="form-group col-md-3">
+      <label class="control-label bold" for="hora">Horário</label>
+      <div>
+        <input id="hora" [(ngModel)]="evento.hora" name="hora" type="text" placeholder="20h30" class="form-control input-md" required="">
+      </div>
+    </div>
+
+    <div class="form-group col-md-3">
+      <label class="control-label bold" for="convidados"> Número de Convidados </label>
+      <div>
+        <input id="convidados" [(ngModel)]="evento.convidados" name="convidados" type="number" class="form-control input-md" required="">
+      </div>
+    </div>
+
+    <!-- Textarea -->
+    <div class="form-group col-md-12">
+      <label class="control-label bold" for="descricao">Descrição</label>
+      <div>
+        <textarea [(ngModel)]="evento.desc" class="form-control" rows="5" id="descricao" name="descricao"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- Button (Double) -->
+    <div class="form-group col-md-12">
+      <div class="pull-left">
+        <button id="salvar" name="salvar" class="btn btn-primary" (click)="adicionarEvento();staticModal.show()">Salvar</button>
+        <button id="canelar" name="canelar" class="btn btn-danger" routerLink="/evento/listar">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" bsModal #staticModal="bs-modal" [config]="{backdrop: 'static'}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title pull-left">
+            <fa name="floppy-o"></fa> Novo Evento
+          </h5>
+          <button type="button" class="close pull-right" aria-label="Close" (click)="staticModal.hide()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="alert alert-success" role="alert">
+            Evento {{ evento.nome }} salvo com sucesso!
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" routerLink="/evento/listar">
+            Ok
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</fieldset>

@@ -38,4 +38,18 @@ export class EventoService {
     return this.http.delete('http://localhost:3000/api/evento/' + body, options).map((res: Response) => res.json());
 
   }
+
+  getEvento(evt_id: Number) {
+
+  }
+
+  editaEvento(evento: Evento) {
+    let body = JSON.stringify(evento);
+    let headers = new Headers({'Content-Type': 'application/json'});
+    let options = new RequestOptions({headers: headers});
+
+    return this.http.post('http://localhost:3000/api/evento/editar', body, options).
+      map( (res: Response) => res.json() );
+
+  }
 }

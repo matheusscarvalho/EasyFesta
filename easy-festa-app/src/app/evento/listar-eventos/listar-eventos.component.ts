@@ -16,6 +16,11 @@ export class ListarEventosComponent implements OnInit {
     this.eventoService.getEventos().subscribe(a => this.eventos = a);
   }
 
+  plugAndPlay(id) {
+    console.log('Editar evento: ');
+    console.log(id);
+  }
+
   removerEvento(id, index) {
 
     this.eventoService.removeEvento(id).subscribe(

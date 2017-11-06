@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { EventoService } from './../evento.service';
 import { Evento } from './../evento.class';
+import { Consumidor } from '../../conta/consumidor.class';
 
 @Component({
   selector: 'cadastrar-eventos',
@@ -9,10 +10,12 @@ import { Evento } from './../evento.class';
 })
 export class CadastrarEventosComponent implements OnInit {
 
+  consumidor: Consumidor;
   novoEvento: Evento;
   constructor(private evtService: EventoService) {
     this.novoEvento = new Evento();
-    this.novoEvento.tipo = "Evt";
+    this.novoEvento.tipo = "novo evento - consumidor";
+    this.novoEvento.consumidor = new Consumidor();
   }
 
   ngOnInit() {}
@@ -22,10 +25,10 @@ export class CadastrarEventosComponent implements OnInit {
     this.evtService.addEvento(this.novoEvento).subscribe(
       data => {
         // refresh the list
-        console.log('Evento Salvo com sucesso!');
+        console.log('Seu evento foi salvo com sucesso!!');
       },
       error => {
-        console.error('Erro ao salvar evento!!');
+        console.error('Erro ao criar evento!!');
       }
     );
   }

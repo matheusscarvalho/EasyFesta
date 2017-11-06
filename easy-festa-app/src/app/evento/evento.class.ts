@@ -1,3 +1,5 @@
+import { Consumidor } from "../conta/consumidor.class";
+
 /*
 >>>> Requisitos de informação
 
@@ -22,4 +24,5 @@ export class Evento {
   tipo: String;
   desc: String;
   convidados: number;
+  consumidor: Consumidor;
 }

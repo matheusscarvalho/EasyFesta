@@ -34,7 +34,7 @@ app.use(flash());
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('views', __dirname + '/views');
 
-const route = require('./routes/routes.js');
+const route = require('./routes/routes.ts');
 
 //Routes
 app.use('/api', route);
