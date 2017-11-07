@@ -1,7 +1,7 @@
 <fieldset class="new-evt">
 
   <!-- Form Name -->
-  <legend> Editar Evento </legend>
+  <legend> Editar Evento {{ evento.nome }} </legend>
   <hr>
 
   <!-- Text input-->
@@ -48,7 +48,7 @@
     <!-- Button (Double) -->
     <div class="form-group col-md-12">
       <div class="pull-left">
-        <button id="salvar" name="salvar" class="btn btn-primary" (click)="adicionarEvento();staticModal.show()">Salvar</button>
+        <button id="salvar" name="salvar" class="btn btn-primary" (click)="editEvt();staticModal.show()">Salvar</button>
         <button id="canelar" name="canelar" class="btn btn-danger" routerLink="/evento/listar">Cancelar</button>
       </div>
     </div>

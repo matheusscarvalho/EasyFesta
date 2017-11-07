@@ -48,7 +48,7 @@
           <div class="row">
             <!-- Button (Double) -->
             <div class="form-group col-md-12">
-              <button name="editar" class="btn btn-docs" (click)="plugAndPlay(evento._id)">Edite</button>
+              <button name="editar" class="btn btn-docs" routerLink="/evento/{{evento._id}}/editar">Edite</button>
               <button id="canelar" name="canelar" class="btn btn-danger" (click)="removerEvento(evento._id, i); staticModal.show();">Remover</button>
             </div>
           </div>

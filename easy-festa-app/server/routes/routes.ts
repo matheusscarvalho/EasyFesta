@@ -410,7 +410,6 @@ Fim contrato
 
 */
 
-
 /*
   Eventos
  */
@@ -451,8 +450,10 @@ router.get('/evento/:id', (req, res, next) => {
   let id = req.params.id;
   Evento.findById(id, function(err, evento) {
     if (err) {
-      res.json(err)
+      res.json(err);
+      console.log(err);
     } else {
+      console.log('Achei o evento');
       res.json(evento);
     }
   });

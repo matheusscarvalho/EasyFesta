@@ -40,7 +40,11 @@ export class EventoService {
   }
 
   getEvento(evt_id: Number) {
+    let body = evt_id.toString();
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
 
+    return this.http.get('http://localhost:3000/api/evento/' + body, options).map((res: Response) => res.json());
   }
 
   editaEvento(evento: Evento) {
