@@ -1,91 +1,95 @@
-<div class="painel margin-top-10">
-  <div class="col-md-12 row">
-
-    <div class="col-md-8 left evt-title"> Meus eventos </div>
-
-    <div class="col-md-2 right">
-      <button class="btn btn-primary" type="button" routerLink="/evento/cadastrar">
-        <fa name="plus-circle"></fa> Cadastrar Evento
-      </button>
-    </div>
-
-  </div>
-
-  <hr>
-  <div class="row">
-    <div class="col-md-12">
-      <div class="row">
-
-        <div class="input-group col-md-10">
-          <input type="text" class="form-control" placeholder="Pesquise aqui">
-          <span class="input-group-btn">
-            <button class="btn btn-secondary" type="button"> <fa name="search"></fa> </button>
-          </span>
+<div class="page-tittle">
+    <div class="row">
+        <div class="col-md-2">
+            <fa name="glass"></fa> Meus Eventos
         </div>
+        <div class="input-group col-md-8">
+            <input type="text" [(ngModel)]="pesquisa" (keyup)="pesquisarAnuncio()" class="form-control" placeholder="Pesquise aqui..."> </div>
 
-      </div>
-    </div>
-  </div>
+        <div class="col-md-2">
 
-  <div class="row eventos-container margin-top-12">
-
-    <div class="col-md-4" *ngFor="let evento of eventos; let i = index">
-      <div class="card">
-        <div class="card-body">
-
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item">
-              <h4 class="card-title"> {{evento.nome}} </h4>
-            </li>
-          </ul>
-
-          <p> Tipo: {{ evento.tipo }}</p>
-          <p> Total de <strong> {{ evento.convidados }} </strong> convidados </p>
-          <small> Data: {{ evento.dataevento | date: 'dd/MM/yyyy'}} às {{ evento.hora }} horas</small>
-          <hr>
-
-          <p class="card-text">{{evento.desc}}</p>
-          <div class="row">
-            <!-- Button (Double) -->
-            <div class="form-group col-md-12">
-              <button name="editar" class="btn btn-docs" routerLink="/evento/{{evento._id}}/editar">Edite</button>
-              <button id="canelar" name="canelar" class="btn btn-danger" (click)="removerEvento(evento._id, i); staticModal.show();">Remover</button>
-            </div>
-          </div>
-
+            <button class="btn btn-warning btn-block" type="button" routerLink="/evento/cadastrar">
+            <fa name="plus-circle"></fa> Cadastrar
+        </button>
         </div>
-      </div>
     </div>
-
-    <div class="col-md-12 countEvt">
-      <p class="text-center center col-md-10 alert alert-info"> Exibindo {{ eventos.length }} eventos </p>
-    </div>
-
-  </div>
-
-  <div class="modal fade" bsModal #staticModal="bs-modal" [config]="{backdrop: 'static'}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-sm">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title pull-left">
-            <fa name="floppy-o"></fa> Remover Evento
-          </h5>
-          <button type="button" class="close pull-right" aria-label="Close" (click)="staticModal.hide()">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div class="alert alert-success" role="alert">
-            Evento removido com sucesso!
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" aria-label="Close" (click)="staticModal.hide()">
-            Ok
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
 </div>
+
+<div class="painel margin-top-10">
+    <div class="margin-top-10">
+        <div class="row card-columns margin-top-12">
+            <div class="col-md-12">
+                <p *ngIf="eventos.length > 1" class="text-center center col-md-12 alert alert-info"> {{ eventos.length }} eventos encontrados.</p>
+                <p *ngIf="eventos.length == 1" class="text-center center col-md-12 alert alert-info"> 1 evento encontrado.</p>
+                <p *ngIf="eventos.length == 0" class="text-center center col-md-12 alert alert-info"> Nenhum evento encontrado.</p>
+            </div>
+
+            <div class="col-md-4" *ngFor="let evento of eventos; let i = index">
+                <div class="card text-center">
+                    <div class="card-header">
+                        <img width="100%" height="80px" src="https://www.kennyallenmusic.com/wp-content/uploads/2014/09/under_header-brown.png">
+                    </div>
+                    <div class="card-body">
+
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <h5 class="card-title"> {{evento.nome.toUpperCase()}} </h5>
+                            </li>
+                        </ul>
+
+                        <!--p> Tipo: {{ evento.tipo }}</p-->
+                        <p>
+                            <fa name="users"></fa>
+                            <strong>{{ evento.convidados }} </strong> convidados
+                        </p>
+
+                        <small>
+                          <fa name="calendar"></fa>
+                         {{ evento.dataevento | date: 'dd/MM/yyyy'}} às {{ evento.hora }} horas
+                      </small>
+                        <hr>
+
+                        <p class="card-text">{{evento.desc}}</p>
+
+                    </div>
+                    <div class="card-footer">
+                        <div class="row">
+                            <!-- Button (Double) -->
+                            <div class="form-group col-md-12">
+                                <button name="editar" class="btn btn-block btn-docs" (click)="plugAndPlay(evento._id)" routerLink="/evento/{{evento._id}}/editar">Editar</button>
+                                <button id="canelar" name="canelar" class="btn btn-block btn-danger" (click)="removerEvento(evento._id, i); staticModal.show();">Remover</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="modal fade" bsModal #staticModal="bs-modal" [config]="{backdrop: 'static'}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title pull-left">
+                            <fa name="floppy-o"></fa> Remover Evento
+                        </h5>
+                        <button type="button" class="close pull-right" aria-label="Close" (click)="staticModal.hide()">
+
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="alert alert-success" role="alert">
+                            Evento removido com sucesso!
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" aria-label="Close" (click)="staticModal.hide()">
+                          Ok
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>

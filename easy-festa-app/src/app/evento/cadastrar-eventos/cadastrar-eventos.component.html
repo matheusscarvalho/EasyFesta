@@ -1,82 +1,321 @@
-<fieldset class="new-evt">
+<div class="page-tittle">
 
-  <!-- Form Name -->
-  <legend> Cadastrar Evento </legend>
-  <hr>
+    <fa name="plus-circle"></fa> Cadastrar Evento
 
-  <!-- Text input-->
-  <div class="row">
+</div>
 
-    <div class="form-group col-md-3">
-      <label class="control-label bold" for="nome">Nome</label>
-      <div>
-        <input id="nome" [(ngModel)]="novoEvento.nome" name="nome" type="text" placeholder="Festa de 15 anos" class="form-control input-md" required="">
-      </div>
+<div class="painel margin-top-10">
+    <fieldset class="new-evt">
+
+        <form #eventoForm="ngForm">
+            <div class="row">
+                <div class="col-md-12">
+                    <label class="btn-block bold page-tittle-small">
+                        <fa name="exclamation-circle"></fa>
+                        Informações Gerais
+                      </label>
+                </div>
+
+                <div class="form-group col-md-3">
+                    <label class="control-label bold" for="nome">Nome</label>
+                    <div>
+                        <input id="nome" [(ngModel)]="novoEvento.nome" name="nome" type="text" placeholder="Festa de 15 anos" class="form-control" required>
+                    </div>
+                </div>
+
+                <div class="form-group col-md-3">
+                    <label class="control-label bold" for="segmento">Segmento</label>
+                    <select class="form-control input-md" required [(ngModel)]="novoEvento.segmento" name="segmento">
+                          <option value="">Selecione</option>
+                          <option value="1">Aniversário</option>
+                          <option value="2">Casamento</option>
+                          <option value="3">Corporativo</option>                        
+                          <option value="4">Debutante</option>
+                          <option value="5">Formatura</option>  
+                      </select>
+                </div>
+
+                <div class="form-group col-md-2">
+                    <label class="control-label bold" for="dataevento">Data</label>
+                    <div flex-gt-xs>
+                        <input type="date" [(ngModel)]="novoEvento.dataevento" class="form-control input-group-sm" name="dataevento" id="dataevento" required>
+                    </div>
+                </div>
+
+                <div class="form-group col-md-2">
+                    <label class="control-label bold" for="hora">Horário</label>
+                    <div>
+                        <input id="hora" [(ngModel)]="novoEvento.hora" name="hora" type="text" placeholder="20h30" class="form-control input-md" required>
+                    </div>
+                </div>
+
+                <div class="form-group col-md-2">
+                    <label class="control-label bold" for="convidados">Num. Convidados </label>
+                    <div>
+                        <input id="convidados" [(ngModel)]="novoEvento.convidados" name="convidados" type="number" class="form-control input-md" required>
+                    </div>
+                </div>
+
+                <!-- Textarea -->
+                <div class="form-group col-md-12">
+                    <label class="control-label bold" for="descricao">Descrição</label>
+                    <div>
+                        <textarea [(ngModel)]="novoEvento.desc" class="form-control" rows="5" id="descricao" name="descricao" required></textarea>
+                    </div>
+                </div>
+
+                <!-- Tabela de produtos -->
+                <div class="col-md-12 margin-top-10">
+                    <label class="control-label btn-block bold page-tittle-small">
+                        <fa name="shopping-cart"></fa>
+                        Produtos Comprados
+                        <button id="cadastrarProduto" name="cadastrarProduto" (click)="produtoModal.show()" class="btn btn-sm btn-warning pull-right">
+                          <fa name="plus-circle"></fa>
+                          Adicionar
+                        </button> 
+                      </label>
+                    <table class="table" *ngIf="novoEvento.produtos.length">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nome</th>
+                                <th>Descrição</th>
+                                <th>Preço Unitário</th>
+                                <th>Quantidade</th>
+                                <th>Total</th>
+                                <th>Opções</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let produto of novoEvento.produtos; let i=index">
+                                <th scope="row">{{i+1}}</th>
+                                <td>{{ produto.nome }}</td>
+                                <td>{{ produto.descricao }}</td>
+                                <td>{{ produto.preco | currency:'BRL':'code' }}</td>
+                                <td>{{ produto.quantidade }}</td>
+                                <td>{{ produto.quantidade * produto.preco | currency:'BRL':'code'}}</td>
+                                <td>
+                                    <button type="button" class="btn btn-sm btn-dark" (click)="editarProduto(i);produtoModal.show();">
+                                      <fa name="edit"></fa>
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-danger" (click)="removerProduto(i)">
+                                        <fa name="trash"></fa>
+                                      </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Tabela de serviços -->
+                <div class="col-md-12 margin-top-10">
+                    <label class="control-label btn-block bold page-tittle-small">
+                        <fa name="signing"></fa>
+                        Serviços Contratados
+                        <button id="cadastrarProduto" name="cadastrarProduto" (click)="servicoModal.show()" class="btn btn-sm btn-warning pull-right">
+                            <fa name="plus-circle"></fa>
+                            Adicionar
+                          </button>
+                      </label>
+                    <table class="table" *ngIf="novoEvento.servicos.length">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nome</th>
+                                <th>Descrição</th>
+                                <th>Total</th>
+                                <th>Opções</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let servico of novoEvento.servicos; let i=index">
+                                <th scope="row">{{i+1}}</th>
+                                <td>{{ servico.nome }}</td>
+                                <td>{{ servico.descricao }}</td>
+                                <td>{{ servico.preco | currency:'BRL':'code' }}</td>
+                                <td>
+                                    <button type="button" class="btn btn-sm btn-dark" (click)="editarServico(i);servicoModal.show();">
+                                        <fa name="edit"></fa>
+                                      </button>
+                                    <button type="button" class="btn btn-sm btn-danger" (click)="removerServico(i)">
+                                          <fa name="trash"></fa>
+                                        </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+
+            </div>
+        </form>
+
+    </fieldset>
+</div>
+
+<div class="row margin-top-10">
+    <div class="col-md-6">
+        <button id="canelar" name="canelar" class="btn btn-block btn-secondary" routerLink="/evento/listar">
+                <fa name="reply"></fa>
+                Voltar
+              </button>
     </div>
-
-    <div class="form-group col-md-3">
-      <label class="control-label bold" for="dataevento">Data</label>
-      <div flex-gt-xs>
-        <input type="date" [(ngModel)]="novoEvento.dataevento" class="form-control input-group-sm" name="dataevento" id="dataevento" required/>
-      </div>
+    <div class="col-md-6">
+        <button id="salvar" name="salvar" class="btn btn-block btn-primary" (click)="adicionarEvento();staticModal.show()" [disabled]="!eventoForm.form.valid">
+                <fa name="floppy-o"></fa>
+                Salvar
+              </button>
     </div>
+</div>
 
-    <div class="form-group col-md-3">
-      <label class="control-label bold" for="hora">Horário</label>
-      <div>
-        <input id="hora" [(ngModel)]="novoEvento.hora" name="hora" type="text" placeholder="20h30" class="form-control input-md" required="">
-      </div>
-    </div>
-
-    <div class="form-group col-md-3">
-      <label class="control-label bold" for="convidados"> Número de Convidados </label>
-      <div>
-        <input id="convidados" [(ngModel)]="novoEvento.convidados" name="convidados" type="number" class="form-control input-md" required="">
-      </div>
-    </div>
-
-    <!-- Textarea -->
-    <div class="form-group col-md-12">
-      <label class="control-label bold" for="descricao">Descrição</label>
-      <div>
-        <textarea [(ngModel)]="novoEvento.desc" class="form-control" rows="5" id="descricao" name="descricao"></textarea>
-      </div>
-    </div>
-  </div>
-
-  <div class="row">
-    <!-- Button (Double) -->
-    <div class="form-group col-md-12">
-      <div class="pull-left">
-        <button id="salvar" name="salvar" class="btn btn-primary" (click)="adicionarEvento();staticModal.show()">Salvar</button>
-        <button id="canelar" name="canelar" class="btn btn-danger" routerLink="/evento/listar">Cancelar</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal fade" bsModal #staticModal="bs-modal" [config]="{backdrop: 'static'}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+<div class="modal fade" bsModal #staticModal="bs-modal" [config]="{backdrop: 'static'}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-sm">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title pull-left">
-            <fa name="floppy-o"></fa> Novo Evento
-          </h5>
-          <button type="button" class="close pull-right" aria-label="Close" (click)="staticModal.hide()">
-            <span aria-hidden="true">&times;</span>
-          </button>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title pull-left">
+                    <fa name="floppy-o"></fa> Novo Evento
+                </h5>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="staticModal.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-success" role="alert">
+                    Evento {{ novoEvento.nome }} salvo com sucesso!
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" routerLink="/evento/listar">
+      Ok
+    </button>
+            </div>
         </div>
-        <div class="modal-body">
-          <div class="alert alert-success" role="alert">
-            Evento {{ novoEvento.nome }} salvo com sucesso!
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" routerLink="/evento/listar">
-            Ok
-          </button>
-        </div>
-      </div>
     </div>
-  </div>
+</div>
 
-</fieldset>
+<!-- Modal de adição de produtos -->
+<div class="modal fade" bsModal #produtoModal="bs-modal" [config]="{backdrop: 'static'}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title pull-left">
+                    <span *ngIf="true">
+                    <fa name="plus-circle"></fa> Adicionar Produto
+                  </span>
+                </h5>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="produtoModal.hide(); resetarStatusAdicaoProduto();">
+          <span aria-hidden="true">&times;</span>
+        </button>
+            </div>
+            <div class="modal-body">
+                <form #produtoForm="ngForm" class="painel">
+                    <div class="row">
+
+                        <div class="col-md-12" *ngIf="produtoAdicionado">
+                            <span class="btn-block alert alert-success" role="alert">
+                              Produto salvo com sucesso!
+                            </span>
+                        </div>
+
+                        <div class="form-group col-md-12">
+                            <label class="control-label bold" for="nome">Nome</label>
+                            <div>
+                                <input id="nome" [(ngModel)]="novoProduto.nome" name="nome" type="text" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label class="control-label bold" for="preco">Preço Unit.</label>
+                            <div>
+                                <input id="preco" [(ngModel)]="novoProduto.preco" name="preco" type="number" [min]="0.01" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label class="control-label bold" for="quantidade">Quantidade</label>
+                            <div>
+                                <input id="quantidade" [(ngModel)]="novoProduto.quantidade" name="quantidade" type="number" [min]="1" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-12">
+                            <label class="control-label bold" for="descricao">Descrição</label>
+                            <div>
+                                <textarea id="descricao" [(ngModel)]="novoProduto.descricao" name="descricao" type="text" class="form-control" required></textarea>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="produtoModal.hide(); resetarStatusAdicaoProduto();">
+                  Voltar
+                </button>
+                <button type="button" class="btn btn-primary" (click)="adicionarProduto();" [disabled]="!produtoForm.form.valid">
+                  Salvar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de adição de serviços -->
+<div class="modal fade" bsModal #servicoModal="bs-modal" [config]="{backdrop: 'static'}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title pull-left">
+                    <span *ngIf="true">
+                    <fa name="plus-circle"></fa> Adicionar Serviço
+                  </span>
+                </h5>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="servicoModal.hide(); resetarStatusAdicaoServico();">
+          <span aria-hidden="true">&times;</span>
+        </button>
+            </div>
+            <div class="modal-body">
+                <form #servicoForm="ngForm" class="painel">
+                    <div class="row">
+
+                        <div class="col-md-12" *ngIf="servicoAdicionado">
+                            <span class="btn-block alert alert-success" role="alert">
+                              Serviço salvo com sucesso!
+                            </span>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label class="control-label bold" for="nome">Nome</label>
+                            <div>
+                                <input id="nome" [(ngModel)]="novoServico.nome" name="nome" type="text" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label class="control-label bold" for="preco">Preço</label>
+                            <div>
+                                <input id="preco" [(ngModel)]="novoServico.preco" name="preco" type="number" [min]="0.01" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-12">
+                            <label class="control-label bold" for="descricao">Descrição</label>
+                            <div>
+                                <textarea id="descricao" [(ngModel)]="novoServico.descricao" name="descricao" type="text" class="form-control" required></textarea>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="servicoModal.hide(); resetarStatusAdicaoProduto();">
+                  Voltar
+                </button>
+                <button type="button" class="btn btn-primary" (click)="adicionarServico();" [disabled]="!servicoForm.form.valid">
+                  Salvar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

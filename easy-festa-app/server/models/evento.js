@@ -23,7 +23,48 @@ const EventoSchema = mongoose.Schema({
         ref: "Consumidor",
         required: true
     },
-    convidados: { type: Number }
+    convidados: { type: Number },
+    produtos: [{
+        nome: {
+            type: String,
+            required: true
+        },
+        descricao: {
+            type: String,
+            required: true
+        },
+        preco: {
+            type: Number,
+            required: true
+        },
+        quantidade: {
+            type: Number,
+            required: true
+        },
+        check: {
+            type: Boolean,
+            required: false
+        }
+    }],
+    servicos: [{
+        nome: {
+            type: String,
+            required: true
+        },
+        descricao: {
+            type: String,
+            required: true
+        },
+        preco: {
+            type: Number,
+            required: true
+        },
+        check: {
+            type: Boolean,
+            required: false
+        }
+    }],
+
 });
 
 

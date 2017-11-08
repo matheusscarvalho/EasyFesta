@@ -18,3 +18,7 @@
     color: inherit;
     white-space: normal;
 }
+
+.card-header {
+    padding: 0px;
+}

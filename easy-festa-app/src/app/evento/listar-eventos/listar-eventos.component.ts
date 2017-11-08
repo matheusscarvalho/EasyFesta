@@ -10,10 +10,28 @@ import { Evento } from './../evento.class';
 })
 export class ListarEventosComponent implements OnInit {
   eventos: Evento[] = [];
+  eventosAuxPesquisa: Evento[] = [];
+  pesquisa: String;
   constructor(private eventoService: EventoService) { }
 
   ngOnInit() {
-    this.eventoService.getEventos().subscribe(a => this.eventos = a);
+    this.eventoService.getEventos().subscribe(
+      a => {
+        a = this.ordenarEventosPorData(a);
+        this.eventos = a;
+         this.eventosAuxPesquisa = a;
+      } 
+    );
+  }
+
+  ordenarEventosPorData(eventos: Evento[]) {
+    eventos = eventos.sort(
+      (evento1, evento2 ) => {
+        return evento2.dataevento < evento1.dataevento ? -1 : evento2.dataevento > evento1.dataevento ? 1 : 0;
+      }
+    );
+
+    return eventos;
   }
 
   plugAndPlay(id) {
@@ -29,6 +47,15 @@ export class ListarEventosComponent implements OnInit {
       },
       error => {
         console.error('Error saving event!');
+      }
+    );
+  }
+
+  pesquisarAnuncio() {
+    this.eventos = this.eventosAuxPesquisa.filter(
+      (evento) => {
+
+        return evento.nome.toLocaleLowerCase().indexOf(this.pesquisa.valueOf().toLowerCase()) != -1 || evento.desc.toLocaleLowerCase().indexOf(this.pesquisa.valueOf().toLocaleLowerCase()) != -1;
       }
     );
   }

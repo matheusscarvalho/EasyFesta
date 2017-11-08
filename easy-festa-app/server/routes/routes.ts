@@ -427,10 +427,10 @@ router.post('/evento', (req, res) => {
         tipo: "EVENTO",
         dataevento: req.body.dataevento,
         hora: req.body.hora,
+        produtos: req.body.produtos,
+        servicos: req.body.servicos,
         consumidor: new Consumidor()
     };
-
-    console.log(req.body);
 
     let novoEvento = new Evento(new_evt);
 

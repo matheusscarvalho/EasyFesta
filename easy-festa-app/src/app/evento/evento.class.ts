@@ -1,4 +1,6 @@
 import { Consumidor } from "../conta/consumidor.class";
+import { Produto } from "./produto.class";
+import { Servico } from './servico.class';
 
 /*
 >>>> Requisitos de informação
@@ -25,4 +27,15 @@ export class Evento {
   desc: String;
   convidados: number;
   consumidor: Consumidor;
+  produtos: Produto[] = [];
+  servicos: Servico[] = [];
+
+  /*  
+      1- Aniversário
+      2- Casamento
+      3- Corporativo                       
+      4- Debutante
+      5- Formatura  
+  */
+  segmento: Number;
 }
