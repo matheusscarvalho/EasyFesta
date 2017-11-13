@@ -17,6 +17,7 @@ export class ClassificarAnuncioComponent implements OnInit {
   avaliacao: Avaliacao = new Avaliacao();
   anuncioId : String;
   anuncioAvaliado: Anuncio;
+  tipoPerfil: String = localStorage.getItem('perfil');
 
   /*
     1- Salvando.
@@ -49,8 +50,6 @@ export class ClassificarAnuncioComponent implements OnInit {
       //Sucesso ao salvar
       data=> {
         this.statusGravacao = 2;
-        console.log(data);
-
       },
 
       //Insucesso ao salvar

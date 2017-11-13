@@ -18,6 +18,7 @@ export class CadastrarAnunciosComponent implements OnInit {
   eRotaCadastro: Boolean;
   rotaDeCadastro: String = "cadastrar";
   anuncio: Anuncio;
+
   constructor(private anuncioService: AnuncioService, private route: ActivatedRoute) {
       this.anuncio = new Anuncio();
    }
@@ -32,7 +33,7 @@ export class CadastrarAnunciosComponent implements OnInit {
     if(this.eRotaCadastro) {      
       this.anuncio.tipo = 1;
       this.anuncio.publicado = true;
-      this.anuncio.fornecedor = "59f8a88b68d67a33ac3335d9";
+      this.anuncio.fornecedor = localStorage.getItem("id");
 
     //Entra se a rota atual for a de edição
     } else {

@@ -18,22 +18,32 @@
 
 .left-side {
     padding: 20px 0px 100px;
-    background: #9100ff;
+    background: transparent;
     background-size: cover;
-    background-image: url('https://68.media.tumblr.com/0015c635d20f2db0c537e495d54e6b8f/tumblr_o1ornnU8zx1tgxbfbo1_500.gif');
+    z-index: 999999999;
+    background-image: url(http://assetsrevista.icasei.com.br/wp-content/uploads/2016/01/Casamento-na-Praia-3-Estilos-para-inspirar_revistaicasei_Abre.jpg);
+    background-size: 100% 100%;
 }
 
 .left-side h1 {
     font-size: 70px;
     font-weight: 900;
-    color: #FFF;
+    color: white;
     padding: 50px 10px 00px 26px;
 }
 
 .left-side p {
     font-weight: 600;
-    color: #FFF;
+    color: white;
     padding: 10px 10px 10px 26px;
+    z-index: 99999;
+}
+
+.purple {
+    margin: 20px;
+    padding: 10px;
+    border-radius: 3px;
+    text-shadow: 3px 2px 2px purple;
 }
 
 .fb {
@@ -65,7 +75,7 @@
 
 .right-side {
     padding: 0px 0px 100px;
-    background: #FFF;
+    background: transparent;
     background-size: cover;
     min-height: 514px;
 }
@@ -73,7 +83,7 @@
 .right-side h1 {
     font-size: 30px;
     font-weight: 700;
-    color: #000;
+    color: purple;
     padding: 50px 10px 00px 50px;
 }
 
@@ -104,6 +114,7 @@
     -webkit-box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.24);
     -moz-box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.24);
     box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.24);
+    z-index: 9999;
 }
 
 .btn-deep-purple-inverse {

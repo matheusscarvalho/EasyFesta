@@ -40,6 +40,7 @@ export class CalendarioComponent implements OnInit {
  
   constructor(private agendaService: AgendaService) { 
     this.agendamento = new Agendamento();
+    this.agendamento.usuario = localStorage.getItem('id');
     
   }  
 
@@ -53,9 +54,7 @@ export class CalendarioComponent implements OnInit {
 
       for (iterador in this.agendamentos) {
           this.agendamentos[iterador].start = this.formatDataDoMongo(this.formatData(new Date(this.agendamentos[iterador].start)), this.agendamentos[iterador].time);
-      }
-
-      
+      }     
       
       }
     );
@@ -107,6 +106,7 @@ export class CalendarioComponent implements OnInit {
 
   resetarAgendamento() {
     this.agendamento = new Agendamento();
+    this.agendamento.usuario = localStorage.getItem('id');
     
   }
 
@@ -115,7 +115,7 @@ export class CalendarioComponent implements OnInit {
     let pedacosData = data.split("/");
     let pedacosHorario = horario.split(":");
     let novaData = new Date(pedacosData[2], (pedacosData[1] - 1), pedacosData[0], pedacosHorario[0], pedacosHorario[1],0,0);
-    console.log(novaData)
+ 
     return novaData;
 
   }
@@ -156,6 +156,7 @@ export class CalendarioComponent implements OnInit {
     ag.time = this.agendamento.time;
     ag.start = this.agendamento.start;
     ag.description = this.agendamento.description;
+    ag.usuario = this.agendamento.usuario;
 
     this.agendaService.addAgendamento(ag).subscribe(
       data => {

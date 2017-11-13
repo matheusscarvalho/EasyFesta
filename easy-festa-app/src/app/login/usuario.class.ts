@@ -1,5 +1,5 @@
-export class Usuario {
-    nome: String;
+export class UsuarioLogin {
+    email: String;
     senha: String;
-    tipo: Number;
+    perfil: String;
 }

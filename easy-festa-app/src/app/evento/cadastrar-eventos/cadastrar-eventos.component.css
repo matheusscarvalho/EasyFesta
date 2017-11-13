@@ -1,10 +1,42 @@
-fieldset.new-evt input {
-    font-size: 75%;
-}
-
 .page-tittle-small {
     color: purple;
     background: white;
     border-color: purple;
     border-width: 1px;
+}
+
+.inverse {
+    -moz-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+}
+
+.img-slide {
+    width: 100%;
+    height: 200px;
+}
+
+.card {
+    cursor: pointer;
+}
+
+.margin-top-10 {
+    margin-top: 10px;
+}
+
+.padding-10 {
+    padding: 10px;
+}
+
+.card-header {
+    background-image: url("https://www.casasofia.com.br/cdn/imagens/produtos/original/tecido-decoracao-acores-dohler-22052799d585cb03b93b28e1ff6d4d58.jpg");
+}
+
+.card-footer {
+    background-image: url("https://www.casasofia.com.br/cdn/imagens/produtos/original/tecido-decoracao-acores-dohler-22052799d585cb03b93b28e1ff6d4d58.jpg");
+}
+
+.carousel-caption {
+    color: black;
 }

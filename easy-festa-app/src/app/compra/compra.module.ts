@@ -1,10 +1,28 @@
+//Módulos do Angular
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+
+//Módulos da Aplicação
+import { CompraService } from './compra.service';
+import { ListarComprasComponent } from './listar-compras/listar-compras.component';
+import { VisualizarCompraComponent } from './visualizar-compra/visualizar-compra.component';
+import { routing } from './../app.module.routing';
+
+//Demais módulos
+import { AngularFontAwesomeModule } from 'angular-font-awesome/angular-font-awesome';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
+    AngularFontAwesomeModule,
+    FormsModule, 
+    routing,
+    ModalModule
   ],
-  declarations: []
+  exports: [ListarComprasComponent],
+  providers: [CompraService],
+  declarations: [ListarComprasComponent, VisualizarCompraComponent]
 })
 export class CompraModule { }

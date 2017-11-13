@@ -1,6 +1,12 @@
-<div class="page-tittle">
+<div class="page-tittle" *ngIf="paginaAtual == 'cadastrar'">
 
     <fa name="plus-circle"></fa> Cadastrar Evento
+
+</div>
+
+<div class="page-tittle" *ngIf="paginaAtual == 'editar'">
+
+    <fa name="edit"></fa> Editar Evento
 
 </div>
 
@@ -25,8 +31,7 @@
 
                 <div class="form-group col-md-3">
                     <label class="control-label bold" for="segmento">Segmento</label>
-                    <select class="form-control input-md" required [(ngModel)]="novoEvento.segmento" name="segmento">
-                          <option value="">Selecione</option>
+                    <select class="form-control input-md" required (change)="anunciosSugeridos = filtrarAnuncios();" [(ngModel)]="novoEvento.segmento" name="segmento">
                           <option value="1">Aniversário</option>
                           <option value="2">Casamento</option>
                           <option value="3">Corporativo</option>                        
@@ -38,14 +43,15 @@
                 <div class="form-group col-md-2">
                     <label class="control-label bold" for="dataevento">Data</label>
                     <div flex-gt-xs>
-                        <input type="date" [(ngModel)]="novoEvento.dataevento" class="form-control input-group-sm" name="dataevento" id="dataevento" required>
+
+                        <input type="text" bsDatepicker [(ngModel)]="novoEvento.dataevento" class="form-control input-group-sm" [bsConfig]="bsConfig" name="dataevento" id="dataevento" required>
                     </div>
                 </div>
 
                 <div class="form-group col-md-2">
                     <label class="control-label bold" for="hora">Horário</label>
                     <div>
-                        <input id="hora" [(ngModel)]="novoEvento.hora" name="hora" type="text" placeholder="20h30" class="form-control input-md" required>
+                        <input id="hora" [(ngModel)]="novoEvento.hora" [textMask]="{mask:horarioMask}" name="hora" type="text" placeholder="20h30" class="form-control input-md" required>
                     </div>
                 </div>
 
@@ -64,87 +70,127 @@
                     </div>
                 </div>
 
-                <!-- Tabela de produtos -->
-                <div class="col-md-12 margin-top-10">
-                    <label class="control-label btn-block bold page-tittle-small">
+                <div class="col-md-12 text-center" *ngIf="calcularValorEvento();">
+                    <span class="btn-block bold alert alert-info">
+                            <img class="pull-left inverse" src="http://www.sistemaautomotivo.com.br/Content/Imagens/ico_box_registradora.png" height="50px" width="50px">
+                            <h3>{{ calcularValorEvento() | currency:'BRL':'code' }}</h3>
+                        </span>
+                </div>
+
+                <div class="col-md-8">
+                    <div class="row">
+
+
+                        <!-- Tabela de produtos -->
+                        <div class="col-md-12 margin-top-10">
+                            <label class="control-label btn-block bold page-tittle-small">
                         <fa name="shopping-cart"></fa>
-                        Produtos Comprados
-                        <button id="cadastrarProduto" name="cadastrarProduto" (click)="produtoModal.show()" class="btn btn-sm btn-warning pull-right">
+                        Produtos
+                        <button id="cadastrarProduto" name="cadastrarProduto" (click)="operacao = 'Adicionar';produtoModal.show()" class="btn btn-sm btn-warning pull-right">
                           <fa name="plus-circle"></fa>
                           Adicionar
                         </button> 
                       </label>
-                    <table class="table" *ngIf="novoEvento.produtos.length">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Nome</th>
-                                <th>Descrição</th>
-                                <th>Preço Unitário</th>
-                                <th>Quantidade</th>
-                                <th>Total</th>
-                                <th>Opções</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let produto of novoEvento.produtos; let i=index">
-                                <th scope="row">{{i+1}}</th>
-                                <td>{{ produto.nome }}</td>
-                                <td>{{ produto.descricao }}</td>
-                                <td>{{ produto.preco | currency:'BRL':'code' }}</td>
-                                <td>{{ produto.quantidade }}</td>
-                                <td>{{ produto.quantidade * produto.preco | currency:'BRL':'code'}}</td>
-                                <td>
-                                    <button type="button" class="btn btn-sm btn-dark" (click)="editarProduto(i);produtoModal.show();">
+                            <table class="table" *ngIf="novoEvento.produtos.length">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Nome</th>
+                                        <th>Descrição</th>
+                                        <th>Preço Unitário</th>
+                                        <th>Quantidade</th>
+                                        <th>Total</th>
+                                        <th>Opções</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let produto of novoEvento.produtos; let i=index">
+                                        <th scope="row">{{i+1}}</th>
+                                        <td>{{ produto.nome }}</td>
+                                        <td>{{ produto.descricao }}</td>
+                                        <td>{{ produto.preco | currency:'BRL':'code' }}</td>
+                                        <td>{{ produto.quantidade }}</td>
+                                        <td>{{ produto.quantidade * produto.preco | currency:'BRL':'code'}}</td>
+                                        <td>
+                                            <button type="button" class="btn btn-sm btn-dark" (click)="editarProduto(i);produtoModal.show();">
                                       <fa name="edit"></fa>
                                     </button>
-                                    <button type="button" class="btn btn-sm btn-danger" (click)="removerProduto(i)">
+                                            <button type="button" class="btn btn-sm btn-danger" (click)="removerProduto(i)">
                                         <fa name="trash"></fa>
                                       </button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
 
-                <!-- Tabela de serviços -->
-                <div class="col-md-12 margin-top-10">
-                    <label class="control-label btn-block bold page-tittle-small">
+                        <!-- Tabela de serviços -->
+                        <div class="col-md-12 margin-top-10">
+                            <label class="control-label btn-block bold page-tittle-small">
                         <fa name="signing"></fa>
-                        Serviços Contratados
-                        <button id="cadastrarProduto" name="cadastrarProduto" (click)="servicoModal.show()" class="btn btn-sm btn-warning pull-right">
+                        Serviços
+                        <button id="cadastrarProduto" name="cadastrarProduto" (click)="operacao = 'Adicionar';servicoModal.show();" class="btn btn-sm btn-warning pull-right">
                             <fa name="plus-circle"></fa>
                             Adicionar
                           </button>
                       </label>
-                    <table class="table" *ngIf="novoEvento.servicos.length">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Nome</th>
-                                <th>Descrição</th>
-                                <th>Total</th>
-                                <th>Opções</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let servico of novoEvento.servicos; let i=index">
-                                <th scope="row">{{i+1}}</th>
-                                <td>{{ servico.nome }}</td>
-                                <td>{{ servico.descricao }}</td>
-                                <td>{{ servico.preco | currency:'BRL':'code' }}</td>
-                                <td>
-                                    <button type="button" class="btn btn-sm btn-dark" (click)="editarServico(i);servicoModal.show();">
+                            <table class="table" *ngIf="novoEvento.servicos.length">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Nome</th>
+                                        <th>Descrição</th>
+                                        <th>Total</th>
+                                        <th>Opções</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let servico of novoEvento.servicos; let i=index">
+                                        <th scope="row">{{i+1}}</th>
+                                        <td>{{ servico.nome }}</td>
+                                        <td>{{ servico.descricao }}</td>
+                                        <td>{{ servico.preco | currency:'BRL':'code' }}</td>
+                                        <td>
+                                            <button type="button" class="btn btn-sm btn-dark" (click)="editarServico(i);servicoModal.show();">
                                         <fa name="edit"></fa>
                                       </button>
-                                    <button type="button" class="btn btn-sm btn-danger" (click)="removerServico(i)">
+                                            <button type="button" class="btn btn-sm btn-danger" (click)="removerServico(i)">
                                           <fa name="trash"></fa>
                                         </button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
                 </div>
+
+                <div class="col-md-4">
+                    <div class="card text-center" *ngIf="anunciosSugeridos.length" routerLink="/anuncio/listar">
+                        <div class="card-header">
+
+                        </div>
+                        <div class="card-block">
+                            <carousel>
+                                <slide *ngFor="let anuncio of anunciosSugeridos">
+                                    <img class="img-slide" src="https://static9.depositphotos.com/1000865/1075/i/950/depositphotos_10755201-stock-photo-crumpled-paper-background.jpg" alt="First slide">
+                                    <div class="carousel-caption">
+                                        <h5>{{anuncio.titulo.toUpperCase()}}</h5>
+                                        <p>
+                                            {{anuncio.descricao.substring(0,100)}}
+                                            <span *ngIf="anuncio.descricao.length > 150"> ...</span>
+                                        </p>
+                                    </div>
+                                </slide>
+                            </carousel>
+                        </div>
+                        <div class="card-footer text-muted">
+
+                        </div>
+                    </div>
+                </div>
+
 
 
             </div>
@@ -161,7 +207,7 @@
               </button>
     </div>
     <div class="col-md-6">
-        <button id="salvar" name="salvar" class="btn btn-block btn-primary" (click)="adicionarEvento();staticModal.show()" [disabled]="!eventoForm.form.valid">
+        <button id="salvar" name="salvar" class="btn btn-block btn-primary" (click)="salvarEvento();staticModal.show()" [disabled]="!eventoForm.form.valid">
                 <fa name="floppy-o"></fa>
                 Salvar
               </button>
@@ -199,11 +245,13 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title pull-left">
-                    <span *ngIf="true">
-                    <fa name="plus-circle"></fa> Adicionar Produto
-                  </span>
+                    <span>
+                        <fa name="plus-circle" *ngIf="operacao == 'Adicionar'"></fa>
+                        <fa name="edit" *ngIf="operacao == 'Editar'"></fa>
+                        {{operacao}} Produto
+                    </span>
                 </h5>
-                <button type="button" class="close pull-right" aria-label="Close" (click)="produtoModal.hide(); resetarStatusAdicaoProduto();">
+                <button type="button" class="close pull-right" aria-label="Close" (click)="produtoModal.hide(); resetarStatusAdicaoProduto();resetarProduto();">
           <span aria-hidden="true">&times;</span>
         </button>
             </div>
@@ -249,10 +297,10 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" (click)="produtoModal.hide(); resetarStatusAdicaoProduto();">
+                <button type="button" class="btn btn-secondary" (click)="produtoModal.hide(); resetarStatusAdicaoProduto();resetarProduto();">
                   Voltar
                 </button>
-                <button type="button" class="btn btn-primary" (click)="adicionarProduto();" [disabled]="!produtoForm.form.valid">
+                <button type="button" class="btn btn-primary" *ngIf="operacao == 'Adicionar'" (click)="adicionarProduto();" [disabled]="!produtoForm.form.valid">
                   Salvar
                 </button>
             </div>
@@ -267,10 +315,12 @@
             <div class="modal-header">
                 <h5 class="modal-title pull-left">
                     <span *ngIf="true">
-                    <fa name="plus-circle"></fa> Adicionar Serviço
-                  </span>
+                        <fa name="plus-circle" *ngIf="operacao == 'Adicionar'"></fa>
+                        <fa name="edit" *ngIf="operacao == 'Editar'"></fa>
+                        {{operacao}} Serviço
+                    </span>
                 </h5>
-                <button type="button" class="close pull-right" aria-label="Close" (click)="servicoModal.hide(); resetarStatusAdicaoServico();">
+                <button type="button" class="close pull-right" aria-label="Close" (click)="servicoModal.hide(); resetarStatusAdicaoServico();resetarServico();">
           <span aria-hidden="true">&times;</span>
         </button>
             </div>
@@ -309,10 +359,10 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" (click)="servicoModal.hide(); resetarStatusAdicaoProduto();">
+                <button type="button" class="btn btn-secondary" (click)="servicoModal.hide(); resetarServico();resetarStatusAdicaoProduto();">
                   Voltar
                 </button>
-                <button type="button" class="btn btn-primary" (click)="adicionarServico();" [disabled]="!servicoForm.form.valid">
+                <button type="button" class="btn btn-primary" *ngIf="operacao == 'Adicionar'" (click)="adicionarServico();" [disabled]="!servicoForm.form.valid">
                   Salvar
                 </button>
             </div>

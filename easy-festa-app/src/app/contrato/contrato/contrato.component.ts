@@ -3,8 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 //Módulos Aplicação
-import { ContratoService } from './../contrato.service';
+import { CompraService } from './../../compra/compra.service';
 import { Contrato } from './../contrato.class';
+import { Compra } from './../../compra/compra.class';
 
 @Component({
   selector: 'app-contrato',
@@ -20,6 +21,7 @@ export class ContratoComponent implements OnInit {
   tipoPerfil: Number = localStorage.getItem("perfil") == "Consumidor" ? 1: 2;
   readonly: Boolean = this.obterTipoEditor();
   tema: String = this.tipoPerfil == 1 ? "bubble": "snow";
+  contrato: Contrato = new Contrato();
   
   editorOptions : Object =  {
     placeholder: "Insira o texto do contrato...",
@@ -45,17 +47,16 @@ export class ContratoComponent implements OnInit {
   */
   statusExclusao: Number = 1;
 
-  contrato: Contrato;
+  compra: Compra = new Compra();;
   idRota: String = this.route.snapshot.params['id'];
 
-  constructor(private contratoService: ContratoService, private route: ActivatedRoute) { }
+  constructor(private compraService: CompraService, private route: ActivatedRoute) { }
 
   ngOnInit() {
 
-    this.contrato = new Contrato();
-
+    this.contrato.status = 0;
     if(this.idRota) {
-      this.obterContrato();
+      this.obterCompra();
     } else if(this.tipoPerfil == 2) {
       this.readonly = false; 
            
@@ -75,37 +76,8 @@ export class ContratoComponent implements OnInit {
   salvarContrato() {
     
     this.statusGravacao = 1;
-
-    //Entra se for editar o contrato
-    if(this.idRota) {
-      this.editarContrato();      
-    }
-
-    //Entra se for criar novo contrato
-    else {
-      this.adicionarContrato();
-    }
-  }
-
-  adicionarContrato() {
-    this.contrato.status = 1;
-    this.contratoService.addContrato(this.contrato).subscribe(
-      success=> {
-        this.contrato._id = success.id;
-        this.statusGravacao = 2;
-        this.readonly = false;
-        this.editorOptions = {
-          placeholder: "Insira o texto do contrato...",
-          readOnly: this.readonly
-        };
-        console.log(success);
-      },
-
-      err=>{
-        this.statusGravacao = 3;
-        console.log(err);
-      }
-    )
+    this.editarContrato();      
+    
   }
 
   obterTipoEditor() {
@@ -118,11 +90,13 @@ export class ContratoComponent implements OnInit {
 
   aceitarContrato() {
     this.contrato.status = 2;
+    this.compra.contrato = this.contrato;
     this.editarContrato();
   }
 
   rejeitarContrato() {
     this.contrato.status = 3;
+    this.compra.contrato = this.contrato;
     this.editarContrato();
   }
 
@@ -130,9 +104,11 @@ export class ContratoComponent implements OnInit {
 
     if(this.tipoPerfil == 1) {
       this.contrato.status = 2;
+      this.compra.contrato = this.contrato;
     }
     else if(this.tipoPerfil == 2) {
       this.contrato.status = 1;
+      this.compra.contrato = this.contrato;
     }
 
     this.editarContrato();    
@@ -140,11 +116,15 @@ export class ContratoComponent implements OnInit {
 
   editarContrato() {
     
-    if(this.tipoPerfil == 2 && (this.contrato.status == 2 || this.contrato.status == 3)){
-      this.contrato.status = 1;
+    if((this.tipoPerfil == 2 && (this.contrato.status == 2 || this.contrato.status == 3)) || this.contrato.status == 0){
+      this.contrato.status = 1; 
+      this.editorOptions = {
+        placeholder: "Insira o texto do contrato...",
+        readOnly: this.readonly
+      };     
     }
-   
-    this.contratoService.updateContrato(this.contrato).subscribe(
+    this.compra.contrato = this.contrato;
+    this.compraService.updateCompra(this.compra).subscribe(
       success=> {
         this.statusGravacao = 2;
         console.log(success);
@@ -157,10 +137,15 @@ export class ContratoComponent implements OnInit {
     )
   }
 
-  obterContrato() {
-    this.contratoService.getContrato(this.idRota).subscribe(
+  obterCompra() {
+    this.compraService.getCompra(this.idRota).subscribe(
       success=> {
-        this.contrato = success;
+        this.compra = success;
+        console.log(success)
+
+        if(this.compra.contrato) {
+          this.contrato = this.compra.contrato;
+        }
 
         if(this.tipoPerfil == 2 && this.contrato.status > 1) {
           this.readonly = false;          
@@ -180,13 +165,15 @@ export class ContratoComponent implements OnInit {
     if(this.tipoPerfil == 1) {
       this.statusExclusao = 5;
       this.contrato.status = 5;
+      this.compra.contrato = this.contrato;
       this.salvarContrato();      
     }
 
     //Solicitação do fornecedor
     else if (this.tipoPerfil == 2) {
       this.statusExclusao = 5;
-      this.contrato.status = 4;
+      this.compra.contrato.status = 4;
+      this.compra.contrato = this.contrato;
       this.salvarContrato();
     }
   }
@@ -200,10 +187,13 @@ export class ContratoComponent implements OnInit {
 
     //Entra se ambos estiverem de acordo com a exclusão
     else {
-      this.contratoService.removerContrato(this.contrato._id).subscribe(
+      this.compra.contrato = null;
+      this.contrato = null;
+      this.compraService.updateCompra(this.compra).subscribe(
         success=> {
           this.statusExclusao = 3;
           this.contrato.status = 0;
+          this.compra.contrato = this.contrato;
           console.log(success);
 
         },

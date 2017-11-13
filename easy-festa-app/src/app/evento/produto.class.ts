@@ -1,8 +1,8 @@
 export class Produto {
     nome: String;
     descrição: String;
-    quantidade: String;
-    preco: String;
+    quantidade: Number;
+    preco: Number;
     check: Boolean;
   }
   

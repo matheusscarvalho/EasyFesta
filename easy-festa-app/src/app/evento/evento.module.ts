@@ -9,13 +9,15 @@ import { ButtonsModule } from 'ngx-bootstrap/buttons';
 
 import { ListarEventosComponent } from './listar-eventos/listar-eventos.component';
 import { CadastrarEventosComponent } from './cadastrar-eventos/cadastrar-eventos.component';
-import { EditarEventoComponent } from './editar/editar-evento.component';
 import { EventoComponent } from './evento.component';
 
 import { EventoRoutingModule } from './evento.module.routing';
 import { ModalModule } from 'ngx-bootstrap/modal';
 
 import { EventoService } from './evento.service';
+import { TextMaskModule } from 'angular2-text-mask';
+import { CarouselModule } from 'ngx-bootstrap/carousel';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 @NgModule({
   imports: [
@@ -25,11 +27,14 @@ import { EventoService } from './evento.service';
     FormsModule,
     RouterModule,
     HttpModule,
+    TextMaskModule,
+    BsDatepickerModule.forRoot(),
+    CarouselModule.forRoot(),
     ModalModule.forRoot(),
     ButtonsModule.forRoot()
   ],
   providers: [EventoService],
-  exports: [ListarEventosComponent, CadastrarEventosComponent, EditarEventoComponent, EventoComponent],
-  declarations: [ListarEventosComponent, CadastrarEventosComponent, EditarEventoComponent, EventoComponent]
+  exports: [ListarEventosComponent, CadastrarEventosComponent, EventoComponent],
+  declarations: [ListarEventosComponent, CadastrarEventosComponent, EventoComponent]
 })
 export class EventoModule { }

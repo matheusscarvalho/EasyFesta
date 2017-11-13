@@ -11,6 +11,9 @@ import { Evento } from './../evento.class';
 export class ListarEventosComponent implements OnInit {
   eventos: Evento[] = [];
   eventosAuxPesquisa: Evento[] = [];
+  dataAtual: Date =  new Date();
+  dataInicioPesquisa: Date = new Date();
+  dataFimPesquisa: Date;
   pesquisa: String;
   constructor(private eventoService: EventoService) { }
 

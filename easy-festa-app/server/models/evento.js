@@ -24,6 +24,7 @@ const EventoSchema = mongoose.Schema({
         required: true
     },
     convidados: { type: Number },
+    segmento: { type: Number },
     produtos: [{
         nome: {
             type: String,

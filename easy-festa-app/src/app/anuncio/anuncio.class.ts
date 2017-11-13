@@ -9,4 +9,13 @@ export class Anuncio {
     avaliacoes: Avaliacao[];
     avaliacaoFinal: Number; 
     aprovacao: Number;
+
+    /*  
+      1- Aniversário
+      2- Casamento
+      3- Corporativo                       
+      4- Debutante
+      5- Formatura  
+  */
+  segmento: Number;
 }

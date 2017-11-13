@@ -20,13 +20,14 @@ RINF4 Cadastral {
 
  */
 export class Evento {
+  _id: String;
   dataevento: Date;
   hora: String;
   nome: String;
   tipo: String;
   desc: String;
   convidados: number;
-  consumidor: Consumidor;
+  consumidor: String;
   produtos: Produto[] = [];
   servicos: Servico[] = [];
 

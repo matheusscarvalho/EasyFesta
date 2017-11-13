@@ -4,4 +4,5 @@ export class Agendamento {
     start: Date;
     description: String;
     time: String;
+    usuario: String;
 }

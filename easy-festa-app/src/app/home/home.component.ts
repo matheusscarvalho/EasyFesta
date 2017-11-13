@@ -32,11 +32,12 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.anuncioService
-    .getAnuncios()
+    .getAnunciosConsumidor()
     .subscribe(
       a => {
       this.anuncios = this.embaralhar(a);
     });
+
   }
 
 embaralhar(vetor) {

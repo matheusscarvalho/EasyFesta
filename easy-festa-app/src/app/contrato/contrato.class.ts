@@ -12,8 +12,4 @@ export class Contrato {
       
     */
     status: Number;
-
-    constructor() {
-        this.texto = '';
-    }
 }

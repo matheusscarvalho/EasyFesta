@@ -8,6 +8,7 @@ const Fornecedor = require('../models/fornecedor');
 const Evento = require('../models/evento');
 const Agendamento = require('../models/agendamento');
 const Contrato = require('../models/contrato');
+const Compra = require('../models/compra');
 
 // Add headers
 router.use(function(req, res, next) {
@@ -29,10 +30,18 @@ router.use(function(req, res, next) {
     next();
 });
 
-//Get Anuncios
+//Get Anuncios (Fornecedor)
+router.get('/:id/anuncios', (req, res, next) => {
+    let idFornecedor = req.params['id'];
+    Anuncio.find({fornecedor: idFornecedor},function(err, anuncios) {
+        res.json(anuncios);
+    })
+})
+
+//Get Anuncios (Fornecedor)
 router.get('/anuncios', (req, res, next) => {
 
-    Anuncio.find(function(err, anuncios) {
+    Anuncio.find({publicado: "true"},function(err, anuncios) {
         res.json(anuncios);
     })
 })
@@ -44,6 +53,7 @@ router.post('/anuncio', (req, res, next) => {
         descricao: req.body.descricao,
         publicado: req.body.publicado,
         tipo: req.body.tipo,
+        segmento: req.body.segmento,
         fornecedor: req.body.fornecedor
     })
 
@@ -93,6 +103,7 @@ router.post('/anuncio/editar', (req, res, next) => {
             anuncio.descricao = req.body.descricao;
             anuncio.publicado = req.body.publicado;
             anuncio.tipo = req.body.tipo;
+            anuncio.segmento = req.body.segmento;
             anuncio.avaliacoes = req.body.avaliacoes;
             anuncio.save();
             res.json({ menssage: "ok" });
@@ -101,9 +112,9 @@ router.post('/anuncio/editar', (req, res, next) => {
 });
 
 //Get Agendamentos
-router.get('/agendamentos', (req, res, next) => {
-
-    Agendamento.find(function(err, agendamentos) {
+router.get('/:id/agendamentos', (req, res, next) => {
+    let idUsuario = req.params['id'];
+    Agendamento.find({usuario: idUsuario},function(err, agendamentos) {
         res.json(agendamentos);
     })
 })
@@ -114,6 +125,7 @@ router.post('/agendamento', (req, res, next) => {
         title: req.body.title,
         start: req.body.start,
         description: req.body.description,
+        usuario: req.body.usuario,
         time: req.body.time
     })
 
@@ -189,7 +201,7 @@ router.get('/consumidor/:id', (req, res, next) => {
             res.json(err)
         } else {
             let informacoesConsumidor;
-            Evento.count({ fornecedor: id }, function(err, qtd) {
+            Evento.count({ consumidor: id }, function(err, qtd) {
                 if (err) {
                     res.json(err)
                 } else {
@@ -282,7 +294,7 @@ router.get('/fornecedor/:id', (req, res, next) => {
                     res.json(err)
                 } else {
                     informacoesFornecedor = {
-                        "consumidor": fornecedor,
+                        "fornecedor": fornecedor,
                         "qtdAnuncios": qtd
                     };
 
@@ -411,6 +423,85 @@ Fim contrato
 */
 
 /*
+
+Início Compras
+
+*/
+
+//Get Compras por Consumidor
+router.get('/consumidor/:id/compras', (req, res, next) => {
+    
+        Compra.find({ consumidor: req.params.id }, function(err, compras) {
+            res.json(compras);
+        })
+})
+
+router.get('/fornecedor/:id/compras', (req, res, next) => {
+    
+    Compra.find({ fornecedor: req.params.id },function(err, compras) {
+        
+        res.json(compras);
+    })
+})
+
+//add
+router.post('/compra', (req, res, next) => {
+    let compra = new Compra({
+        anuncio: req.body.anuncio,
+        consumidor: req.body.consumidor,
+        fornecedor: req.body.fornecedor,
+        dataEvento: req.body.dataEvento,
+        informacoes: req.body.informacoes,
+        informacoesEvento: req.body.informacoesEvento,
+        quantidade: req.body.quantidade,        
+        status: 1
+    })
+
+    compra.save((err, novaCompra) => {
+        if (err) {
+            res.json(err)
+        } else {
+            res.json({ msg: 'Compra salva com sucesso.' });
+        }
+    });
+});
+
+//Buscar
+router.get('/compra/:id', (req, res, next) => {
+    let id = req.params.id;
+    Compra.findById(id, function(err, compra) {
+        if (err) {
+            res.json(err)
+        } else {
+            res.json(compra);
+        }
+    });
+});
+
+//Update
+router.post('/compra/editar', (req, res, next) => {
+    let id = req.body._id;
+
+    Compra.findById(id, function(err, compra) {
+        if (err) {
+            res.json(err);
+
+        } else {
+            compra.status = req.body.status;
+            compra.contrato = req.body.contrato;
+            compra.save();
+            res.json({ menssage: "ok" });
+        }
+    });
+});
+/*
+
+Fim Compras
+
+*/
+
+
+/*
   Eventos
  */
 router.get('/eventos', (req, res) => {
@@ -429,7 +520,8 @@ router.post('/evento', (req, res) => {
         hora: req.body.hora,
         produtos: req.body.produtos,
         servicos: req.body.servicos,
-        consumidor: new Consumidor()
+        segmento: req.body.segmento,
+        consumidor: req.body.consumidor
     };
 
     let novoEvento = new Evento(new_evt);
@@ -440,7 +532,7 @@ router.post('/evento', (req, res) => {
             console.log(e);
         } else {
             res.json({ msg: 'Evento adicionado com sucesso!' });
-            console.log(evento);
+            
         }
     });
 });
@@ -453,7 +545,6 @@ router.get('/evento/:id', (req, res, next) => {
       res.json(err);
       console.log(err);
     } else {
-      console.log('Achei o evento');
       res.json(evento);
     }
   });
@@ -469,6 +560,12 @@ router.post('/evento/editar', (req, res, next) => {
     } else {
       evento.nome = req.body.nome;
       evento.desc = req.body.desc;
+      evento.segmento = req.body.segmento;
+      evento.dataevento = req.body.dataevento;
+      evento.hora = req.body.hora;
+      evento.desc = req.body.desc;
+      evento.produtos = req.body.produtos;
+      evento.servicos = req.body.servicos;
       evento.save();
       res.json({ menssage: "ok, evento editado! .. " });
     }
@@ -483,6 +580,40 @@ router.delete('/evento/:id', (req, res) => {
             res.json(result);
         }
     })
+});
+
+/*
+login provisório
+*/
+
+router.post('/login/provisorio', (req, res) => {
+    let perfil = req.body.perfil;
+      
+    if(perfil == 'Consumidor') {
+        Consumidor.findOne({email: req.body.email, senha: req.body.senha}, function(err, consumidor) {
+            let login;
+            if(err) {
+                res.json(err);
+            } else {
+                login = consumidor ? consumidor : false;
+            }
+
+            res.json({msg: login});
+        });
+    }
+    
+    else if (perfil == 'Fornecedor') {
+        Fornecedor.findOne({email: req.body.email, senha: req.body.senha}, function(err, fornecedor) {
+            let login;
+            if(err) {
+                res.json(err);
+            } else {
+                login = fornecedor ? fornecedor: false;
+            }
+
+            res.json({msg: login});
+        });
+    }
 });
 
 module.exports = router;

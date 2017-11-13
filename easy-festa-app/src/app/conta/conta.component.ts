@@ -57,7 +57,7 @@ export class ContaComponent implements OnInit {
     if (this.tipoPerfil == 1) {
       
       this.consumidor = new Consumidor();
-      this.consumidor._id = "59fb67c45810f518707a019f";
+      this.consumidor._id = localStorage.getItem('id');
       this.fornecedor = null;
       this.contaService.getConsumidor(this.consumidor._id).subscribe(
         
@@ -71,11 +71,11 @@ export class ContaComponent implements OnInit {
     else if (this.tipoPerfil == 2) {
       
       this.fornecedor = new Fornecedor();
-      this.fornecedor._id = "59f8a88b68d67a33ac3335d9";
+      this.fornecedor._id = localStorage.getItem('id');
       this.consumidor = null;
       this.contaService.getFornecedor(this.fornecedor._id).subscribe(
         informacoesFornecedor =>{
-          this.fornecedor = informacoesFornecedor.consumidor;
+          this.fornecedor = informacoesFornecedor.fornecedor;
           this.qtdAnuncios = informacoesFornecedor.qtdAnuncios;
         }
       );

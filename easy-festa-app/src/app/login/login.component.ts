@@ -4,7 +4,6 @@ import { Component, OnInit } from '@angular/core';
 
 //Componentes da Aplicação
 import { AutenticacaoService } from './autenticacao/autenticacao.service';
-import { Usuario } from './usuario.class';
 import { Consumidor } from './../conta/consumidor.class';
 import { Fornecedor } from './../conta/fornecedor.class';
 
@@ -17,17 +16,23 @@ import { Fornecedor } from './../conta/fornecedor.class';
 export class LoginComponent implements OnInit {
 
   private usuario;
+  private stausLogin: Boolean = false;
 
   constructor(private route: ActivatedRoute, private autenticacaoService: AutenticacaoService) { 
     
   }
 
   ngOnInit() {
+    this.autenticacaoService.mostraMensagemLogin.subscribe(
+      status=>{
+        this.stausLogin = status;
+
+      } 
+    )
   }
 
   fazerLogin() {
-    this.autenticacaoService.fazerLogin(this.usuario);
-    
+    this.autenticacaoService.fazerLogin(this.usuario);   
   }
 
   instanciarConsumidor() {

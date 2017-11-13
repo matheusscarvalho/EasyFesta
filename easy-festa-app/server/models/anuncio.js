@@ -22,6 +22,12 @@ const AnuncioSchema = mongoose.Schema({
         type: Number,
         required: true
     },
+
+    segmento: {
+        type: Number,
+        required: true
+    },
+
     fornecedor: {
         type: ObjectId,
         ref: 'Fornecedor',
@@ -48,7 +54,7 @@ const AnuncioSchema = mongoose.Schema({
         data: {
             type: Date,
             default: new Date()
-        },
+        }
     }]
 
 });

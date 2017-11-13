@@ -41,10 +41,11 @@ export class AgendaService {
   }
 
   getAgendamentos(): Observable<Agendamento[]>{
-    
+          
+          let idUsuario = localStorage.getItem('id'); 
           let options: Object = this.getHeaders();
           let agendamentos = this.http      
-          .get(`http://localhost:3000/api/agendamentos`, options)
+          .get(`http://localhost:3000/api/`+idUsuario+`/agendamentos`, options)
           .map((res:Response) => res.json());
           return agendamentos;
   }

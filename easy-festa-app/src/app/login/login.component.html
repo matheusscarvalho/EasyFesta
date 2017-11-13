@@ -1,15 +1,14 @@
 <div class="container">
 
     <div class="row main">
-        <div class="col-sm-6 text-center left-side">
-            <img width="80px" height="80px" src="http://1.bp.blogspot.com/-eVU-VSMWhBA/Tjfyfhe4nAI/AAAAAAAApG4/81mKez5klzU/s1600/copos+e+ta%25C3%25A7as9.gif">
-            <h1>Easy<br>Festa</h1>
-            <p>Nunca foi tão fácil e rápido organizar seu evento.</p>
+
+        <div class="col-sm-6 text-center left-side" id="vegasContaint">
+            <img width="50px" class="text-center" height="50px" src="http://1.bp.blogspot.com/-eVU-VSMWhBA/Tjfyfhe4nAI/AAAAAAAApG4/81mKez5klzU/s1600/copos+e+ta%25C3%25A7as9.gif">
+
+            <h1 class="purple">Easy<br>Festa</h1>
+            <p class="purple">Nunca foi tão fácil e rápido organizar seu evento.</p>
             <br>
             <button routerLink="/conta/cadastrar" class="btn btn-lg btn-deep-purple">Cadastre-se já</button>
-            <!--p>Login com redes sociais</p>
-            <a class="fb" href="http://deepak646.blogspot.in/" target="_blank">Login com Facebook</a>
-            <a class="tw" href="http://deepak646.blogspot.in/" target="_blank">Login com Twitter</a-->
 
         </div>
 
@@ -23,6 +22,7 @@
 
             <!--Form with header-->
             <form #loginForm="ngForm" class="form">
+
                 <div class="text-xs-center" *ngIf="!usuario">
                     <button class="btn btn-lg btn-block btn-deep-purple-inverse" (click)="instanciarConsumidor()">
                         <fa name="shopping-bag"></fa>
@@ -45,9 +45,14 @@
 
                 </div>
 
+                <div *ngIf="stausLogin && usuario" class="alert alert-danger btn-block">
+                    <fa name="exclamation-circle"></fa>
+                    Usuário ou senha incorretos.
+                </div>
+
 
                 <div class="form-group" *ngIf="usuario">
-                    <input [(ngModel)]="usuario.nome" type="text" name="email" class="form-control" placeholder="E-mail" required>
+                    <input [(ngModel)]="usuario.email" type="text" name="email" class="form-control" placeholder="E-mail" required>
 
                 </div>
                 <br *ngIf="usuario">
@@ -59,7 +64,7 @@
                 <br *ngIf="usuario">
 
                 <div class="text-xs-center" *ngIf="usuario">
-                    <button routerLink="/conta/cadastrar" (click)="fazerLogin()" class="btn btn-block btn-deep-purple" [disabled]="!loginForm.form.valid">
+                    <button (click)="fazerLogin()" class="btn btn-block btn-deep-purple" [disabled]="!loginForm.form.valid">
                         <fa name="send"></fa>
                         Entrar
                     </button>

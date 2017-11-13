@@ -11,7 +11,7 @@ export class AnuncioService {
 
   constructor (private http: Http) {}
 
-  getAnuncios(): Observable<Anuncio[]>{
+  getAnunciosConsumidor(): Observable<Anuncio[]>{
 
       let options: Object = this.getHeaders();
       let anuncios = this.http      
@@ -19,6 +19,16 @@ export class AnuncioService {
       .map((res:Response) => res.json());
       return anuncios;
   }
+
+  getAnunciosFornecedor(): Observable<Anuncio[]>{
+    
+          let options: Object = this.getHeaders();
+          let idFornecedor = localStorage.getItem("id");
+          let anuncios = this.http      
+          .get(`http://localhost:3000/api/`+idFornecedor+`/anuncios`, options)
+          .map((res:Response) => res.json());
+          return anuncios;
+      }
 
   addAnuncio(anuncio: Anuncio) {
       let body = JSON.stringify(anuncio);

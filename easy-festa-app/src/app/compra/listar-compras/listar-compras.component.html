@@ -1,0 +1,208 @@
+<div class="page-tittle">
+    <div class="row">
+        <div class="col-md-2">
+            <fa name="shopping-cart"></fa> Compras
+        </div>
+        <!--div class="col-md-6">
+            <input type="text" [(ngModel)]="pesquisa" (keyup)="pesquisarCompra()" class="form-control" placeholder="Pesquise aqui...">
+        </div>
+
+        <div class="col-md-2">
+            <input type="date" [(ngModel)]="dataInicioPesquisa" (change)="pesquisarCompra()" class="form-control" placeholder="Data início">
+        </div>
+
+        <div class="col-md-2">
+            <input type="date" [(ngModel)]="dataFimPesquisa" (change)="pesquisarCompra()" class="form-control" placeholder="Data fim">
+        </div-->
+
+    </div>
+</div>
+
+<div class="painel margin-top-10">
+    <table class="table" *ngIf="compras.length">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Data</th>
+                <th>Descrição</th>
+                <th>Quantidade</th>
+                <th>Status</th>
+                <th>Opções</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let compra of compras; let i=index">
+                <th scope="row">{{i+1}}</th>
+                <td>{{ compra.dataCompra | date: 'dd/MM/yyyy' }}</td>
+                <td>{{ compra.informacoes }}</td>
+                <td>{{ compra.quantidade }}</td>
+                <td>
+                    <span class="badge badge-info" *ngIf="compra.status == 1 && tipoPerfil == 'Consumidor'">Solicitação de compra enviada</span>
+                    <span class="badge badge-info" *ngIf="compra.status == 1 && tipoPerfil == 'Fornecedor'">Solicitação de compra recebida</span>
+                    <span class="badge badge-success" *ngIf="compra.status == 2">Contrato gerado</span>
+                    <span class="badge badge-danger" *ngIf="compra.status == 3">Solicitação de conpra rejeitada</span>
+                    <span class="badge badge-primary" *ngIf="compra.status == 4">Aguardando entrega/prestração</span>
+                </td>
+                <td>
+                    <button type="button" routerLink="/contrato/{{compra._id}}" *ngIf="compra.contrato" class="btn btn-sm btn-primary">
+                        <fa name="handshake-o"></fa>
+                    </button>
+                    <button type="button" class="btn btn-sm btn-dark" (click)="prepararContaParaManupulicao(compra); comprarModal.show();">
+                        <fa name="eye"></fa>
+                    </button>
+
+                    <button type="button" class="btn btn-sm btn-danger">
+                        <fa name="trash"></fa>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+
+<!--Modal de compras -->
+<div class="modal fade" bsModal #comprarModal="bs-modal" [config]="{backdrop: 'static'}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title pull-left">
+                    <fa name="shopping-cart"></fa> Comprar
+                </h5>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="comprarModal.hide()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="page-tittle-small btn-block">
+                    <fa name="shopping-cart"></fa>
+                    Informações da Compra
+                    <div class="pull-right">
+                        <button type="button" routerLink="/contrato/{{compra._id}}" class="btn btn-sm btn-primary" *ngIf="compra.status == 1 && tipoPerfil == 'Fornecedor'">
+                            <fa name="handshake-o"></fa>
+                            Gerar Contrato
+                        </button>
+                        <button type="button" class="btn btn-sm btn-danger" (click)="rejeiarCompra();" *ngIf="compra.status == 1 && tipoPerfil == 'Fornecedor'">
+                            <fa name="close"></fa>
+                            Rejeitar Compra
+                        </button>
+                    </div>
+                </div>
+                <div class="painel margin-top-10">
+
+                    <div class="row">
+                        <div class="form-group col-md-4">
+                            <label class="control-label bold" for="status">Status</label>
+                            <div>
+                                <span class="badge badge-info" *ngIf="compra.status == 1 && tipoPerfil == 'Consumidor'">Solicitação de compra enviada</span>
+                                <span class="badge badge-info" *ngIf="compra.status == 1 && tipoPerfil == 'Fornecedor'">Solicitação de compra recebida</span>
+                                <span class="badge badge-success" *ngIf="compra.status == 2">Contrato gerado</span>
+                                <span class="badge badge-danger" *ngIf="compra.status == 3">Solicitação de conpra rejeitada</span>
+                                <span class="badge badge-primary" *ngIf="compra.status == 4">Aguardando entrega/prestração</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            <label class="control-label bold" for="quantidade">Quantidade</label>
+                            <div>
+                                {{compra.quantidade}}
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            <label class="control-label bold" for="dataEvento">Data Evento</label>
+                            <div>
+                                {{compra.dataEvento | date: 'dd/MM/yyyy'}}
+                            </div>
+                        </div>
+
+
+                        <div class="form-group col-md-12">
+                            <label class="control-label bold" for="informacoes">Detalhes da Compra</label>
+                            <div>
+                                {{compra.informacoes}}
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-12" *ngIf="compra.informacoesEvento">
+                            <label class="control-label bold" for="informacoesEvento">Detalhes do Evento</label>
+                            <div>
+                                {{compra.informacoesEvento}}
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="page-tittle-small btn-block margin-top-10" *ngIf="tipoPerfil == 'Consumidor'">
+                    <fa name="truck-o"></fa>
+                    Informações do Fornecedor
+                </div>
+
+                <div class="page-tittle-small btn-block margin-top-10" *ngIf="tipoPerfil == 'Fornecedor'">
+                    <fa name="user"></fa>
+                    Informações do Consumidor
+                </div>
+                <div class="painel margin-top-10">
+
+                    <div class="row">
+                        <div class="form-group col-md-6" *ngIf="tipoPerfil == 'Consumidor'">
+                            <label class="control-label bold">Fornecedor</label>
+                            <div>
+                                {{fornecedor.nome}}
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6" *ngIf="tipoPerfil == 'Consumidor'">
+                            <label class="control-label bold">Contato</label>
+                            <div>
+                                {{fornecedor.telefone}}
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-6" *ngIf="tipoPerfil == 'Fornecedor'">
+                            <label class="control-label bold">Consumidor</label>
+                            <div>
+                                {{consumidor.nome}}
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6" *ngIf="tipoPerfil == 'Fornecedor'">
+                            <label class="control-label bold">Contato</label>
+                            <div>
+                                {{consumidor.telefone}}
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div class="page-tittle-small btn-block margin-top-10">
+                    <fa name="license-drivers-o"></fa>
+                    Informações do Anúncio
+                </div>
+                <div class="painel margin-top-10">
+
+                    <div class="row">
+
+                        <div class="form-group col-md-6">
+                            <label class="control-label bold">Título</label>
+                            <div>
+                                {{anuncio.titulo}}
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-12">
+                            <label class="control-label bold">Descrição</label>
+                            <div>
+                                {{anuncio.descricao}}
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

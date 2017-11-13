@@ -6,7 +6,6 @@
 </div>
 
 <div class="row margin-top-10" *ngIf="statuGravacao != 1 && statuExclusao != 2">
-    {{contrato.status}}
 
     <!-- Mesnagens para status de contrato igaul a 1 (contrato gerado ou alterado) -->
     <div class="col-md-12" *ngIf="contrato.status == 1 && tipoPerfil == 2">
@@ -84,6 +83,7 @@
 
 <div class="row margin-top-10">
 
+
     <div class="col-md-6">
         <button id="excluir" name="excluir" class="btn btn-block btn-danger" (click)="rejeitarContrato();confirmacaoModal.show()" *ngIf="tipoPerfil == 1 && contrato.status == 1">
             <fa name="thumbs-o-down"></fa>Não Aceitar
@@ -99,7 +99,7 @@
     </div>
 
     <div class="col-md-6 ">
-        <button id="salvar" name="salvar" class="btn btn-block btn-primary" (click)="salvarContrato();confirmacaoModal.show()" *ngIf="(tipoPerfil == 2 && contrato.status == 2) || (tipoPerfil == 2 && contrato.status == 3) || !idRota" [disabled]="!contrato.texto">
+        <button id="salvar" name="salvar" class="btn btn-block btn-primary" (click)="salvarContrato();confirmacaoModal.show()" *ngIf="(tipoPerfil == 2 && contrato.status == 2) || (tipoPerfil == 2 && contrato.status == 3) || contrato.status == 0" [disabled]="!contrato.texto">
             <fa name="floppy-o"></fa>Salvar
         </button>
 

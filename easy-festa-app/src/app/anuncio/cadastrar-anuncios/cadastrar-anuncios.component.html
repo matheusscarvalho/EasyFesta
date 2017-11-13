@@ -14,8 +14,22 @@
                 </div>
             </div>
 
-            <!-- Multiple Radios (inline) -->
             <div class="form-group col-md-3">
+                <label class="control-label bold" for="segmento">Segmento</label>
+                <select class="form-control input-md" required [(ngModel)]="anuncio.segmento" name="segmento">
+                          <option value="">Selecione</option>
+                          <option value="1">Aniversário</option>
+                          <option value="2">Casamento</option>
+                          <option value="3">Corporativo</option>                        
+                          <option value="4">Debutante</option>
+                          <option value="5">Formatura</option>  
+                          <option value="6">Múltiplos</option>  
+                      </select>
+            </div>
+
+
+            <!-- Multiple Radios (inline) -->
+            <div class="form-group col-md-2">
                 <label class="control-label bold" for="categoria">Tipo</label>
                 <br>
                 <input type="radio" name="tipo" [(ngModel)]="anuncio.tipo" btnRadio=1 [checked]="anuncio.tipo == 1">Produto &nbsp;&nbsp;
@@ -23,7 +37,7 @@
             </div>
 
             <!-- Multiple Radios (inline) -->
-            <div class="form-group col-md-3">
+            <div class="form-group col-md-2">
                 <label class="control-label bold" for="publicado">Publicado</label>
                 <br>
                 <input type="radio" name="publicado" [(ngModel)]="anuncio.publicado" btnRadio=true [checked]="anuncio.publicado == true">Sim &nbsp;&nbsp;

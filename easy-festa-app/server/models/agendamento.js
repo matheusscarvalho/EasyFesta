@@ -19,6 +19,11 @@ const AgendamentoSchema = mongoose.Schema({
     time: {
         type: String,
         required: true
+    },
+
+    usuario: {
+        type: String,
+        required: true
     }
 
 });

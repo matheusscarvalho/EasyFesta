@@ -9,6 +9,8 @@ import { ContaComponent } from './conta/conta.component';
 import { FluxoCaixaComponent } from './fluxo-caixa/fluxo-caixa.component';
 import { ContratoComponent } from './contrato/contrato/contrato.component';
 import { CadastrarContasComponent } from './conta/cadastrar-contas/cadastrar-contas.component';
+import { ListarComprasComponent } from './compra/listar-compras/listar-compras.component';
+
 
 const APP_ROUTES:  Routes = [
     { path: '', component: LoginComponent},
@@ -18,8 +20,8 @@ const APP_ROUTES:  Routes = [
     { path: 'conta/cadastrar', component: CadastrarContasComponent},
     { path: 'fluxo-caixa', component: FluxoCaixaComponent},
     { path: 'anuncio', redirectTo: 'anuncio/listar' },
-    { path: 'contrato/cadastrar', component: ContratoComponent },
-    { path: 'contrato/:id/visualizar', component: ContratoComponent },
+    { path: 'contrato/:id', component: ContratoComponent },
+    { path: 'compra/listar', component: ListarComprasComponent },
     { path: 'evento', redirectTo: 'evento/listar' },
     { path: 'agenda', redirectTo: 'agenda/visualizar' }
 ];

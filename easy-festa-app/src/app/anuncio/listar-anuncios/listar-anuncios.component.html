@@ -3,12 +3,22 @@
         <div class="col-md-2">
             <fa name="drivers-license-o"></fa> Anúncios
         </div>
-        <div class="input-group col-md-8">
-            <input type="text" [(ngModel)]="pesquisa" (keyup)="pesquisarAnuncio()" class="form-control" placeholder="Pesquise aqui..."> </div>
-
+        <div [ngClass]="{'col-md-8' : tipoPerfil == 'Consumidor', 'col-md-6' : tipoPerfil == 'Fornecedor'}">
+            <input type="text" [(ngModel)]="pesquisa" (keyup)="pesquisarAnuncio()" class="form-control" placeholder="Pesquise aqui...">
+        </div>
         <div class="col-md-2">
+            <select class="form-control input-md" [(ngModel)]="segmentoPesquisa" (change)="pesquisarAnuncio()" name="segmentoPesquisa">
+                <option value="0">Todos</option>
+                <option value="1">Aniversário</option>
+                <option value="2">Casamento</option>
+                <option value="3">Corporativo</option>                        
+                <option value="4">Debutante</option>
+                <option value="5">Formatura</option>  
+            </select>
+        </div>
 
-            <button class="btn btn-warning" type="button" routerLink="/anuncio/cadastrar">
+        <div class="col-md-2" *ngIf="tipoPerfil == 'Fornecedor'">
+            <button class="btn btn-block btn-warning" type="button" routerLink="/anuncio/cadastrar">
                 <fa name="plus-circle"></fa> Cadastrar
             </button>
         </div>
@@ -23,9 +33,28 @@
     </div>
     <div *ngIf="anuncios.length == 0 && !mostrarIconeCarregando" class="alert alert-info text-center">
         <h2>Nenhum anúncio encontrado.</h2><br>
-        <button class="btn btn-lg btn-warning" type="button" routerLink="/anuncio/cadastrar">
+        <button *ngIf="tipoPerfil == 'Fornecedor'" class="btn btn-lg btn-warning" type="button" routerLink="/anuncio/cadastrar">
             <fa name="plus-circle"></fa> Clique Aqui Para Cadastrar
         </button>
+    </div>
+
+    <div class="col-md-12" *ngIf="statusGravacaoCompra == 1">
+        <span class="btn-block alert alert-info" role="alert">
+                <fa name="spinner" animation="spin"></fa>
+                Salvando solicitação de compra.
+            </span>
+    </div>
+
+    <div class="col-md-12" *ngIf="statusGravacaoCompra == 2">
+        <span class="btn-block alert alert-success" role="alert">
+                Solicitação de compra salva com sucesso.
+            </span>
+    </div>
+
+    <div class="col-md-12" *ngIf="statusGravacaoCompra == 3">
+        <span class="btn-block alert alert-danger" role="alert">
+                Erro ao salvar solicitação de compra.
+            </span>
     </div>
 
     <div *ngIf="!mostrarIconeCarregando" class="card-columns margin-top-10">
@@ -44,7 +73,7 @@
                         (<fa name="gift"></fa>)
                         Produto
                     </span>
-                    <span *ngIf="anuncio.publicado == true">
+                    <span *ngIf="anuncio.publicado == true && tipoPerfil=='Fornecedor'">
                         (<fa name="eye"></fa>)
                         Publicado
                     </span>
@@ -72,15 +101,20 @@
 
                 </div>
                 <div class="card-footer">
-                    <button id="visualizar" name="visualizar" class="btn btn-block btn-secondary" (click)="visualizarAnuncio(i);visualizarAnuncioModal.show();">
+                    <button *ngIf="anuncio.avaliacoes.length" id="visualizar" name="visualizar" class="btn btn-block btn-secondary" (click)="visualizarAnuncio(i);visualizarAnuncioModal.show();">
                         <fa name="eye"></fa>
-                        Visualizar
+                        Mais Detalhes
                     </button>
-                    <button id="editar" name="editar" class="btn btn-block btn-secondary" routerLink="/anuncio/{{anuncio._id}}/editar">
+                    <button *ngIf="tipoPerfil == 'Consumidor'" id="comprar" name="comprar" class="btn btn-block btn-success" (click)="prepararCompra(anuncio);comprarModal.show();">
+                        <fa name="shopping-cart"></fa>
+                        Comprar
+                    </button>
+
+                    <button *ngIf="tipoPerfil == 'Fornecedor'" id="editar" name="editar" class="btn btn-block btn-secondary" routerLink="/anuncio/{{anuncio._id}}/editar">
                         <fa name="edit"></fa>
                         Editar
                     </button>
-                    <button *ngIf="!anuncio.avaliacoes.length" id="remover" name="remover" class="btn btn-block btn-danger" (click)="removerModal.show();confirmarRemocao(anuncio, i)">
+                    <button *ngIf="!anuncio.avaliacoes.length && tipoPerfil == 'Fornecedor'" id="remover" name="remover" class="btn btn-block btn-danger" (click)="removerModal.show();confirmarRemocao(anuncio, i)">
                         <fa name="trash"></fa>
                         Remover
                     </button>
@@ -145,6 +179,67 @@
                 <button type="button" class="btn btn-dark" (click)="visualizarAnuncioModal.hide();">
                     Voltar
                 </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Modal de compras -->
+<div class="modal fade" bsModal #comprarModal="bs-modal" [config]="{backdrop: 'static'}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title pull-left">
+                    <fa name="shopping-cart"></fa> Comprar
+                </h5>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="comprarModal.hide()">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+            </div>
+            <div class="modal-body">
+
+                <form #comprarForm="ngForm" class="painel">
+                    <div class="row">
+
+                        <div class="form-group col-md-6">
+                            <label class="control-label bold" for="quantidade">Quantidade</label>
+                            <div>
+                                <input id="quantidade" [(ngModel)]="compra.quantidade" name="quantidade" type="number" [min]="1" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label class="control-label bold" for="dataEvento">Data Evento.</label>
+                            <div>
+                                <input id="dataEvento" [(ngModel)]="compra.dataEvento" name="dataEvento" type="date" [min]="0.01" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-12">
+                            <label class="control-label bold" for="informacoes">Detalhes da Compra</label>
+                            <div>
+                                <textarea id="informacoes" rows="4" [(ngModel)]="compra.informacoes" name="informacoes" type="text" class="form-control" required></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-12">
+                            <label class="control-label bold" for="informacoesEvento">Detalhes do Evento</label>
+                            <div>
+                                <textarea id="informacoesEvento" rows="4" [(ngModel)]="compra.informacoesEvento" name="informacoesEvento" type="text" class="form-control"></textarea>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button *ngIf="true" type="button" class="btn btn-dark" (click)="comprarModal.hide();">
+                    Voltar
+                </button>
+                <button *ngIf="true" type="button" class="btn btn-primary" (click)="salvarCompra();comprarModal.hide();" [disabled]="!comprarForm.form.valid">
+                    Salvar
+                </button>
+
             </div>
         </div>
     </div>
