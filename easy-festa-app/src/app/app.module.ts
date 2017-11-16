@@ -27,6 +27,10 @@ import { LoginComponent } from './login/login.component';
 // Serviços da aplicação
 import { AutenticacaoService } from './login/autenticacao/autenticacao.service';
 import { RotaAtualService } from './app.service';
+import { AuthGuard } from './guards/auth-guard';
+import { FornecedorGuard } from './guards/fornecedor-guard';
+import { ConsumidorGuard} from './guards/consumidor-guard';
+
 
 // Rotas
 import { routing } from './app.module.routing';
@@ -53,7 +57,7 @@ import { routing } from './app.module.routing';
     FluxoCaixaModule,
     routing
   ],
-  providers: [RotaAtualService, AutenticacaoService],
+  providers: [RotaAtualService, AutenticacaoService, AuthGuard, ConsumidorGuard, FornecedorGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -10,6 +10,7 @@ import { Produto } from './../produto.class';
 import { Servico } from './../servico.class';
 import { AnuncioService } from './../../anuncio/anuncio.service';
 import { Anuncio } from './../../anuncio/anuncio.class';
+import { AgendaService } from './../../agenda/agenda.service';
 
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { defineLocale } from 'ngx-bootstrap/bs-moment';
@@ -36,7 +37,7 @@ export class CadastrarEventosComponent implements OnInit {
   anunciosSugeridos: Anuncio[] = [];
   anuncios: Anuncio[] = [];
 
-  constructor(private evtService: EventoService, private router: ActivatedRoute, private anuncioService: AnuncioService) {
+  constructor(private evtService: EventoService,private agendaService: AgendaService, private router: ActivatedRoute, private anuncioService: AnuncioService) {
     this.novoEvento = new Evento();
     this.novoProduto = new Produto();
     this.novoServico = new Servico();

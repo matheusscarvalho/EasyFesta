@@ -3,9 +3,11 @@ import { NgModule } from '@angular/core';
 
 import { CalendarioComponent } from './calendario/calendario.component';
 import { AgendaComponent } from './agenda.component';
+import { AuthGuard } from './../guards/auth-guard';
 
-const AnuncioRoutes = [
-    {path: 'agenda', component: AgendaComponent, 
+const AgendamentoRoutes = [
+    {path: 'agenda', component: AgendaComponent,
+    canActivate: [AuthGuard],
         children: [
             {path: 'visualizar', component: CalendarioComponent}
         ]
@@ -13,7 +15,7 @@ const AnuncioRoutes = [
 ];
 
 @NgModule({
-    imports: [RouterModule.forChild(AnuncioRoutes)],
+    imports: [RouterModule.forChild(AgendamentoRoutes)],
     exports: [RouterModule]
 })
 export class AgendaRoutingModule {}
