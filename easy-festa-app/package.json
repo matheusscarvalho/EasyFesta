@@ -4,12 +4,13 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "postinstall": "ng build --aot -prod",    
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
+    "heroku-prebuild": "npm install -g http-server",
+    "heroku-postbuild": "ng build --prod",
+    "start": "http-server dist/",
     "deploy": "git push origin master && git push heroku master"
   },
   "private": true,
@@ -49,14 +50,15 @@
     "primeng": "^4.3.0",
     "rxjs": "^5.4.2",
     "zone.js": "^0.8.14",
-    "@angular/cli": "1.4.2"
-  },
-  "devDependencies": {
+    "@angular/cli": "1.4.2",
     "@angular/compiler-cli": "^4.2.4",
     "@angular/language-service": "^4.2.4",
     "@types/jasmine": "~2.5.53",
     "@types/jasminewd2": "~2.0.2",
     "@types/node": "~6.0.60",
+    "typescript": "~2.3.3"
+  },
+  "devDependencies": {
     "codelyzer": "~3.1.1",
     "jasmine-core": "~2.6.2",
     "jasmine-spec-reporter": "~4.1.0",
@@ -69,6 +71,5 @@
     "protractor": "~5.1.2",
     "ts-node": "~3.2.0",
     "tslint": "~5.3.2",
-    "typescript": "~2.3.3"
   }
 }
