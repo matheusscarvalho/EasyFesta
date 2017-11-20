@@ -44,6 +44,17 @@ const CompraSchema = mongoose.Schema({
         required: true
     },
 
+    pagamentos: [{
+        valor: {
+            type: Number
+        },
+
+        data: {
+            type: Date,
+            default: new Date()
+        }
+    }],
+
     contrato: {
         texto: {
             type: String
@@ -54,6 +65,10 @@ const CompraSchema = mongoose.Schema({
         },
 
         status: {
+            type: Number
+        },
+
+        valor: {
             type: Number
         }
     }

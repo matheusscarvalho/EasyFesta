@@ -15,10 +15,12 @@ export class ListarEventosComponent implements OnInit {
   dataInicioPesquisa: Date = new Date();
   dataFimPesquisa: Date;
   pesquisa: String;
+  idConsumidor: String = localStorage.getItem("id");
+
   constructor(private eventoService: EventoService) { }
 
   ngOnInit() {
-    this.eventoService.getEventos().subscribe(
+    this.eventoService.getEventos(this.idConsumidor).subscribe(
       a => {
         a = this.ordenarEventosPorData(a);
         this.eventos = a;

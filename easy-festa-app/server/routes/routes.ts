@@ -1,13 +1,15 @@
 //Importing modules
 const express = require('express');
 const router = express.Router();
+const mongoose = require('mongoose');
+
+const ObjectId = mongoose.Types.ObjectId;
 
 const Anuncio = require('../models/anuncio');
 const Consumidor = require('../models/consumidor');
 const Fornecedor = require('../models/fornecedor');
 const Evento = require('../models/evento');
 const Agendamento = require('../models/agendamento');
-const Contrato = require('../models/contrato');
 const Compra = require('../models/compra');
 
 // Add headers
@@ -29,6 +31,41 @@ router.use(function(req, res, next) {
     // Pass to next layer of middleware
     next();
 });
+
+//Fluxo de caixa
+router.get('/popularidade/:id', (req, res, next) => {
+    let idFornecedor = req.params['id'];
+
+    Anuncio.aggregate(
+        {$match: {fornecedor: ObjectId(idFornecedor)}},
+        { $unwind : "$avaliacoes"},
+        {$group : {
+            _id : "$fornecedor", 
+             notaMedia:{$avg: "$avaliacoes.nota"}
+        }}
+
+    ).exec().then(
+        callback=>{
+            res.json(callback);
+        }
+    );    
+});
+
+//Fluxo de caixa
+router.get('/fluxo/de/caixa/:id', (req, res, next) => {
+    let idFornecedor = req.params['id'];
+
+    Compra.aggregate(
+        {$match: {fornecedor: ObjectId(idFornecedor)}},
+        { $unwind : "$pagamentos"},
+        {$group : {_id : { mes: { $month: "$pagamentos.data" }, ano: { $year: "$pagamentos.data" }}, faturamento:{$sum: "$pagamentos.valor"}}}
+    ).exec().then(
+        callback=>{
+            res.json(callback);
+        }
+    );    
+})
+
 
 //Get Anuncios (Fornecedor)
 router.get('/:id/anuncios', (req, res, next) => {
@@ -115,7 +152,23 @@ router.post('/anuncio/editar', (req, res, next) => {
 router.get('/:id/agendamentos', (req, res, next) => {
     let idUsuario = req.params['id'];
     Agendamento.find({usuario: idUsuario},function(err, agendamentos) {
-        res.json(agendamentos);
+        Evento.find({consumidor: idUsuario},function(err, eventos){
+            let agendamento;
+            for(let evento of eventos) {
+                agendamento = new Agendamento();
+                agendamento._id = idUsuario+evento._id+"";
+                agendamento.title = evento.nome;
+                agendamento.description = evento.desc;
+                agendamento.start = evento.dataevento;
+                agendamento.time = evento.hora;
+                agendamento.kind = 2;
+
+                agendamentos.push(agendamento);
+            }
+
+            res.json(agendamentos);
+
+        })
     })
 })
 
@@ -126,12 +179,12 @@ router.post('/agendamento', (req, res, next) => {
         start: req.body.start,
         description: req.body.description,
         usuario: req.body.usuario,
-        time: req.body.time
+        time: req.body.time,
+        kind: req.body.kind
     })
 
     novoAgendamento.save((err, agendamento) => {
         if (err) {
-
             res.json(err);
         } else {
             res.json({ msg: 'Agendamento adicionado com sucesso' });
@@ -152,6 +205,7 @@ router.post('/agendamento/editar', (req, res, next) => {
             agendamento.start = req.body.start;
             agendamento.time = req.body.time;
             agendamento.description = req.body.description;
+            agendamento.kind = req.body.kind;
             agendamento.save();
             res.json({ menssage: "ok" });
         }
@@ -359,71 +413,6 @@ router.post('/fornecedor/editar', (req, res, next) => {
 
 /*
 
-Início contrato
-
-*/
-router.post('/contrato', (req, res, next) => {
-    let contrato = new Contrato({
-        texto: req.body.texto,
-        status: req.body.status
-    })
-
-    contrato.save((err, novoContrato) => {
-        if (err) {
-            res.json({ msg: 'Falha ao adicionar o contrato.' })
-        } else {
-            res.json({ id: novoContrato._id });
-        }
-    });
-});
-
-//Delete
-router.delete('/contrato/:id', (req, res, next) => {
-    Contrato.remove({ _id: req.params.id }, function(err, result) {
-        if (err) {
-            res.json(err)
-        } else {
-            res.json(result);
-        }
-    });
-});
-
-//Buscar
-router.get('/contrato/:id', (req, res, next) => {
-    let id = req.params.id;
-    Contrato.findById(id, function(err, contrato) {
-        if (err) {
-            res.json(err)
-        } else {
-            res.json(contrato);
-        }
-    });
-});
-
-//Update Contrato
-router.post('/contrato/editar', (req, res, next) => {
-    let id = req.body._id;
-
-    Contrato.findById(id, function(err, contrato) {
-        if (err) {
-            res.json(err);
-
-        } else {
-            contrato.texto = req.body.texto;
-            contrato.status = req.body.status;
-            contrato.save();
-            res.json({ menssage: "ok" });
-        }
-    });
-});
-/*
-
-Fim contrato
-
-*/
-
-/*
-
 Início Compras
 
 */
@@ -489,6 +478,7 @@ router.post('/compra/editar', (req, res, next) => {
         } else {
             compra.status = req.body.status;
             compra.contrato = req.body.contrato;
+            compra.pagamentos =  req.body.pagamentos;
             compra.save();
             res.json({ menssage: "ok" });
         }
@@ -504,8 +494,10 @@ Fim Compras
 /*
   Eventos
  */
-router.get('/eventos', (req, res) => {
-    Evento.find((err, eventos) => {
+router.get('/:id/eventos', (req, res) => {
+
+    let id = req.params['id'];
+    Evento.find({consumidor: id},(err, eventos) => {
         res.json(eventos);
     })
 });

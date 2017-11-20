@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-md-7">
+    <div class="col-md-8">
         <div class="page-tittle-small">
             <fa name="calendar"></fa> Agenda
         </div>
@@ -9,9 +9,9 @@
 
     </div>
 
-    <div class="col-md-5">
+    <div class="col-md-4">
 
-        <div class="card text-center" *ngIf="anuncios.length">
+        <div class="card text-center" *ngIf="anuncios.length && tipoPerfil == 'Consumidor'">
             <div class="card-header">
 
             </div>
@@ -34,10 +34,10 @@
             </div>
         </div>
 
-        <div class="page-tittle-small margin-top-10">
-            <fa name="money"></fa> Fluxo de Caixa
+        <div class="page-tittle-small" *ngIf="mostrarFaturamento && tipoPerfil == 'Fornecedor'">
+            <fa name="money"></fa> Faturamento {{ dataCorrente.getFullYear() }}
         </div>
-        <div class="painel margin-top-10">
+        <div class="painel margin-top-10" *ngIf="mostrarFaturamento && tipoPerfil == 'Fornecedor'">
             <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas>
         </div>
 

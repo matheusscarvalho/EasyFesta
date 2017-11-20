@@ -6,6 +6,10 @@ import { ActivatedRoute } from '@angular/router';
 import { CompraService } from './../../compra/compra.service';
 import { Contrato } from './../contrato.class';
 import { Compra } from './../../compra/compra.class';
+import { Fornecedor } from './../../conta/fornecedor.class';
+import { Consumidor } from './../../conta/consumidor.class';
+import { ContaService } from './../../conta/conta.service';
+
 
 @Component({
   selector: 'app-contrato',
@@ -22,6 +26,10 @@ export class ContratoComponent implements OnInit {
   readonly: Boolean = this.obterTipoEditor();
   tema: String = this.tipoPerfil == 1 ? "bubble": "snow";
   contrato: Contrato = new Contrato();
+  consumidor: Consumidor = new Consumidor();
+  fornecedor: Fornecedor = new Fornecedor();
+  collapseInfEnvolvidos: boolean = false;
+  collapseInfCompra: boolean = false;
   
   editorOptions : Object =  {
     placeholder: "Insira o texto do contrato...",
@@ -47,10 +55,11 @@ export class ContratoComponent implements OnInit {
   */
   statusExclusao: Number = 1;
 
-  compra: Compra = new Compra();;
+  compra: Compra = new Compra();
+  idUsuario: String = localStorage.getItem('id');
   idRota: String = this.route.snapshot.params['id'];
 
-  constructor(private compraService: CompraService, private route: ActivatedRoute) { }
+  constructor(private compraService: CompraService, private route: ActivatedRoute, private contaService: ContaService) { }
 
   ngOnInit() {
 
@@ -58,11 +67,32 @@ export class ContratoComponent implements OnInit {
     if(this.idRota) {
       this.obterCompra();
     } else if(this.tipoPerfil == 2) {
-      this.readonly = false; 
-           
+      this.readonly = false;            
     }
 
-    
+  }
+
+  obterDadosEnvolvidoContrato(){
+    if(this.tipoPerfil == 1) {
+      this.contaService.getFornecedor(this.compra.fornecedor).subscribe(
+        data=> {
+          this.fornecedor = data.fornecedor;
+        },
+        error=> {
+          console.error(error);
+        }
+      );
+    } else if(this.tipoPerfil == 2) {
+      this.contaService.getConsumidor(this.compra.consumidor).subscribe(
+        data=> {
+
+          this.consumidor = data.consumidor;
+        },
+        error=> {
+          console.error(error);
+        }
+      );
+    }
   }
 
   resetarStatusGravacao() {
@@ -76,7 +106,14 @@ export class ContratoComponent implements OnInit {
   salvarContrato() {
     
     this.statusGravacao = 1;
-    this.editarContrato();      
+    
+    if(this.compra.status == 1) {
+      this.compra.status = 2;
+    }
+
+    this.editarContrato();
+    
+    
     
   }
 
@@ -141,7 +178,7 @@ export class ContratoComponent implements OnInit {
     this.compraService.getCompra(this.idRota).subscribe(
       success=> {
         this.compra = success;
-        console.log(success)
+        this.obterDadosEnvolvidoContrato();
 
         if(this.compra.contrato) {
           this.contrato = this.compra.contrato;

@@ -30,6 +30,7 @@ import { RotaAtualService } from './app.service';
 import { AuthGuard } from './guards/auth-guard';
 import { FornecedorGuard } from './guards/fornecedor-guard';
 import { ConsumidorGuard} from './guards/consumidor-guard';
+import { HomeService } from './home/home.service';
 
 
 // Rotas
@@ -57,7 +58,7 @@ import { routing } from './app.module.routing';
     FluxoCaixaModule,
     routing
   ],
-  providers: [RotaAtualService, AutenticacaoService, AuthGuard, ConsumidorGuard, FornecedorGuard],
+  providers: [RotaAtualService, AutenticacaoService, HomeService, AuthGuard, ConsumidorGuard, FornecedorGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

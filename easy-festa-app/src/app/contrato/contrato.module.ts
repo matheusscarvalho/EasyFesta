@@ -12,6 +12,7 @@ import { ContratoService } from './contrato.service';
 import { QuillEditorModule } from 'ngx-quill-editor';
 import { AngularFontAwesomeModule } from 'angular-font-awesome/angular-font-awesome';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { CollapseModule } from 'ngx-bootstrap';
 
 @NgModule({
   imports: [
@@ -19,6 +20,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     FormsModule,
     QuillEditorModule,
     AngularFontAwesomeModule,
+    CollapseModule.forRoot(),
     ModalModule,
     routing
   ],

@@ -24,6 +24,11 @@ const AgendamentoSchema = mongoose.Schema({
     usuario: {
         type: String,
         required: true
+    },
+
+    kind: {
+        type: Number,
+        required: true
     }
 
 });

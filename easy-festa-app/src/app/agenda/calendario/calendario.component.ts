@@ -122,6 +122,7 @@ export class CalendarioComponent implements OnInit {
 
   handleEventClick(clickEvent) {
     this.agendamento._id = clickEvent.calEvent._id;
+    this.agendamento.kind = clickEvent.calEvent.kind;
     this.agendamento.title = clickEvent.calEvent.title;
     this.agendamento.start = this.formatData(new Date(clickEvent.calEvent.start));
     this.agendamento.time = clickEvent.calEvent.time;
@@ -149,9 +150,11 @@ export class CalendarioComponent implements OnInit {
   }
 
   adicionarAgendamento() {
+    this.agendamento.kind = 1;
     let ag = new Agendamento();
 
     ag._id = this.agendamento._id;
+    ag.kind = this.agendamento.kind;
     ag.title = this.agendamento.title;
     ag.time = this.agendamento.time;
     ag.start = this.agendamento.start;

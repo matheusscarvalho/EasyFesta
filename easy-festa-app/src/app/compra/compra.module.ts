@@ -6,7 +6,6 @@ import { FormsModule } from '@angular/forms';
 //Módulos da Aplicação
 import { CompraService } from './compra.service';
 import { ListarComprasComponent } from './listar-compras/listar-compras.component';
-import { VisualizarCompraComponent } from './visualizar-compra/visualizar-compra.component';
 import { routing } from './../app.module.routing';
 
 //Demais módulos
@@ -23,6 +22,6 @@ import { ModalModule } from 'ngx-bootstrap/modal';
   ],
   exports: [ListarComprasComponent],
   providers: [CompraService],
-  declarations: [ListarComprasComponent, VisualizarCompraComponent]
+  declarations: [ListarComprasComponent]
 })
 export class CompraModule { }

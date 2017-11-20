@@ -9,9 +9,9 @@ import 'rxjs/add/operator/map';
 export class EventoService {
   constructor (private http: Http) {}
 
-  getEventos(): Observable<Evento[]> {
+  getEventos(idConsumidor): Observable<Evento[]> {
     const options: Object = this.getHeaders();
-    const eventos = this.http.get('http://localhost:3000/api/eventos', options).map((res: Response) => res.json());
+    const eventos = this.http.get('http://localhost:3000/api/'+idConsumidor+'/eventos', options).map((res: Response) => res.json());
     return eventos;
   }
 

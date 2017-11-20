@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 //Módulos da aplicação
 import { AnuncioService } from './../anuncio/anuncio.service';
 import { Anuncio } from './../anuncio/anuncio.class';
+import { HomeService } from './home.service';
 
 
 @Component({
@@ -19,16 +20,18 @@ export class HomeComponent implements OnInit {
     responsive: true
   };
 
-  public barChartLabels: string[] = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
+  mostrarFaturamento = false;
+  dataCorrente = new Date();
+  tipoPerfil = localStorage.getItem('perfil');
+  public barChartLabels: string[] = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
   public barChartType: string = 'bar';
   public barChartLegend: boolean = true;
-
+  public dados: any = {data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0], label: 'Faturamento'};
   public barChartData: any[] = [
-    {data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A'},
-    {data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B'}
+    this.dados
   ];
 
-  constructor(private anuncioService:AnuncioService) { }
+  constructor(private anuncioService:AnuncioService, private homeService: HomeService) { }
 
   ngOnInit() {
     this.anuncioService
@@ -38,15 +41,36 @@ export class HomeComponent implements OnInit {
       this.anuncios = this.embaralhar(a);
     });
 
+    this.homeService.getFaturamento().subscribe(
+      data=>{
+        
+        for(let faturamento of data) {
+          
+          if(faturamento._id.ano  == this.dataCorrente.getFullYear()) {
+            this.dados.data[faturamento._id.mes - 1] = faturamento.faturamento;
+          }
+        }
+
+        this.mostrarFaturamento = true;
+        
+      },
+
+      error=>{
+        console.error(error);
+      }
+    )
+
+
   }
 
-embaralhar(vetor) {
-    for (let i = vetor.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [vetor[i], vetor[j]] = [vetor[j], vetor[i]];
-    }
+  embaralhar(vetor) {
+      for (let i = vetor.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [vetor[i], vetor[j]] = [vetor[j], vetor[i]];
+      }
 
-    return vetor;
-}
+      return vetor;
+  }
+
 
 }

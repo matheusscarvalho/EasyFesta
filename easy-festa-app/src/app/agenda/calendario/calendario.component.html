@@ -56,25 +56,26 @@
                     <fieldset class="painel">
 
                         <div class="row">
+
                             <div class="form-group col-md-4">
                                 <label class="control-label" for="titulo">Título</label>
-                                <input id="titulo" name="titulo" [(ngModel)]="agendamento.title" type="text" placeholder="Ex.: Buscar Álbum" class="form-control input-md" required>
+                                <input [disabled]="agendamento.kind == 2" id="titulo" name="titulo" [(ngModel)]="agendamento.title" type="text" placeholder="Ex.: Buscar Álbum" class="form-control input-md" required>
                             </div>
 
                             <div class="form-group col-md-4">
                                 <label class="control-label" for="data">Data</label>
-                                <input id="data" name="data" bsDatePicker [(ngModel)]="agendamento.start" type="text" placeholder="dd/mm/aaaa" class="form-control input-md" required>
+                                <input [disabled]="agendamento.kind == 2" id="data" name="data" bsDatePicker [(ngModel)]="agendamento.start" type="text" placeholder="dd/mm/aaaa" class="form-control input-md" required>
                             </div>
 
                             <div class="form-group col-md-4">
                                 <label class="control-label" for="horario">Horário</label>
-                                <input id="horario" name="horario" [textMask]="{mask:horarioMask}" type="text" [(ngModel)]="agendamento.time" placeholder="00:00" class="form-control input-md" required>
+                                <input [disabled]="agendamento.kind == 2" id="horario" name="horario" [textMask]="{mask:horarioMask}" type="text" [(ngModel)]="agendamento.time" placeholder="00:00" class="form-control input-md" required>
                             </div>
 
                             <div class="form-group col-md-12">
                                 <label class="control-label" for="descricao">Descrição</label>
                                 <div>
-                                    <textarea class="form-control" [(ngModel)]="agendamento.description" rows="5" id="descricao" name="descricao" required></textarea>
+                                    <textarea [disabled]="agendamento.kind == 2" class="form-control" [(ngModel)]="agendamento.description" rows="5" id="descricao" name="descricao" required></textarea>
                                 </div>
                             </div>
                         </div>
@@ -90,11 +91,11 @@
                             <fa name="reply"></fa>
                             Voltar
                         </button>
-                        <button id="remover" name="remover" class="btn btn-danger" (click)="modalNovoAgendamento.hide();childModal.show();" *ngIf="agendamento._id" [disabled]="false">
+                        <button id="remover" *ngIf="agendamento.kind != 2 && agendamento._id" name="remover" class="btn btn-danger" (click)="modalNovoAgendamento.hide();childModal.show();" [disabled]="false">
                             <fa name="trash"></fa>
                             Remover
                         </button>
-                        <button id="salvar" name="salvar" class="btn btn-primary" (click)="salvarAgendamento();" [disabled]="!agendamentoForm.form.valid">
+                        <button id="salvar" name="salvar" class="btn btn-primary" (click)="salvarAgendamento();" *ngIf="agendamento.kind != 2" [disabled]="!agendamentoForm.form.valid">
                             <fa name="floppy-o"></fa>
                             Salvar
                         </button>

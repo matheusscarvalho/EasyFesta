@@ -31,31 +31,43 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let compra of compras; let i=index">
+            <tr *ngFor="let compraFor of compras; let i=index">
                 <th scope="row">{{i+1}}</th>
-                <td>{{ compra.dataCompra | date: 'dd/MM/yyyy' }}</td>
-                <td>{{ compra.informacoes }}</td>
-                <td>{{ compra.quantidade }}</td>
+                <td>{{ compraFor.dataCompra | date: 'dd/MM/yyyy' }}</td>
+                <td>{{ compraFor.informacoes }}</td>
+                <td>{{ compraFor.quantidade }}</td>
                 <td>
-                    <span class="badge badge-info" *ngIf="compra.status == 1 && tipoPerfil == 'Consumidor'">Solicitação de compra enviada</span>
-                    <span class="badge badge-info" *ngIf="compra.status == 1 && tipoPerfil == 'Fornecedor'">Solicitação de compra recebida</span>
-                    <span class="badge badge-success" *ngIf="compra.status == 2">Contrato gerado</span>
-                    <span class="badge badge-danger" *ngIf="compra.status == 3">Solicitação de conpra rejeitada</span>
-                    <span class="badge badge-primary" *ngIf="compra.status == 4">Aguardando entrega/prestração</span>
+                    <span class="badge badge-info" *ngIf="compraFor.status == 1 && tipoPerfil == 'Consumidor'">Solicitação de compra enviada</span>
+                    <span class="badge badge-info" *ngIf="compraFor.status == 1 && tipoPerfil == 'Fornecedor'">Solicitação de compra recebida</span>
+                    <span class="badge badge-success" *ngIf="compraFor.status == 2">Contrato gerado</span>
+                    <span class="badge badge-danger" *ngIf="compraFor.status == 3">Solicitação de conpra rejeitada</span>
+                    <span class="badge badge-danger" *ngIf="compraFor.status == 4">Compra cancelada</span>
+                    <span class="badge badge-primary" *ngIf="compraFor.status == 5">Quitada</span>
                 </td>
                 <td>
-                    <button type="button" routerLink="/contrato/{{compra._id}}" *ngIf="compra.contrato" class="btn btn-sm btn-primary">
+
+                    <button type="button" title="Classificar Anúncio" class="btn btn-sm btn-warning" routerLink="/anuncio/{{compra.anuncio}}/classificar" *ngIf="tipoPerfil == 'Consumidor' && compraFor.pagamentos.length">
+                        <fa name="star-o"></fa>
+                    </button>
+
+                    <button type="button" title="Visualizar contrato" routerLink="/contrato/{{compraFor._id}}" *ngIf="compraFor.status != 3" class="btn btn-sm btn-primary">
                         <fa name="handshake-o"></fa>
                     </button>
-                    <button type="button" class="btn btn-sm btn-dark" (click)="prepararContaParaManupulicao(compra); comprarModal.show();">
+
+                    <button type="button" title="Informar pagamento" class="btn btn-sm btn-success" (click)="prepararPagamento(compraFor);pagamentoModal.show();" *ngIf="tipoPerfil == 'Fornecedor' && compraFor.status !=3 && compraFor.status !=4 && compraFor.contrato && compraFor.contrato.status == 2">
+                        <fa name="money"></fa>
+                    </button>
+
+                    <button type="button" title="Visualizar compra" class="btn btn-sm btn-dark" (click)="prepararContaParaManupulicao(compraFor); comprarModal.show();">
                         <fa name="eye"></fa>
                     </button>
 
-                    <button type="button" class="btn btn-sm btn-danger">
+                    <button type="button" title="Desistir da compra" class="btn btn-sm btn-danger" (click)="prepararDesistencia(compraFor); desistirModal.show();" *ngIf="tipoPerfil == 'Consumidor' && compraFor.status < 3">
                         <fa name="trash"></fa>
                     </button>
                 </td>
             </tr>
+
         </tbody>
     </table>
 
@@ -67,9 +79,9 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title pull-left">
-                    <fa name="shopping-cart"></fa> Comprar
+                    <fa name="shopping-cart"></fa> Visualizar Compra
                 </h5>
-                <button type="button" class="close pull-right" aria-label="Close" (click)="comprarModal.hide()">
+                <button type="button" class="close pull-right" aria-label="Close" (click)="comprarModal.hide(); resetarCompra();">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -99,7 +111,9 @@
                                 <span class="badge badge-info" *ngIf="compra.status == 1 && tipoPerfil == 'Fornecedor'">Solicitação de compra recebida</span>
                                 <span class="badge badge-success" *ngIf="compra.status == 2">Contrato gerado</span>
                                 <span class="badge badge-danger" *ngIf="compra.status == 3">Solicitação de conpra rejeitada</span>
-                                <span class="badge badge-primary" *ngIf="compra.status == 4">Aguardando entrega/prestração</span>
+                                <span class="badge badge-danger" *ngIf="compra.status == 4">Compra cancelada</span>
+                                <span class="badge badge-primary" *ngIf="compra.status == 5">Quitada</span>
+
                             </div>
                         </div>
 
@@ -202,6 +216,140 @@
                     </div>
                 </div>
 
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Modal de confirmação de desistência da compra -->
+<div class="modal fade" bsModal #desistirModal="bs-modal" [config]="{backdrop: 'static'}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title pull-left">
+                    <fa name="trash"></fa> Desistir da Compra
+                </h5>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="desistirModal.hide()">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-danger">
+                    Tem certeza que deseja desistir da compra?
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="desistirModal.hide();">
+                    Não
+                </button>
+                <button type="button" class="btn btn-dark" (click)="desistirCompra();desistirModal.hide();">
+                    Sim
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Modal de pagamento -->
+<div class="modal fade" bsModal #pagamentoModal="bs-modal" [config]="{backdrop: 'static'}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title pull-left">
+                    <fa name="money"></fa> Informar Pagamento
+                </h5>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="pagamentoModal.hide()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" *ngIf="compra.contrato">
+                <div class="page-tittle-small btn-block margin-top-10">
+                    <fa name="money"></fa>
+                    Situação Atual
+                </div>
+                <div class="painel margin-top-10">
+                    <form #pagamentoForm="ngForm">
+                        <div class="row">
+
+                            <div class="form-group col-md-3">
+                                <label class="control-label bold">Valor do Contrato</label>
+                                <div>
+                                    {{compra.contrato.valor | currency:'BRL':'code'}}
+                                </div>
+                            </div>
+
+                            <div class="form-group col-md-3">
+                                <label class="control-label bold">Valor Pago</label>
+                                <div>
+                                    {{getTotalPago() | currency:'BRL':'code'}}
+                                </div>
+                            </div>
+
+                            <div class="form-group col-md-3" *ngIf="(compra.contrato.valor - getTotalPago()) > 0 ">
+                                <label class="control-label bold">Valor Restante</label>
+                                <div>
+                                    {{compra.contrato.valor - getTotalPago() | currency:'BRL':'code'}}
+                                </div>
+                            </div>
+
+                            <div class="col-md-3" *ngIf="(compra.contrato.valor - getTotalPago()) > 0 ">
+                                <label class="control-label bold">Pagamento</label>
+                                <div class="input-group">
+                                    <input type="number" min="0.01" max="{{compra.contrato.valor - getTotalPago()}}" [(ngModel)]="novoPagamento.valor" name="pagamento" class="form-control" placeholder="R$" required>
+
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-primary" tilte="Adicionar pagamento" type="button" (click)="adicionarPagamento();" [disabled]="!pagamentoForm.form.valid">
+                                            <fa name="plus-circle"></fa>
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="page-tittle-small btn-block margin-top-10" *ngIf="compra.pagamentos.length">
+                    <fa name="money"></fa>
+                    Pagamentos
+                </div>
+
+                <div class="painel margin-top-10" *ngIf="compra.pagamentos.length">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Data</th>
+                                <th>Valor</th>
+                                <th>Remover</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let pagamento of compra.pagamentos; let i=index">
+                                <th scope="row">{{i+1}}</th>
+                                <td>{{ pagamento.data | date: 'dd/MM/yyyy' }}</td>
+                                <td>{{ pagamento.valor | currency:'BRL':'code'}}</td>
+                                <td>
+                                    <button type="button" class="btn btn-sm btn-danger" (click)="compra.pagamentos.splice(i,1);">
+                                        <fa name="trash"></fa>
+                                    </button>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="pagamentoModal.hide();">
+                    <fa name="reply"></fa>
+                    Voltar
+                </button>
+                <button type="button" class="btn btn-primary" (click)="salvarCompra();pagamentoModal.hide();">
+                    <fa name="floppy-o"></fa>
+                        Salvar
+                </button>
             </div>
         </div>
     </div>

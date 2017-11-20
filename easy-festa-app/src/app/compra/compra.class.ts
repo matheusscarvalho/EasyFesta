@@ -1,3 +1,4 @@
+import { Pagamento } from './pagamento.class';
 import { Contrato } from './../contrato/contrato.class';
 export class Compra {
     _id: String;
@@ -10,13 +11,14 @@ export class Compra {
     observacao: String;
     dataCompra: Date;
     fornecedor: String;
+    pagamentos: Pagamento[] = [];
     
     /*  
         1- Solicitada
         2- Aceita
         3- Não Aceita                       
         4- Desistida
-        5- Finalizada (entrega e prestação de serviços realizadas)  
+        5- Paga 
     */
     status: Number;
 
