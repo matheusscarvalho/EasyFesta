@@ -12,6 +12,7 @@ export class Compra {
     dataCompra: Date;
     fornecedor: String;
     pagamentos: Pagamento[] = [];
+    dataEvento: Date;
     
     /*  
         1- Solicitada

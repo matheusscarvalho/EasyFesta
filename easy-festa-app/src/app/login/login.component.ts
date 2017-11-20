@@ -15,6 +15,7 @@ import { Fornecedor } from './../conta/fornecedor.class';
 
 export class LoginComponent implements OnInit {
 
+  //private usuario;
   private usuario;
   private stausLogin: Boolean = false;
 
@@ -47,7 +48,12 @@ export class LoginComponent implements OnInit {
     this.usuario = null;
   }
 
+  getUsuario(){
+    this.usuario;
+  }
 
-
+  getStausLogin(){
+    this.stausLogin;
+  }
 
 }

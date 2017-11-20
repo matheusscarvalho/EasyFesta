@@ -23,47 +23,47 @@
             <!--Form with header-->
             <form #loginForm="ngForm" class="form">
 
-                <div class="text-xs-center" *ngIf="!usuario">
+                <div class="text-xs-center" *ngIf="!getUsuario()">
                     <button class="btn btn-lg btn-block btn-deep-purple-inverse" (click)="instanciarConsumidor()">
                         <fa name="shopping-bag"></fa>
                         Consumidor
                     </button>
                 </div>
 
-                <div class="text-xs-center" *ngIf="!usuario">
+                <div class="text-xs-center" *ngIf="!getUsuario()">
                     <button class="btn btn-lg margin-top-10 btn-block btn-deep-purple-inverse" (click)="instanciarFornecedor()">
                             <fa name="truck"></fa>
                             Fornecedor
                         </button>
                 </div>
 
-                <div *ngIf="usuario" class="alert alert-info btn-block">
-                    <fa name="truck" *ngIf="usuario.constructor.name == 'Fornecedor'"></fa>
-                    <fa name="shopping-bag" *ngIf="usuario.constructor.name == 'Consumidor'"></fa>
-                    {{usuario.constructor.name}}
+                <div *ngIf="getUsuario()" class="alert alert-info btn-block">
+                    <fa name="truck" *ngIf="getUsuario().constructor.name == 'Fornecedor'"></fa>
+                    <fa name="shopping-bag" *ngIf="getUsuario().constructor.name == 'Consumidor'"></fa>
+                    {{getUsuario().constructor.name}}
                     <fa name="window-close" class="pull-right text-danger" (click)="resetarPerfil();"></fa>
 
                 </div>
 
-                <div *ngIf="stausLogin && usuario" class="alert alert-danger btn-block">
+                <div *ngIf="getStausLogin() && getUsuario()" class="alert alert-danger btn-block">
                     <fa name="exclamation-circle"></fa>
                     Usuário ou senha incorretos.
                 </div>
 
 
-                <div class="form-group" *ngIf="usuario">
-                    <input [(ngModel)]="usuario.email" type="text" name="email" class="form-control" placeholder="E-mail" required>
+                <div class="form-group" *ngIf="getUsuario()">
+                    <input [(ngModel)]="getUsuario().email" type="text" name="email" class="form-control" placeholder="E-mail" required>
 
                 </div>
-                <br *ngIf="usuario">
+                <br *ngIf="getUsuario()">
 
-                <div class="form-group" *ngIf="usuario">
-                    <input [(ngModel)]="usuario.senha" type="password" name="senha" class="form-control" placeholder="Senha" required>
+                <div class="form-group" *ngIf="getUsuario()">
+                    <input [(ngModel)]="getUsuario().senha" type="password" name="senha" class="form-control" placeholder="Senha" required>
 
                 </div>
-                <br *ngIf="usuario">
+                <br *ngIf="getUsuario()">
 
-                <div class="text-xs-center" *ngIf="usuario">
+                <div class="text-xs-center" *ngIf="getUsuario()">
                     <button (click)="fazerLogin()" class="btn btn-block btn-deep-purple" [disabled]="!loginForm.form.valid">
                         <fa name="send"></fa>
                         Entrar
