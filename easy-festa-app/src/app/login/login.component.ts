@@ -49,11 +49,11 @@ export class LoginComponent implements OnInit {
   }
 
   getUsuario(){
-    this.usuario;
+    return this.usuario;
   }
 
   getStausLogin(){
-    this.stausLogin;
+    return this.stausLogin;
   }
 
 }
