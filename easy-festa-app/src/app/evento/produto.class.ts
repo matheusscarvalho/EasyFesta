@@ -1,6 +1,6 @@
 export class Produto {
     nome: String;
-    descrição: String;
+    descricao: String;
     quantidade: Number;
     preco: Number;
     check: Boolean;

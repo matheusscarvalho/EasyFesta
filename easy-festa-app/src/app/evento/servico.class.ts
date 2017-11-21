@@ -1,6 +1,6 @@
 export class Servico {
     nome: String;
-    descrição: String;
+    descricao: String;
     preco: Number;
     check: Boolean;
   }
