@@ -33,25 +33,6 @@ router.use(function(req, res, next) {
 });
 
 //Fluxo de caixa
-router.get('/popularidade/:id', (req, res, next) => {
-    let idFornecedor = req.params['id'];
-
-    Anuncio.aggregate(
-        {$match: {fornecedor: ObjectId(idFornecedor)}},
-        { $unwind : "$avaliacoes"},
-        {$group : {
-            _id : "$fornecedor", 
-             notaMedia:{$avg: "$avaliacoes.nota"}
-        }}
-
-    ).exec().then(
-        callback=>{
-            res.json(callback);
-        }
-    );    
-});
-
-//Fluxo de caixa
 router.get('/fluxo/de/caixa/:id', (req, res, next) => {
     let idFornecedor = req.params['id'];
 

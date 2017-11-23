@@ -11,7 +11,44 @@
 
     <div class="col-md-4">
 
-        <div class="card text-center" *ngIf="anuncios.length && tipoPerfil == 'Consumidor'">
+        <div class="page-tittle-small" *ngIf="tipoPerfil == 'Fornecedor'">
+            <fa name="line-chart"></fa>Popularidade
+        </div>
+        <div class="painel margin-top-10 text-center" *ngIf="tipoPerfil == 'Fornecedor'">
+            <rating class="margintop-10 font-size-20 rate" [(ngModel)]="notaMediaFornecedor" [readonly]="true" [max]="5" stateOn="fa fa-star" stateOff="fa fa-star-o"></rating>
+            <br>
+            <span class="text-danger bold btn-block" *ngIf="aprovacaoFornecedor > 0 && aprovacaoFornecedor <= 33">                        
+                <fa name="thumbs-o-down"></fa>                        
+                <small>{{aprovacaoFornecedor}}% dos consumidores comprariam novamente.</small>
+            </span>
+            <span class="text-warning bold btn-block" *ngIf="aprovacaoFornecedor > 33 && aprovacaoFornecedor <= 66">
+                <small> {{aprovacaoFornecedor}}% dos consumidores comprariam novamente.</small>
+            </span>
+            <span class="text-success bold btn-block" *ngIf="aprovacaoFornecedor > 66">
+                <fa name="thumbs-o-up"></fa>
+                <small>{{aprovacaoFornecedor}}% dos consumidores comprariam novamente.</small>
+            </span>
+        </div>
+
+
+        <div class="page-tittle-small" *ngIf="tipoPerfil == 'Consumidor'">
+            <fa name="glass"></fa> Eventos do Mês
+        </div>
+        <div class="painel margin-top-10" *ngIf="tipoPerfil == 'Consumidor'">
+            <h6>
+                Eventos Realizados
+                <span class="pull-right badge badge-success">{{qtdEventosRealizados}}</span><br>
+            </h6>
+            <h6>Eventos a Realizar
+                <span class="pull-right badge badge-warning">{{qtdEventosNRealizados}}</span>
+            </h6>
+            <hr>
+            <h6>Total
+                <span class="pull-right badge badge-success">{{qtdEventosMes}}</span>
+            </h6>
+        </div>
+
+        <div class="card text-center margin-top-10" *ngIf="anuncios.length && tipoPerfil == 'Consumidor'">
             <div class="card-header">
 
             </div>
@@ -34,8 +71,8 @@
             </div>
         </div>
 
-        <div class="page-tittle-small" *ngIf="mostrarFaturamento && tipoPerfil == 'Fornecedor'">
-            <fa name="money"></fa> Faturamento {{ dataCorrente.getFullYear() }}
+        <div class="page-tittle-small margin-top-10" *ngIf="mostrarFaturamento && tipoPerfil == 'Fornecedor'">
+            <fa name="bar-chart"></fa> Faturamento {{ dataCorrente.getFullYear() }}
         </div>
         <div class="painel margin-top-10" *ngIf="mostrarFaturamento && tipoPerfil == 'Fornecedor'">
             <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas>

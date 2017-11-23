@@ -17,6 +17,7 @@ import { ContratoModule } from './contrato/contrato.module';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { ChartsModule } from 'ng2-charts';
 import { AngularFontAwesomeModule } from 'angular-font-awesome/angular-font-awesome';
+import { RatingModule } from 'ngx-bootstrap/rating';
 
 // Componentes da aplicação
 import { CalendarioComponent } from './agenda/calendario/calendario.component';
@@ -53,6 +54,7 @@ import { routing } from './app.module.routing';
     EventoModule,
     AgendaModule,
     CarouselModule.forRoot(),
+    RatingModule.forRoot(),
     ChartsModule,
     ContaModule,
     FluxoCaixaModule,

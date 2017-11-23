@@ -87,7 +87,7 @@
                 <div class="row">
                     <!-- Button (Double) -->
                     <div class="form-group col-md-12">
-                        <button id="canelar" name="canelar" class="btn btn-warning" (click)="modalNovoAgendamento.hide();resetarAgendamento();resetarStatus();">
+                        <button id="canelar" name="canelar" class="btn btn-secondary" *ngIf="agendamento.kind != 2 && agendamento._id" (click)="modalNovoAgendamento.hide();resetarAgendamento();resetarStatus();">
                             <fa name="reply"></fa>
                             Voltar
                         </button>

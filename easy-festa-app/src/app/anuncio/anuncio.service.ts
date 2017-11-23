@@ -90,6 +90,26 @@ export class AnuncioService {
     return Math.trunc(notaFinal);
   }
 
+  calcularAvaliacãoFornecedor(anuncios: Anuncio[]) {
+    let notas = 0;
+    var notaFinal = 0;
+    let qtdNotas = 0;
+
+    for(let anuncio of anuncios) {
+      for(let i in anuncio.avaliacoes) {
+        notas += anuncio.avaliacoes[i].nota.valueOf();
+      }
+      qtdNotas = qtdNotas + anuncio.avaliacoes.length;
+    }
+
+    if(notas) {
+      notaFinal = notas/qtdNotas;      
+    }
+    
+    
+    return Math.trunc(notaFinal);
+  }
+
   //Retrona a porcentagem de consumidores que comprariam o produto/serviço novamente
   calcularAprovacao(anuncio: Anuncio) {
     let qtdCompraria = 0;
@@ -105,5 +125,27 @@ export class AnuncioService {
 
     return Math.trunc(porcentagemCompraria);
   }
+
+  calcularAprovacaoFornecedor(anuncios: Anuncio[]) {
+    let qtdCompraria = 0;
+    let porcentagemCompraria = 0;
+    let qtdAvaliacoes = 0;
+    
+    for(let anuncio of anuncios) {
+      for(let i in anuncio.avaliacoes) {
+        qtdCompraria = anuncio.avaliacoes[i].novaCompra.valueOf() == true ? qtdCompraria + 1 : qtdCompraria;
+        qtdAvaliacoes = qtdAvaliacoes + 1;
+      }
+      
+    }
+    
+    if(qtdAvaliacoes) {
+      porcentagemCompraria = (qtdCompraria*100/qtdAvaliacoes);
+    }
+
+    return Math.trunc(porcentagemCompraria);
+  }
+
+  
 
 }
