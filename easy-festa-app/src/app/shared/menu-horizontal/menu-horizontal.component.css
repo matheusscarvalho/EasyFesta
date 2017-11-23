@@ -51,3 +51,9 @@ ul.top-nav li.right {
         float: none;
     }
 }
+
+.fundo-branco {
+    background: rgba(255, 255, 255, 1);
+    padding: 3px;
+    border-radius: 3px;
+}

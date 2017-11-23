@@ -46,7 +46,7 @@
                 </td>
                 <td>
 
-                    <button type="button" title="Classificar Anúncio" class="btn btn-sm btn-warning" routerLink="/anuncio/{{compra.anuncio}}/classificar" *ngIf="tipoPerfil == 'Consumidor' && compraFor.pagamentos.length">
+                    <button type="button" title="Classificar Anúncio" class="btn btn-sm btn-warning" routerLink="/anuncio/{{compraFor.anuncio}}/classificar" *ngIf="tipoPerfil == 'Consumidor' && compraFor.pagamentos.length">
                         <fa name="star-o"></fa>
                     </button>
 
