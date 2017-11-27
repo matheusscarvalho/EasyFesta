@@ -10,7 +10,6 @@ import { AnuncioModule } from './anuncio/anuncio.module';
 import { EventoModule } from './evento/evento.module';
 import { SharedModule } from './shared/shared.module';
 import { ContaModule } from './conta/conta.module';
-import { FluxoCaixaModule } from './fluxo-caixa/fluxo-caixa.module';
 import { ContratoModule } from './contrato/contrato.module';
 
 // Demais módulos
@@ -57,7 +56,6 @@ import { routing } from './app.module.routing';
     RatingModule.forRoot(),
     ChartsModule,
     ContaModule,
-    FluxoCaixaModule,
     routing
   ],
   providers: [RotaAtualService, AutenticacaoService, HomeService, AuthGuard, ConsumidorGuard, FornecedorGuard],

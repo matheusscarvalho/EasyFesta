@@ -46,11 +46,11 @@
                 </td>
                 <td>
 
-                    <button type="button" title="Classificar Anúncio" class="btn btn-sm btn-warning" routerLink="/anuncio/{{compraFor.anuncio}}/classificar" *ngIf="tipoPerfil == 'Consumidor' && compraFor.pagamentos.length">
+                    <button type="button" title="Classificar Anúncio" class="btn btn-sm btn-secondary" routerLink="/anuncio/{{compraFor.anuncio}}/classificar" *ngIf="tipoPerfil == 'Consumidor' && compraFor.pagamentos.length">
                         <fa name="star-o"></fa>
                     </button>
 
-                    <button type="button" title="Visualizar contrato" routerLink="/contrato/{{compraFor._id}}" *ngIf="compraFor.status != 3" class="btn btn-sm btn-primary">
+                    <button type="button" title="Visualizar contrato" routerLink="/contrato/{{compraFor._id}}" *ngIf="compraFor.status != 3" class="btn btn-sm btn-secondary">
                         <fa name="handshake-o"></fa>
                     </button>
 
@@ -58,7 +58,7 @@
                         <fa name="money"></fa>
                     </button>
 
-                    <button type="button" title="Visualizar compra" class="btn btn-sm btn-dark" (click)="prepararContaParaManupulicao(compraFor); comprarModal.show();">
+                    <button type="button" title="Visualizar compra" class="btn btn-sm btn-secondary" (click)="prepararContaParaManupulicao(compraFor); comprarModal.show();">
                         <fa name="eye"></fa>
                     </button>
 
